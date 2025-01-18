@@ -1,0 +1,90 @@
+{extend name="public/base" /}
+
+{block name="body"}
+<div id="core">
+	{include file="public/nav" /}
+	<div id="right"><div id="rightc">
+		{include file="public/title" /}
+		<form action="{:url('page/upd',['id'=>$item['id']])}" id="formAddExper" method="post">
+			<div class="row">
+				<div class="col-sm-2 iname">标题</div>
+				<div class="col-sm-8 form-group"><input type="text" name="title" id="title" class="form-control" value="{$item.title}"></div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-2 iname">内容</div>
+				<div class="col-sm-8 form-group">
+					<textarea name="content" id="content" cols="30" rows="10">{$item.content}</textarea>
+					
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-2 iname"></div>
+				<div class="col-sm-8 form-group">
+					<button type="submit" class="btn btn-block btn-success">提交</button>
+				</div>
+			</div>
+
+
+		</form>
+	</div>
+	</div>
+</div>
+
+
+
+{/block}
+{block name="script"}
+<link href="__PUBLIC__/summernote/summernote.css" rel="stylesheet">
+<script src="__PUBLIC__/summernote/summernote.js"></script>
+<script src="__PUBLIC__/summernote/lang/summernote-zh-CN.js"></script>
+<script>
+!function($){
+	$('#content').summernote({
+		height: '500px',
+		lang:'zh-CN' ,
+		callbacks: {
+			onImageUpload: function (file) {
+				var formData = new FormData();
+	            formData.append("file", file[0]);
+	            $.ajax({
+	                url: "{:url('index/upload')}",
+	                data: formData,
+	                cache: false,
+	                contentType: false,
+	                processData: false,
+	                type: 'POST',
+	                success: function (data) {
+	                	data = "__PUBLIC__/" + data;
+	                    $('#content').summernote('insertImage', data);
+	                },
+	                error: function () {
+                        console.info('上传失败');
+                    } 
+	            });
+			}
+		}
+	});
+
+
+    $("#formAddExper").validate({
+        rules: {
+            title: "required",
+            content: "required"
+        },
+        messages: {
+            title:  "请输入标题",
+            content: "请输入内容"
+    
+        },  
+    });
+
+
+    
+    
+
+}(jQuery);
+
+</script>
+{/block}

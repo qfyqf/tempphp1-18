@@ -1,0 +1,109 @@
+{extend name="public/base" /}
+
+{block name="body"}
+<div id="core">
+	{include file="public/nav" /}
+	<div id="right"><div id="rightc">
+		{include file="public/title" /}
+
+		    	<form action="{:url('experiment/arrange_upd',['id'=>$item['id']])}" id="formArrange" method="post">
+					<div class="row">
+						<div class="col-sm-2 iname">实验名称</div>
+						<div class="col-sm-8 form-group"><input type="text" name="" id="name" class="form-control" value="{$item.ename}" disabled="disabled"></div>
+					</div>
+					<div class="row">
+						<div class="col-sm-2 iname">所属课程</div>
+						<div class="col-sm-8 form-group"><input type="text" name="" id="name" class="form-control" value="{$item.cname}" disabled="disabled"></div>
+					</div>
+					<div class="row">
+						<div class="col-sm-2 iname">类型</div>
+						<div class="col-sm-8 form-group"><input type="text" name="" id="type" class="form-control" value="{$item.type}" disabled="disabled"></div>
+					</div>
+					<hr>
+					<div class="row">
+						<div class="col-sm-2 iname">必做选做</div>
+						<div class="col-sm-8 form-group my-radio">
+							<label>
+							    <input type="radio" name="is_must" id="is_must1" value="1" {php} if($item['is_must']) echo 'checked'; {/php}>
+							    必做
+							</label>
+							　　　
+							<label>
+							    <input type="radio" name="is_must" id="is_must1" value="0" {php} if(!$item['is_must']) echo 'checked'; {/php}>
+							    选做
+							</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-2 iname">开始时间</div>
+						<div class="col-sm-8 form-group"><input type="text" name="start_time" id="start_time" class="form-control" value="{$item.start_time}"></div>
+					</div>
+
+					<div class="row">
+						<div class="col-sm-2 iname">结束时间</div>
+						<div class="col-sm-8 form-group"><input type="text" name="end_time" id="end_time" class="form-control" value="{$item.end_time}"></div>
+					</div>
+
+					<div class="row">
+						<div class="col-sm-2 iname">实验地点</div>
+						<div class="col-sm-8 form-group"><input type="text" name="address" id="address" class="form-control" value="{$item.address}"></div>
+					</div>
+					<div class="row">
+						<div class="col-sm-2 iname">备注</div>
+						<div class="col-sm-8 form-group">
+							<textarea name="remark" id="" cols="30" rows="5" class="form-control">{$item.remark}</textarea>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-sm-2 iname"></div>
+						<div class="col-sm-8 form-group">
+							<button type="submit" class="btn btn-block btn-success">提交</button>
+						</div>
+					</div>
+
+
+				</form>
+
+	</div>
+	</div>
+</div>
+{/block}
+
+{block name="script"}
+<script src="__PUBLIC__/static/laydate/laydate.js"></script>
+<script>
+!(function($){
+	laydate.render({ 
+	  	elem: '#start_time',
+	  	type: 'datetime'
+	});
+	laydate.render({ 
+	  	elem: '#end_time',
+	  	type: 'datetime'
+	});
+	$('#formArrange').bind('submit', function(){
+		var startTime = Date.parse($('#start_time').val());
+		var endTime = Date.parse($('#end_time').val());
+		var now = Date.parse(new Date());
+		if (startTime <= now || startTime >= endTime) {
+			alert('请选择正确的时间');
+			return false;
+		}
+	});
+
+	$("#formArrange").validate({
+        rules: {
+            start_time: "required",
+            end_time: "required",
+            address: "required",
+        },
+        messages: {
+            start_time:  "请选择正确的时间",
+            end_time: "请选择正确的时间",
+            address: "请填写地点"
+        },  
+    });
+})(jQuery);
+</script>
+{/block}

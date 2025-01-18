@@ -1,0 +1,64 @@
+{extend name="public/base" /}
+
+{block name="body"}
+<div id="core">
+	{include file="public/nav" /}
+	<div id="right"><div id="rightc">
+	
+
+		<div class="bar">
+			<div class="barleft">
+				<a class="btn btn-success" href="{:url('experiment/arrange')}"><span class="glyphicon glyphicon-plus"></span> 添加</a>
+			</div>
+			<div class="search">
+				<form class="form-inline">
+					<button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+					<div class="form-group">
+						<input type="text" class="form-control" id="name" name="ss" value="<?php if(isset($ss)) echo $ss; ?>" placeholder="名称">
+					</div>
+				</form>
+			</div>
+		</div>
+
+
+
+		<table class="table">
+			<tr class="th">
+				<th></th>
+				<th>布置编号</th>
+				<th>实验名称</th>
+				<th>所属课程</th>
+				<th>开始/结束时间</th>
+				<th>教师</th>
+				<th>操作</th>
+			</tr>
+			<?php $i=1; foreach ($list as $v): ?>
+			<tr class="<?php echo $i%2 ?'':'ts'; ?>">
+				<td><input type="checkbox" name="choose[]" id="choose-{$v.id}" value="{$v.id}"></td>
+				<td>{$v.sid}</td>
+				<td>{$v.ename}</td>
+				<td>{$v.cname}</td>
+				<td>{$v.start_time} 至 {$v.end_time} </td>
+				<td>{$v.tname}</td>
+				<td>
+					<a href="{:url('experiment/arrange_upd',['id'=>$v['id']])}" class="btn btn-xs btn-default">修改</a>
+					<a href="{:url('experiment/arrange_item',['id'=>$v['id']])}" class="btn btn-xs btn-default">查看实验结果</a>
+
+				</td>
+			</tr>
+			<?php $i++; endforeach; ?>
+			<tr class="ts">
+				<th colspan="10" style="text-align: right;"><?php echo $list;?> </th>
+			</tr>
+		</table>
+
+
+		
+
+
+
+
+	</div>
+	</div>
+</div>
+{/block}

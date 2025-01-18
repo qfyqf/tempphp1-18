@@ -1,0 +1,148 @@
+{extend name="public/base" /}
+{block name="body"}
+<div class="content">
+    <div class="test">
+        <div class="test-info">
+            <div class="test-title"><h3>{$paper.name}</h3></div>
+            <div class="info">
+                试卷满分为：{$paper.total_credit}&nbsp;&nbsp;&nbsp;&nbsp;
+                考试时间为：{$paper.duration}分钟&nbsp;&nbsp;&nbsp;&nbsp;
+                测试日期为：{$paper.start_time} 至 <div id="duration">{$paper.end_time}</div>
+                <h4>考生：{$paper.sname}</h4>
+            </div>
+        </div>
+
+        <div class="line">
+
+        </div>
+        <form action="{:url('test/saveAnswer',['id' => $paper.id])}" method="post" id="test">
+            <div class="paper">
+                <div class="time">
+                    倒计时
+                    <br />
+                    <div id="countdown"></div>
+                    <script>
+                        var end = document.getElementById('duration').innerHTML;
+                        end = end.substring(0,19);
+                        end = end.replace(/-/g, '/');
+                        var endTime = new Date(end).getTime();
+                        var now = new Date().getTime();
+                        var maxtime = parseInt((endTime - now) / 1000);
+
+                        var s = h = 0;
+                        var str;
+                        h = Math.floor(maxtime / 60 / 60);
+                        s = Math.floor(maxtime % 60);
+                        m = Math.floor(maxtime / 60 % 60);
+                        var duration = document.getElementById("countdown");
+                        str =toDub(h) + ":" + toDub(m) + ":" + toDub(s);
+                        duration.innerHTML = str;
+                        var a = self.setInterval(myTime,1000);
+                        function myTime() {
+                            if (maxtime > 0) {
+                                -- maxtime;
+                                h = Math.floor(maxtime / 60 / 60);
+                                s = Math.floor(maxtime % 60);
+                                m = Math.floor(maxtime / 60 % 60);
+                                str =toDub(h) + ":" + toDub(m) + ":" + toDub(s);
+                                duration.innerHTML = str;
+                                if ( maxtime === 5 * 60) {
+                                    alert("考试还剩五分钟！！！");
+                                }
+                            } else {
+                                alert("考试结束！！！");
+                                clearInterval(a);
+                                document.getElementById('test').submit();
+                            }
+                        }
+
+                        function toDub(n) {
+                            if (n < 10) {
+                                return "0" + n;
+                            } else {
+                                return "" + n;
+                            }
+                        }
+                    </script>
+                </div>
+                <div class="paper-info">
+
+                    {foreach name="subject" item="info" key="type"}
+                        {if($type == 1)}
+                        <div class="paper-title"><h4>一、单选题（请选择正确答案，共计{$info|count}个小题）</h4></div>
+                        <div class="subject">
+                            {foreach name="$info" item="single" key="key"}
+                            <div class="subject-title">{$key+1}、（{$single.credit}分）{$single.content}</div>
+                            <div class="subject-info">
+                                {foreach name="single.options" item="vo" key="k"}
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="s{$single.id}"  value="{$k}">
+                                        {$k}、{$vo}
+                                    </label>
+                                </div>
+                                {/foreach}
+                            </div>
+                            {/foreach}
+                        </div>
+                        {/if}
+
+                        {if($type == 2)}
+                        <div class="paper-title"><h4>二、多选题（请选择正确答案，少选和多选均不得分，共计{$info|count}个小题）</h4></div>
+                        <div class="subject">
+                            {foreach name="$info" item="single" key="key"}
+                            <div class="subject-title">{$key+1}、（{$single.credit}分）{$single.content}</div>
+                            <div class="subject-info">
+                                {foreach name="single.options" item="vo" key="k"}
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="m{$single.id}[]"  value="{$k}">
+                                        {$k}、{$vo}
+                                    </label>
+                                </div>
+                                {/foreach}
+                            </div>
+                            {/foreach}
+                        </div>
+                        {/if}
+
+                        {if($type == 3)}
+                        <div class="paper-title"><h4>三、判断题（请选择正确答案，共计{$info|count}个小题）</h4></div>
+                        <div class="subject">
+                            {foreach name="$info" item="single" key="key"}
+                            <div class="subject-title">{$key+1}、（{$single.credit}分）{$single.content}</div>
+                            <div class="subject-info">
+                                
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="s{$single.id}"  value="1"> 正确
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="s{$single.id}"  value="0"> 错误
+                                    </label>
+                                </div>
+          
+                            </div>
+                            {/foreach}
+                        </div>
+                        {/if}
+                    {/foreach}
+                </div>
+            </div>
+            <div class="paper-footer">
+                <button type="button" class="btn btn-primary" onclick="refer()">提交</button>
+                <script>
+                    function refer() {
+                        document.getElementById('test').submit();
+                    }
+                </script>
+                <a href="{:url('test/index')}"><button type="button" class="btn btn-info">取消</button></a>
+            </div>
+        </form>
+
+    </div>
+    <div class="test-footer">
+        <div id="copyright">建设单位：XX大学&nbsp;&nbsp;&nbsp;&nbsp;合作公司：武汉全乐科技有限公司&nbsp;&nbsp;&nbsp;&nbsp;Copyright©2018-2019 - AllHappy All Right Reserved</div>
+    </div>
+</div>
+{/block}

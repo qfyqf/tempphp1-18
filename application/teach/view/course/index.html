@@ -1,0 +1,147 @@
+{extend name="public/base" /}
+
+{block name="body"}
+<div id="core">
+	{include file="public/nav" /}
+	<div id="right"><div id="rightc">
+		<div class="bar">
+			<div class="barleft">
+				<button class="btn btn-primary" data-remote="{:url('course/add')}" data-toggle="modal" data-target="#addCourse" ><span class="glyphicon glyphicon-plus"></span> 添加</button>
+				<a class="btn btn-default" href="{:url('course/index_excel')}"><span class="glyphicon glyphicon-download-alt"></span> 导出</a>
+			</div>
+			<div class="search">
+				<form class="form-inline" action="">
+					<button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+					<div class="form-group">
+						<input type="text" class="form-control" name="ss" value="<?php if(isset($ss)) echo $ss; ?>" placeholder="课程名称">
+					</div>
+				</form>
+			</div>
+		</div>
+
+
+
+		<table class="table">
+			<tr class="th">
+				<th></th>
+				<th>课程代码</th>
+				<th>开课名称</th>
+				<th>任课教师</th>
+				<th>学分</th>
+				<th>学年学期</th>
+				<th>上课周期</th>
+				<th>上课时间</th>
+				<th>上课地点</th>
+				<th>操作</th>
+			</tr>
+			<?php $i=1; foreach ($list as $v): ?>
+			<tr class="<?php echo $i%2 ?'':'ts'; ?>">
+				<td><input type="checkbox" name="choose[]" id="choose-{$v.id}" value="{$v.id}"></td>
+				<td>{$v.sid}</td>
+				<td>{$v.name}</td>
+				<td>{$v.tname}</td>
+				<td>{$v.credit}</td>
+				<td>{$v.year}-{$v.year+1}学年 第{$v.term}学期</td>
+				<td>第{$v.class_cycle}周</td>
+				<td>星期{:str_replace(['1','2','3','4','5','6','7'],['一','二','三','四','五','六','日'],$v.week)} {$v.class_turn}节</td>
+				<td>{$v.address}</td>
+				<td><a href="{:url('course/update',['id'=>$v['id']])}" data-toggle="modal" data-target="#updCourse" data-id="{$v.id}">修改</a></td>
+			</tr>
+			<?php $i++; endforeach; ?>
+			<tr class="">
+				<th colspan="10" style="text-align: right;"><?php echo $list;?> </th>
+			</tr>
+		</table>
+
+
+
+
+	</div></div>
+</div>
+<div class="modal fade" id="addCourse" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content"></div>
+	</div>
+</div>
+<div class="modal fade" id="updCourse" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content"></div>
+	</div>
+</div>
+<div class="modal fade" id="myalert" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-sm" role="document">
+		<div class="modal-content">
+			<div class="modal-body" style="text-align: center; line-height: 80px; font-size: 24px; font-weight: 600; color:#337ab7;">添加成功！</div>
+			<div class="modal-footer">
+			    <a href="{:url('course/index')}" class="btn btn-primary btn-block" style="width: 60%; margin: 0 auto;">确定</a>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+
+</script>
+{/block}
+
+
+
+{block name="script"}
+<script>
+
+!function($){
+	$(function(){
+		$('#addCourse').on('hide.bs.modal', function (e) {
+			$(this).removeData("bs.modal");
+		});
+		$('#updCourse').on('hide.bs.modal', function (e) {
+			$(this).removeData("bs.modal");
+		});
+		modelform('addCourse', "{:url('course/ajaxadd')}");
+		modelform('updCourse', "{:url('course/ajaxupd')}");
+	})
+
+}(jQuery);
+
+var modelform = function(a,b){
+	$('#'+a).on('click','#sub_'+a,function(){
+		$("#form_"+a).validate({
+	        rules: {
+	            name: "required",
+	            sid: "required",
+	            year: "required",
+	            credit: "required",
+	            class_cycle: "required",
+	            week: "required",
+	            class_turn: "required",
+	            address: "required",
+	            unit: "required"
+	        },
+	        messages: {
+	            name:  "请输入用户名",
+	            sid: "请输入密码",
+	            year: "选择学年",
+	            credit: "请填写学分",
+	            class_cycle: "上课周期,比如：‘1-20’ 表示第1到20周",
+	            week: "请选择星期",
+	            class_turn: "请选择节次,比如：‘3,4’ 表示第3,4节课",
+	            address: "请填写地址",
+	            unit: "请填写开课单位"
+	        },
+	        submitHandler:function(form){
+	            var data =  $('#form_'+a).serialize();
+	            $.ajax({
+	            	url :  b,
+	            	type : "post",
+	            	data : data,
+	            	success: function(msg){
+	            		modalAlert(a,msg);
+	            	}
+	            });
+	        }   
+	    });
+		$('#form_'+a).submit();
+	});
+}
+
+</script>
+{/block}

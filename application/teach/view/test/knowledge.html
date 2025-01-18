@@ -1,0 +1,48 @@
+{extend name="public/base" /}
+
+{block name="body"}
+<div id="core">
+	{include file="public/nav" /}
+	<div id="right"><div id="rightc">
+		<div class="bar">
+			<div class="barleft">
+				<a class="btn btn-success" href="{:url('test/add_knowledge')}"><span class="glyphicon glyphicon-plus"></span> 添加</a>
+			</div>
+			<div class="search">
+				<form class="form-inline">
+					<button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+					<div class="form-group">
+						<input type="text" class="form-control" id="name" placeholder="名称">
+					</div>
+				</form>
+			</div>
+		</div>
+		<table class="table">
+			<tr class="th">
+				<th></th>
+				<th>编号</th>
+				<th>名称</th>
+				<th>所属课程</th>
+				<th>操作</th>
+			</tr>
+			<?php $i=1; foreach ($list as $v): ?>
+			<tr class="<?php echo $i%2 ?'':'ts'; ?>">
+				<td><input type="checkbox" name="choose[]" id="choose-{$v.id}" value="{$v.id}"></td>
+				<td>{$i}</td>
+				<td>{$v.name}</td>
+				<td>{$v.course_name}</td>
+				<td>
+					<a href="{:url('test/upd_knowledge',['id'=>$v['id']])}" class="btn btn-xs btn-default">修改</a>
+					<a href="{:url('test/add_praxis',['kid'=>$v['id'], 'cid'=>$v['course_id']])}" class="btn btn-xs btn-default">添加习题</a>
+
+				</td>
+			</tr>
+			<?php $i++; endforeach; ?>
+			<tr class="ts">
+				<th colspan="10" style="text-align: right;"><?php echo $list;?> </th>
+			</tr>
+		</table>
+	</div>
+	</div>
+</div>
+{/block}

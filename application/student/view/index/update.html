@@ -1,0 +1,96 @@
+{extend name="public/base" /}
+{block name="body"}
+<div class="content">
+    {include file="public/nav" /}
+    <div class="right">
+
+        <div style="width: 100%; height: 80px; position: relative; margin-top: 30px;">
+            <div style="width: 200px; height: 50px; margin: 10px auto 30px; border: 2px solid #67a7e8; border-radius: 7px; position: relative;">
+                <div style="width: 60%; height: 30px; margin: -15px auto 0; line-height: 30px; background: #FFF; text-align: center; font-size: 16px; ">修改资料</div>
+                <div style="text-align: center; color: #aaa;">Update Info</div>
+            </div>
+        </div>
+        <div class="user-img"></div>
+        <div class="userInfo">
+            <form action="{:url('index/updateInfo')}" method="post" id="formUpdinfo">
+            <div class="information" >
+                <div class="name">
+                    <span class="glyphicon glyphicon-tag" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;&nbsp;账号
+                </div>
+                <div class="data"><input type="text" class="form-control" name="account" value="{$info.account}"></div>
+            </div>
+            <div class="information" >
+                <div class="name">
+                    <span class="glyphicon glyphicon-credit-card" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;&nbsp;学生ID
+                </div>
+                <div class="data"><input type="text" class="form-control" name="sid" value="{$info.sid}" disabled></div>
+            </div>
+            <div class="information" >
+                <div class="name">
+                    <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;&nbsp;邮箱
+                </div>
+                <div class="data"><input type="email" class="form-control" name="email" value="{$info.email}"></div>
+            </div>
+            <div class="information" >
+                <div class="name">
+                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;&nbsp;姓名
+                </div>
+                <div class="data"><input type="text" class="form-control" name="name" value="{$info.name}"></div>
+            </div>
+            <div class="information" >
+                <div class="name">
+                    <span class="glyphicon glyphicon-record" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;&nbsp;性别
+                </div>
+                <div class="data">
+                    <select class="form-control" name="sex">
+                        {if($info.sex)}
+                        <option value="0" >女</option>
+                        <option value="1" selected>男</option>
+                        {else /}
+                        <option value="0" selected>女</option>
+                        <option value="1" >男</option>
+                        {/if}
+                    </select>
+                </div>
+            </div>
+            <div class="information" >
+                <div class="name">
+                    <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;&nbsp;联系电话
+                </div>
+                <div class="data"><input type="text" class="form-control" name="phone" value="{$info.phone}"></div>
+            </div>
+            <div class="information" >
+                <div class="name">
+                    <span class="glyphicon glyphicon-home" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;&nbsp;地址
+                </div>
+                <div class="data"><input type="text" class="form-control" name="address" value="{$info.address}"></div>
+            </div>
+            <div class="information" >
+                <div class="name">
+                    <span class="glyphicon glyphicon-gift" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;&nbsp;生日
+                </div>
+                <div class="data"><input type="text" class="form-control" name="birthday" value="{$info.birthday}"></div>
+            </div>
+            <button type="submit" class="btn btn-info">修改资料</button>
+            <a href="{:url('index/getInfo')}"><button type="button" class="btn btn-info">取消</button></a>
+            </form>
+        </div>
+        {include file="public/footer"}
+    </div>
+    <script>
+        !function($){
+            $("#formUpdinfo").validate({
+                rules: {
+                    name: "required",
+                    account: "required"
+                },
+                messages: {
+                    name:  "请输入名称",
+                    account: "账号不能为空"
+                },
+            });
+
+        }(jQuery);
+    </script>
+</div>
+{/block}

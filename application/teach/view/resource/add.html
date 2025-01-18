@@ -1,0 +1,153 @@
+{extend name="public/base" /}
+
+{block name="body"}
+<div id="core">
+	{include file="public/nav" /}
+	<div id="right"><div id="rightc">
+		{include file="public/title" /}
+		<form action="{:url('resource/add')}" id="formAdd" enctype="multipart/form-data" method="post">
+			
+			<div class="row">
+				<div class="col-sm-2 iname">资源类型</div>
+				<div class="col-sm-8 form-group">
+					<select name="type" id="type" class="form-control">
+						<option value="图片">图片</option>
+						<option value="文档">文档</option>
+						<option value="音视频">音视频</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-2 iname">资源文件</div>
+				<div class="col-sm-8 form-group"><input type="file" name="resource" id="resource" ></div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-2 iname">资源名称</div>
+				<div class="col-sm-8 form-group"><input type="text" name="name" id="name" class="form-control"></div>
+			</div>
+			
+
+			<div class="row">
+				<div class="col-sm-2 iname">所属课程</div>
+				<div class="col-sm-8 form-group">
+					<input type="text" name="" id="course_search" class="form-control">
+					<select name="course_id" id="course_id" class="form-control" multiple="multiple" style="height: 100px;" aria-invalid="true">
+						<option value="">--选择所属课程--</option>
+						{volist name="course_list" id="vo"}
+						<option value="{$vo.id}">{$vo.year}-{$vo.year+1}学年 第{$vo.term}学期 {$vo.name}</option>
+						{/volist}
+					</select>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-2 iname">类型</div>
+				<div class="col-sm-8 form-group">
+					<div class="radio">
+						<label style="line-height: 30px;">
+							<input type="radio" name="auth" value="1" checked>
+							&nbsp; 知识点学习
+						</label>
+						&emsp; 
+						<label style="line-height: 30px;">
+							<input type="radio" name="auth" value="0" >
+							&nbsp; 拓展学习
+						</label>
+					</div>
+
+					
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-2 iname">介绍</div>
+				<div class="col-sm-8 form-group">
+					<textarea name="desc" id="desc" cols="30" rows="10" class="form-control"></textarea>
+					
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-2 iname"></div>
+				<div class="col-sm-8 form-group">
+					<button type="submit" class="btn btn-block btn-success">提交</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	</div>
+</div>
+{/block}
+{block name="script"}
+<link href="__PUBLIC__/summernote/summernote.css" rel="stylesheet">
+<script src="__PUBLIC__/summernote/summernote.js"></script>
+<script src="__PUBLIC__/summernote/lang/summernote-zh-CN.js"></script>
+<script>
+!function($){
+
+	$("#course_search").on('change',function(){
+        var tid = <?php echo $info['id']; ?>;
+        var sk = $(this).val();
+        $.get({
+            url: "<?php echo url('course/getCourseList'); ?>?tid="+tid+"&sk="+sk, 
+            type: 'json',
+            success: function(dat){
+            	if (dat) {
+            		var data = $.parseJSON( dat );
+	                var html = '<option value="">--选择所属课程--</option>';
+	                for (var i in data) {
+	                    html += '<option value="'+data[i].id+'">'+data[i].year+'-'+(data[i].year+1)+'学年 第'+data[i].term+'学期 '+data[i].name+'</option>';
+	                }
+	                $('#course_id').html(html);
+                }
+            }
+        });
+    });
+
+
+    $("#formAdd").validate({
+        rules: {
+            resource: "required",
+            name: "required",
+            course_id: "required",
+            desc: "required"
+        },
+        messages: {
+            resource:  "请选择资源文件",
+            name:  "请输入名称",
+            course_id: "请选择所属课程",
+            desc: "请填写资源介绍"
+        }, 
+    });
+
+    $('#resource').change(function(){
+    	var res = $(this).val();
+    	var type = $('#type').val();
+    	if (res=='')
+    		alert('请选择资源文件');
+
+    	if (type=='图片') {
+    		if (!/\.(gif|jpg|jpeg|png|GIF|JPG|PNG)$/.test(res)) {    
+	            alert("图片类型必须是.gif,jpeg,jpg,png中的一种");    
+	            $(this).val("");   
+	        }
+    	}else if (type=='文档') {
+    		if (!/\.(doc|xls|pdf|docx|xlsx|txt)$/.test(res)) {    
+	            alert("文档类型必须是.doc,docx,xls,xlsx,pdf中的一种");    
+	            $(this).val("");   
+	        }
+    	}else if (type=='音视频') {
+    		if (!/\.(mp3|mp4|wmv|avi)$/.test(res)) {    
+	            alert("音视频类型必须是.mp3,mp4,wmv,avi中的一种");    
+	            $(this).val("");   
+	        }
+    	}
+    	    
+    })
+
+}(jQuery);
+
+</script>
+{/block}

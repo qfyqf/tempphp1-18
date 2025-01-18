@@ -1,0 +1,81 @@
+{extend name="public/base" /}
+{block name="body"}
+<div class="content">
+    {include file="public/nav"}
+    <div class="right">
+        <div class="search">
+            <form class="form-inline" action="{:url('course/search')}" method="post">
+                <div class="form-group">
+                    选课日期 2019-04-02 至 2019-06-02
+                </div>
+                <div class="form-group">
+                    <label for="course">课程名称</label>
+                    <input type="text" class="form-control" id="course" name="course" placeholder="离散数学">
+                    <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+                </div>
+            </form>
+        </div>
+        <form action="{:url('student/course/selectCourse')}" method="post">
+            <table class="myTable" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <th></th>
+                    <th>序号</th>
+                    <th>课程代码</th>
+                    <th>开课名称</th>
+                    <th>学分</th>
+                    <th>学年学期</th>
+
+                    <th>上课时间</th>
+                    <th>上课地点</th>
+                    <th>开课单位</th>
+                    <th>任课教师</th>
+                </tr>
+                {php} $i = 1; {/php}
+                {foreach name="info" item="vo"}
+                    <tr>
+                        <td>
+                            <label>
+                                <input type="checkbox" id="Checkbox" value="{$vo.id}" aria-label="..." name="course[]">
+                            </label>
+                        </td>
+                        <td>{$i}</td>
+                        <td>{$vo.sid}</td>
+                        <td>{$vo.name}</td>
+                        <td>{$vo.credit}</td>
+                        <td>{$vo.year}-{$vo.year+1}学年 第{$vo.term}学期</td>
+                        <td>第 {$vo.class_cycle} 周 星期 {$vo.week} 节次 {$vo.class_turn}</td>
+                        <td>{$vo.address}</td>
+                        <td>{$vo.unit}</td>
+                        <td>{$vo.tname}</td>
+                    </tr>
+                {php} $i ++ ; {/php}
+                {/foreach}
+            </table>
+            <div class="page">
+                {$page}
+            </div>
+            <div class="submit">
+                <button type="button" class="btn btn-primary myBtn" data-toggle="modal" data-target="#myModal">&nbsp;&nbsp;&nbsp;&nbsp;提交&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                <div class="modal fade" tabindex="-1" role="dialog" id="myModal">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" style="text-align: left">提交确认</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p style="text-align: left">确定要提交吗？</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary" id="submit" data-toggle="modal" data-target="#myModal">提交</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+            </div>
+        </form>
+        {include file="public/footer" /}
+    </div>
+</div>
+{/block}

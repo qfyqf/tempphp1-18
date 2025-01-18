@@ -1,0 +1,48 @@
+{extend name="public/base" /}
+{block name="body"}
+<div class="content">
+    {include file="public/nav" /}
+    <div class="right">
+        <div class="search">
+            <form class="form-inline">
+                <div class="form-group">
+                    <label for="InputCourse">资源名称:</label>
+                    <input type="text" class="form-control" id="InputCourse">
+                    <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                </div>
+            </form>
+        </div>
+        <div class="course">
+            <table class="myTable">
+                <tr>
+                    <th>序号</th>
+                    <th>资源名称</th>
+                    <th>资源类型</th>
+                    <th>所属课程</th>
+                    <th>上传日期</th>
+                    <th>上传教师</th>
+                    <th>操作</th>
+                </tr>
+
+                {php}$id = 1;{/php}
+                {foreach name="$resource" item="info"}
+                <tr>
+                    <td>{$id}</td>
+                    <td>{$info.name}</td>
+                    <td>{$info.type}</td>
+                    <td>{$info.cname}</td>
+                    <td>{$info.add_time}</td>
+                    <td>{$info.tname}</td>
+                    <td><a href="{:url('resource/getResourceInfo',['id' => $info.id, 'back' => '0'])}"><button type="button" class="btn btn-info">查看</button></a></td>
+                </tr>
+                {php}$id = $id + 1;{/php}
+                {/foreach}
+            </table>
+            <div class="page">
+                {$page}
+            </div>
+        </div>
+        {include file="public/footer"}
+    </div>
+</div>
+{/block}

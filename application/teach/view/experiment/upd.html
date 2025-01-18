@@ -1,0 +1,161 @@
+{extend name="public/base" /}
+
+{block name="body"}
+<div id="core">
+	{include file="public/nav" /}
+	<div id="right"><div id="rightc">
+		{include file="public/title" /}
+		<form action="{:url('experiment/upd',['id'=>$item['id']])}" id="formAddExper" method="post">
+			<div class="row">
+				<div class="col-sm-2 iname">实验名称</div>
+				<div class="col-sm-8 form-group"><input type="text" name="name" id="name" class="form-control" value="{$item.name}"></div>
+			</div>
+			<div class="row">
+				<div class="col-sm-2 iname">实验类型</div>
+				<div class="col-sm-8 form-group"><input type="text" name="type" id="type" class="form-control" value="{$item.type}"></div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-2 iname">所属课程</div>
+				<div class="col-sm-8 form-group"><input type="text" name="course_id" id="course_id" class="form-control" value="{$item.course_name}" disabled="disabled"></div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-2 iname">实验源</div>
+				<div class="col-sm-8 form-group">
+					<div class="input-group">
+						<input type="text" name="experiment" id="experiment" class="form-control" value="{$item.experiment}" readonly>
+						<span class="input-group-btn">
+							<!--<button class="btn btn-danger" data-toggle="modal" data-target="#showlab" type="button">查看实验</button>-->
+						</span>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="row">
+				<div class="col-sm-2 iname">实验要求</div>
+				<div class="col-sm-8 form-group">
+					<textarea name="demand" id="demand" cols="30" rows="10">{$item.demand}</textarea>
+					
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-2 iname">实验报告模板</div>
+				<div class="col-sm-8 form-group">
+					<textarea name="word" id="word" cols="30" rows="10">{$item.word}</textarea>
+					
+				</div>
+			</div>
+
+			
+
+
+			<div class="row">
+				<div class="col-sm-2 iname"></div>
+				<div class="col-sm-8 form-group">
+					<button type="submit" class="btn btn-block btn-success">提交</button>
+				</div>
+			</div>
+
+
+		</form>
+	</div>
+	</div>
+</div>
+
+<link rel="stylesheet" href="__PUBLIC__/{$item.experiment}/TemplateData/style.css">
+<script src="__PUBLIC__/{$item.experiment}/TemplateData/UnityProgress.js"></script>
+<script src="__PUBLIC__/{$item.experiment}/Build/UnityLoader.js"></script>
+<script>
+    var gameInstance = UnityLoader.instantiate("gameContainer", "__PUBLIC__/{$item.experiment}/Build/{$item.experiment}.json", {onProgress: UnityProgress});
+
+    window.onload = function(){
+    	console.log('ok')
+    }
+
+</script>
+
+
+<div class="modal fade" id="showlab" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" style="width: 1300px;height: 800px;" role="document">
+		<div class="modal-content" style="width: 1300px;height: 800px;">
+			<div class="webgl-content">
+                <div id="gameContainer" style="width: 1280px; height: 720px;"></div>
+                <div class="footer">
+                    <div class="webgl-logo"></div>
+                    <div class="fullscreen" onclick="gameInstance.SetFullscreen(1)"></div>
+                    <div class="title"></div>
+                </div>
+            </div>
+		</div>
+	</div>
+</div>
+
+
+{/block}
+{block name="script"}
+<link href="__PUBLIC__/summernote/summernote.css" rel="stylesheet">
+<script src="__PUBLIC__/summernote/summernote.js"></script>
+<script src="__PUBLIC__/summernote/lang/summernote-zh-CN.js"></script>
+<script>
+!function($){
+	$('#demand').summernote({
+		height: '300px',
+		lang:'zh-CN' ,
+		callbacks: {
+			onImageUpload: function (file) {
+				var formData = new FormData();
+	            formData.append("file", file[0]);
+	            $.ajax({
+	                url: "{:url('index/upload')}",
+	                data: formData,
+	                cache: false,
+	                contentType: false,
+	                processData: false,
+	                type: 'POST',
+	                success: function (data) {
+	                	data = "__PUBLIC__/" + data;
+	                    $('#demand').summernote('insertImage', data);
+	                },
+	                error: function () {
+                        console.info('上传失败');
+                    } 
+	            });
+			}
+		}
+	});
+	$('#word').summernote({
+		minHeight: '500px',
+		lang:'zh-CN' 
+	});
+
+
+
+    $("#formAddExper").validate({
+        rules: {
+            name: "required",
+            demand: "required",
+            word: "required",
+        },
+        messages: {
+            name:  "请输入名称",
+            demand: "请填写实验要求",
+            word: "请填写实验报告",
+    
+        },  
+    });
+
+
+    var wHeight = $(window).height()*0.9;
+    $('.showlab').attr('height',wHeight);
+    $(window).on('resize',function(){
+        $('.showlab').attr('height',wHeight);
+    })
+    
+    
+
+}(jQuery);
+
+</script>
+{/block}

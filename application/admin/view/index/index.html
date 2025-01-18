@@ -1,0 +1,117 @@
+{extend name="public/base" /}
+
+{block name="body"}
+<div id="core">
+	{include file="public/nav" /} 
+	<div id="right">
+		<div id="rightc">
+	
+			<div class="bar">
+				<div class="barleft">
+					{if condition="$role == 0"}
+					<a class="btn btn-primary" href="{:url('index/addStudent')}" ><span class="glyphicon glyphicon-plus"></span> 添加</a>
+					{elseif condition="$role == 1"/}
+					<a class="btn btn-primary" href="{:url('index/addTeacher')}" ><span class="glyphicon glyphicon-plus"></span> 添加</a>
+					{else /}
+					<a class="btn btn-primary" href="{:url('index/addAdmin')}" ><span class="glyphicon glyphicon-plus"></span> 添加</a>
+					{/if}
+					<?php if($role<2):  ?>
+						<button class="btn btn-danger" id="del"><span class="glyphicon glyphicon-minus"></span> 删除</button>
+					<?php endif;?>
+				</div>
+				<div class="search">
+					<form class="form-inline" action="">
+						<button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+						<div class="form-group">
+							<input type="text" class="form-control" name="ss" value="<?php if(isset($ss)) echo $ss; ?>" placeholder="名称">
+						</div>
+					</form>
+				</div>
+			</div>
+		
+			<table class="table">
+				<tr class="th">
+					<th></th>
+					{if condition="$role == 0"}<th>编号</th>{/if}
+					<th>姓名</th>
+					<th>账号</th>
+
+				<?php if($role<2):  ?>
+					<th>班级</th>
+				<?php endif;?>
+
+					<th>性别</th>
+					<th>电话号码</th>
+					<th>操作</th>
+				</tr>
+				<?php $i=1; foreach ($list as $v): ?>
+				<tr class="<?php echo $i%2 ?'':'ts'; ?>">
+					<td><input type="checkbox" name="choose[]" class="choose" id="choose-{$v.id}" value="{$v.id}"></td>
+					{if condition="$role == 0"}<td>{$v.sid}</td>{/if}
+					<td>{$v.name}</td>
+					<td>{$v.account}</td>
+
+				<?php if($role==0):  ?>
+					<td>{$v.className}</td>
+				<?php else:  ?>
+					<td>{$teacher_class_info[$v['id']] ?? '-'}</td>
+				<?php endif;?>
+
+					<td><?php echo $v['sex'] ? '男':'女'; ?></td>
+					<td>{$v.phone}</td>
+					<td>
+						{if condition="$role == 0"}
+						<a href="{:url('index/editStudent',['id'=>$v['id'], 'role'=>$role])}" class="btn btn-primary btn-sm">修改信息</a>
+						{elseif condition="$role == 1"/}
+						<a href="{:url('index/editTeacher',['id'=>$v['id'], 'role'=>$role])}" class="btn btn-primary btn-sm">修改信息</a>
+						{else /}
+						<a href="{:url('index/editAdmin',['id'=>$v['id'], 'role'=>$role])}" class="btn btn-primary btn-sm">修改信息</a>
+						{/if}
+						<a href="{:url('index/updatePassword',['id'=>$v['id'], 'role'=>$role])}" class="btn btn-primary btn-sm">修改密码</a>
+
+						<?php if($role<2):  ?>
+							<a href="{:url('index/delaccount',['id'=>$v['id'], 'role'=>$role])}" class="btn btn-danger btn-sm" onclick="return confirm('确认删除该账号吗')">删除</a>
+						<?php endif;?>
+					</td>
+				</tr>
+				<?php $i++; endforeach; ?>
+				<tr class="">
+					<th colspan="10" style="text-align: right;"><?php echo $list; ?> </th>
+				</tr>
+			</table>
+		
+
+
+		</div>
+	</div>
+	
+</div>
+
+<script>
+$(function(){
+	$('#del').on('click',function(){
+
+		var str = "";
+		var role = <?php echo $role; ?>;
+	    $("input[name='choose[]']:checked").each(function (index, item) {
+	        
+	        if ($("input[name='choose[]']:checked").length-1==index) {
+	            str += $(this).val();
+	        } else {
+	            str += $(this).val() + "_";
+	        }  
+	    });
+	    
+	    if (str=='') {
+	    	alert('您没有选择需要删除的项');
+	    }else{
+	    	if (confirm('确定要删除被选中的账号吗？')) {
+	    		window.location.href = '<?php echo url("index/delaccounts"); ?>?ids='+str+'&role='+role;
+	    	}else{
+	    		return false;
+	    	}
+	    }
+	})
+})
+</script>
+{/block}

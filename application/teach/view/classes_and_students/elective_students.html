@@ -1,0 +1,83 @@
+{extend name="public/base" /}
+
+{block name="body"}
+<div id="core">
+	{include file="public/nav" /} 
+	<div id="right">
+		<div id="rightc">
+	
+			<div class="bar">
+				{include file="public/title" /}
+
+				<div class="bar">
+					<div class="barleft">
+
+					</div>
+					<div class="search">
+						<form class="form-inline" action="{:url('ClassesAndStudents/electiveStudents')}" method="get">
+							<button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+
+							<div class="form-group">
+								<label>学生姓名</label>
+								<input type="text" class="form-control" name="student_name" value="{$search['student_name']}" placeholder="在此输入要搜索的学生名称">
+							</div>
+
+							<div class="form-group">
+								<label>选择班级</label>
+								<select class="form-control" name="class_id">
+									<option value="0">--不限班级--</option>
+									{foreach $classList as $vo }
+									<option value="{$vo.id}" {if condition="($search['class_id'] == $vo.id)"} selected {/if}> {$vo.className} </option>
+									{/foreach}
+								</select>
+							</div>
+							<div class="form-group">
+								<label>选择课程</label>
+								<select class="form-control" name="course_id">
+									<option value="0">--不限课程--</option>
+									{foreach $courseList as $vo }
+									<option value="{$vo.id}" {if condition="($search['course_id'] == $vo.id)"} selected {/if}> {$vo.name} </option>
+									{/foreach}
+								</select>
+							</div>
+						</form>
+					</div>
+
+				</div>
+			</div>
+		
+			<table class="table">
+				<tr class="th">
+					<th>姓名</th>
+					<th>班级</th>
+					<th>课程</th>
+					<th>学年学期</th>
+					<th>电话号码</th>
+				</tr>
+				<?php $i=1; foreach ($list as $v): ?>
+				<tr class="<?php echo $i%2 ?'':'ts'; ?>">
+					<td>{$students[$v['student_id']]['name'] ?? '-'}</td>
+					<td>{$students[$v['student_id']]['className'] ?? '-'}</td>
+					<td>{$courses[$v['course_id']]['name'] ?? '-'}</td>
+					<td>{$courses[$v['course_id']]['year'] ?? 0}-<?php echo ($courses[$v['course_id']]['year']?? 0) + 1;?>学年 第{$courses[$v['course_id']]['term'] ?? 0}学期</td>
+
+					<td>{$students[$v['student_id']]['phone'] ?? '-'}</td>
+				</tr>
+				<?php $i++; endforeach; ?>
+				<tr class="">
+					<th colspan="10" style="text-align: right;"><?php echo $list; ?> </th>
+				</tr>
+			</table>
+		
+
+
+		</div>
+	</div>
+	
+</div>
+
+<script>
+$(function(){
+})
+</script>
+{/block}

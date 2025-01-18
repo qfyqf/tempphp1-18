@@ -1,0 +1,191 @@
+{extend name="public/base" /}
+{block name="body"}
+<div class="content">
+    <div class="experiment">
+        <div class="experiment-info">
+            <div class="experiment-title"><h3>{$info.name}</h3></div>
+            <div class="info">
+                实验日期为：{$info.start_time} 至 {$info.end_time}
+            </div>
+        </div>
+        <div class="line"></div>
+        <div id="hide" style="display: none">{$info.id}</div>
+        <div class="experiment-content">
+            <div class="experiment-group">
+                <div class="explain">实验类型:</div>
+                <div class="substance1">{$info.type}</div>
+            </div>
+            <div class="experiment-group">
+                <div class="explain">所属课程名称:</div>
+                <div class="substance1">{$info.cname}</div>
+            </div>
+            <div class="experiment-group">
+                <div class="explain">实验要求:</div>
+                <div class="substance">{$info.demand}</div>
+            </div>
+            <div class="hide"></div>
+            <div class="experiment-group">
+                <div class="explain">实验报告内容:</div>
+                <div class="substance">
+         
+                        {$info.rword}
+         
+                        {if($info.result)}
+                        实验结果数据：
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <td>初始资金：</td>
+                                        <td>50000元</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>现拥有资金：</td>
+                                        <td>{$info.result.CurrCash}元</td>
+                                        <td>现有贷款：</td>
+                                        <td>{$info.result.Liabilities}元</td>
+                                    </tr>
+                                    <tr>
+                                        <td>购买虾苗：</td>
+                                        <td>{$info.result.ShrimpLarvaeCount}尾</td>
+                                        <td>花费：</td>
+                                        <td>{$info.result.ShrimpLarvaeCost}元</td>
+                                    </tr>
+                                    <tr>
+                                        <td>购买秧苗：</td>
+                                        <td>{$info.result.RiceSeedCount}斤</td>
+                                        <td>花费：</td>
+                                        <td>{$info.result.RiceSeedCost}元</td>
+                                    </tr>
+                                    <tr>
+                                        <td>购买化肥：</td>
+                                        <td>{$info.result.FertilizerCount}袋</td>
+                                        <td>花费：</td>
+                                        <td>{$info.result.FertilizerCost}元</td>
+                                    </tr>
+                                    <tr>
+                                        <td>购买普通农药：</td>
+                                        <td>{$info.result.PesticideCount}瓶</td>
+                                        <td>花费：</td>
+                                        <td>{$info.result.PesticideCost}元</td>
+                                    </tr>
+                                    <tr>
+                                        <td>购买高效农药：</td>
+                                        <td>{$info.result.ToxicPesticideCount}瓶</td>
+                                        <td>花费：</td>
+                                        <td>{$info.result.ToxicPesticideCost}元</td>
+                                    </tr>
+                                    <tr>
+                                        <td>购买生物农药：</td>
+                                        <td>{$info.result.BiopesticideCount}瓶</td>
+                                        <td>花费：</td>
+                                        <td>{$info.result.BiopesticideCount}元</td>
+                                    </tr>
+                                    <tr>
+                                        <td>租用土地：</td>
+                                        <td>{$info.result.LandRentalCount}亩</td>
+                                        <td>土地租金花费：</td>
+                                        <td>{$info.result.LandRentalCost}元</td>
+                                    </tr>
+                                    <tr>
+                                        <td>雇用劳动力花费：</td>
+                                        <td>{$info.result.EmployeeCost}元</td>
+                                        <td>家庭消费：</td>
+                                        <td>{$info.result.FarmilyCost}元</td>
+                                    </tr>
+                                    <tr>
+                                        <td>加入合作社花费：</td>
+                                        <td>{$info.result.JoinCooperativeCost}亩</td>
+                                        <td>技术服务花费：</td>
+                                        <td>{$info.result.BuyServiceCost}元</td>
+                                    </tr>
+                                <tr>
+                                        <td>技术培训花费：</td>
+                                        <td>{$info.result.BuyTrainingCost}元</td>
+                                        <td>病虫防治服务花费：</td>
+                                        <td>{$info.result.BuyRicePADInfoCost}元</td>
+                                    </tr>
+                                 <tr>
+                                        <td>整田花费：</td>
+                                        <td>{$info.result.PloughCost}元</td>
+                                        <td>喂食花费：</td>
+                                        <td>{$info.result.FeedCost}元</td>
+                                    </tr>
+                                    <tr>
+                                        <td>收获普通水稻：</td>
+                                        <td>{$info.result.RiceCount}斤</td>
+                                        <td>收获优质水稻：</td>
+                                        <td>{$info.result.GoodRiceCount}斤</td>
+                                    </tr>
+                                <tr>
+                                        <td>卖出普通水稻收益：</td>
+                                        <td>{$info.result.RiceInterest}元</td>
+                                        <td>卖出优质水稻收益：</td>
+                                        <td>{$info.result.GoodRiceInterest}元</td>
+                                    </tr>
+                                <tr>
+                                        <td>收获普通龙虾：</td>
+                                        <td>{$info.result.ShrimpCount}斤</td>
+                                        <td>收获优质龙虾：</td>
+                                        <td>{$info.result.GoodShrimpCount}斤</td>
+                                    </tr>
+                                <tr>
+                                        <td>卖出普通龙虾收益：</td>
+                                        <td>{$info.result.ShrimpInterest}元</td>
+                                        <td>卖出优质龙虾收益：</td>
+                                        <td>{$info.result.GoodShrimpInterest}元</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        {/if}
+                </div>
+            </div>
+            <div class="experiment-group">
+                <div class="explain">实验用时:</div>
+                <div class="substance1" id="duration1">{$info.duration}</div>
+                <script>
+                    var time = document.getElementById('duration1').innerHTML;
+                    ms = time % 1000;
+                    if (ms < 1000) {
+                        ms = 0;
+                    }
+                    s = Math.floor(time / 1000 % 60);
+                    m = Math.floor(time / 1000 / 60 % 60);
+                    h = Math.floor(time / 1000 / 60 / 60);
+                    str =toDub(h) + "时" + toDub(m) + "分" + toDub(s) + "秒";
+                    duration = document.getElementById('duration1');
+                    duration.innerHTML = str;
+                    function toDub(n) {
+                        if (n < 10) {
+                            return "0" + n;
+                        } else {
+                            return "" + n;
+                        }
+                    }
+                </script>
+            </div>
+            <?php if($info['word_file']): ?>
+            <div class="experiment-group">
+                <div class="explain">报告附件:</div>
+                <div class="substance">
+                    <?php $ext = pathinfo($info['word_file'],PATHINFO_EXTENSION); ?>
+                    <a href="<?php echo url('experiment/download_word_file',['id'=>$info['result_id']]); ?>" class="btn btn-default btn-sm">点击下载： 实验报告附件.{$ext}</a>
+                </div>
+            </div>
+            <?php endif; ?>
+            <div class="experiment-group">
+                <div class="explain">实验成绩:</div>
+                <div class="substance1">{$info.grade}</div>
+            </div>
+        </div>
+        <div class="experiment-footer">
+
+            <a href="{:url('experiment/index')}"><button type="button" class="btn btn-info">取消</button></a>
+        </div>
+    </div>
+    <div class="test-footer">
+        <div id="copyright">建设单位：XX大学&nbsp;&nbsp;&nbsp;&nbsp;合作公司：武汉全乐科技有限公司&nbsp;&nbsp;&nbsp;&nbsp;Copyright©2018-2019 - AllHappy All Right Reserved</div>
+    </div>
+</div>
+{/block}

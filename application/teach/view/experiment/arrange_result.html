@@ -1,0 +1,95 @@
+{extend name="public/base" /}
+
+{block name="body"}
+<div id="core">
+	{include file="public/nav" /}
+	<div id="right"><div id="rightc">
+		{include file="public/title" /}
+		<form action="{:url('experiment/arrange_result_grade')}" id="formAddExper" method="post">
+			<input type="hidden" name="id" value="{$item.id}">
+			<div class="row">
+				<div class="col-sm-2 iname">实验名称</div>
+				<div class="col-sm-4 ivalue">{$experiment.name}</div>
+
+				<div class="col-sm-2 iname">所属课程</div>
+				<div class="col-sm-4 ivalue">{$experiment.course_name}</div>
+			</div>
+			<hr>
+
+			<div class="row">
+				<div class="col-sm-2 iname">布置编号</div>
+				<div class="col-sm-4 ivalue">{$arrange.sid}</div>
+
+				<div class="col-sm-2 iname">布置时间</div>
+				<div class="col-sm-4 ivalue">{$arrange.start_time} 至 {$arrange.end_time}</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-2 iname">实验地点</div>
+				<div class="col-sm-4 ivalue">{$arrange.address}</div>
+
+				<div class="col-sm-2 iname">实验备注</div>
+				<div class="col-sm-4 ivalue">{$arrange.remark}</div>
+			</div>
+			<hr>
+			<div class="row">
+				<div class="col-sm-2 iname">实验耗时</div>
+				<div class="col-sm-4 ivalue">{:floor($item.duration/60000)} 分钟</div>
+
+				<div class="col-sm-2 iname">完成时间</div>
+				<div class="col-sm-4 ivalue">{$item.done_time}</div>
+			</div>
+			<hr>
+			<div class="row">
+				<div class="col-sm-2 iname">实验要求</div>
+				<div class="col-sm-8 ivalue">{$experiment.demand}</div>
+			</div>
+			<hr>
+			
+			<div class="row">
+				<div class="col-sm-2 iname">实验报告</div>
+				<div class="col-sm-8 ivalue">{$item.word}</div>
+			</div>
+
+			<?php
+				if($item['word_file']):
+					$ext = pathinfo($item['word_file'],PATHINFO_EXTENSION);
+			?>
+			<div class="row">
+				<div class="col-sm-2 iname">报告附件</div>
+				<div class="col-sm-8 ivalue">
+					<a href="<?php echo url('experiment/download_word_file',['id'=>$item['id']]); ?>" class="btn btn-default btn-sm">点击下载： 实验报告附件.{$ext}</a>
+				</div>
+			</div>
+			<?php endif; ?>
+
+			<hr>
+			<div class="row">
+				<div class="col-sm-2 iname">实验成绩</div>
+				<div class="col-sm-8 form-group">
+					<input type="number" name="grade" id="grade" min="0" max="100" value="{$item.grade}" required>
+					
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-2 iname"></div>
+				<div class="col-sm-8 form-group">
+					<button type="submit" class="btn btn-block btn-success">提交</button>
+				</div>
+			</div>
+
+
+		</form>
+
+	</div>
+	</div>
+</div>
+{/block}
+{block name="script"}
+<link href="__PUBLIC__/summernote/summernote.css" rel="stylesheet">
+<script src="__PUBLIC__/summernote/summernote.js"></script>
+<script src="__PUBLIC__/summernote/lang/summernote-zh-CN.js"></script>
+<script>
+
+</script>
+{/block}

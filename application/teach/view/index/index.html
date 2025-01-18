@@ -1,0 +1,125 @@
+{extend name="public/base" /}
+
+{block name="body"}
+<div id="core">
+	{include file="public/nav" /}
+	<div id="right"><div id="rightc">
+		<div class="ind1">
+			<div class="ind1-1">
+				<span class="glyphicon glyphicon-stop"></span>
+				<span class="glyphicon glyphicon-volume-up"></span>&emsp;
+				欢迎
+				<span style="color: #f39a2f;">{$info['name']}</span>
+				老师使用虚拟仿真实验教学平台！
+			</div>
+			<div class="ind1-2">
+				如果您遇到难以解决的问题，请拨打 027-8736-7058 寻求技术支持。
+			</div>
+			<img src="__PUBLIC__/static/img/jiantou.png" alt="">
+		</div>
+		<div class="ind2">您本学期共有 {$course_cnt} 门课程</div>
+
+		<div class="ind3">
+
+		<?php foreach($list as $v): ?>
+			<div class="ind3-item">
+				<div class="ind3-1">
+					<div class="ind3-img">
+						<img src="__PUBLIC__/static/img/book0.png">
+					</div>
+					<div class="ind3-info">
+						<div class="ind3-info-h">{$v.name}</div>
+						<div class="ind3-info-c">
+							<div class="col-xs-2">周次:第{$v.class_cycle}周</div>
+							<div class="col-xs-3">时间:星期{$v.week}第{$v.class_turn}节</div>
+							<div class="col-xs-3">地点:{$v.address}</div>
+							<div class="col-xs-2">
+								人数:
+
+								<a href="{$v.cnt ? url('course/stu_option_list',['id'=>$v['id']]) : '' }" style="border-radius: 15px;" class="btn btn-sm btn-{$v.cnt ? 'success' : 'warning'}" {$v.cnt ? '' : 'disabled="disabled"'}>	 {$v.cnt} </a>
+
+							</div>
+							<div class="col-xs-2">学分:{$v.credit}</div>
+						</div>
+					</div>
+					<div class="ind3-btn">
+						<button class="btn btn-primary btn-sm">
+							显示教学细节
+							<span class="glyphicon glyphicon-triangle-bottom"></span>
+						</button>
+					</div>
+				</div>
+				<div class="ind3-2">
+					<div class="ind3-line">
+						<div class="ind3-o"><span class="glyphicon glyphicon-minus-sign"></span></div>
+						<div class="ind3-o"><span class="glyphicon glyphicon-minus-sign"></span></div>
+						<div class="ind3-o"><span class="glyphicon glyphicon-minus-sign"></span></div>
+						<div class="ind3-o"><span class="glyphicon glyphicon-minus-sign"></span></div>
+						<div class="ind3-o"><span class="glyphicon glyphicon-minus-sign"></span></div>
+						<div class="ind3-o"><span class="glyphicon glyphicon-minus-sign"></span></div>
+					</div>
+					<div class="ind3-extbtn">
+						<div class="ind3-extbtn-o">
+							<a href="{:url('experiment/index',['cid'=>$v['id']])}" class="btn btn-primary btn-sm btn-my">虚拟实验</a>
+						</div>
+						<div class="ind3-extbtn-o">
+							<a href="{:url('experiment/arrange',['course_id'=>$v['id'], 'step'=>'c_expe'])}" class="btn btn-primary btn-sm btn-my">布置新实验</a>
+						</div>
+						<div class="ind3-extbtn-o">
+							<a href="{:url('experiment/arranged',['cid'=>$v['id']])}" class="btn btn-primary btn-sm btn-my">已安排实验</a>
+						</div>
+						<div class="ind3-extbtn-o">
+							<a href="{:url('test/praxis',['cid'=>$v['id']])}" class="btn btn-primary btn-sm btn-my">习题库</a>
+						</div>
+						<div class="ind3-extbtn-o">
+							<a href="{:url('test/newtest',['course_id'=>$v['id'], 'step'=>'stepb'])}" class="btn btn-primary btn-sm btn-my">生成试卷</a>
+						</div>
+						<div class="ind3-extbtn-o">
+							<a href="{:url('test/index',['cid'=>$v['id']])}" class="btn btn-primary btn-sm btn-my">查看试卷</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		<?php endforeach; ?>
+		</div>
+
+	</div>
+	</div>
+
+</div>
+
+<script>
+$(function(){
+	var wid = $('.ind3-item').innerWidth();
+	var wid_info = wid - 320;
+	$('.ind3-info').css('width', wid_info+'px');
+
+	// 控制主导航课程隐藏细节
+	$('.ind3-btn').on('click', '.btn-primary', function(){
+		var oldsrc = $(this).parents('.ind3-1').find('.ind3-img img').prop('src');
+		oldsrc = oldsrc.replace('book0','book1');
+		$(this).parents('.ind3-1').find('.ind3-img img').prop('src',oldsrc);
+		$(this).parents('.ind3-1').next('.ind3-2').show(300);
+		$(this).addClass('btn-default').removeClass('btn-primary');
+		$(this).html('隐藏教学细节<span class="glyphicon glyphicon-triangle-top"></span>');
+
+		var elsesrc = $(this).parents('.ind3-item').siblings().find('.ind3-img img').prop('src');
+		elsesrc = elsesrc.replace('book1','book0');
+		$(this).parents('.ind3-item').siblings().find('.ind3-img img').prop('src',elsesrc);
+		$(this).parents('.ind3-item').siblings().find('.ind3-2').hide(300);
+		$(this).parents('.ind3-item').siblings().find('button.btn').addClass('btn-primary').removeClass('btn-default').html('显示教学细节<span class="glyphicon glyphicon-triangle-bottom"></span>');
+	})
+
+	$('.ind3-btn').on('click', '.btn-default', function(){
+		var oldsrc = $(this).parents('.ind3-1').find('.ind3-img img').prop('src');
+		oldsrc = oldsrc.replace('book1','book0');
+		$(this).parents('.ind3-1').find('.ind3-img img').prop('src',oldsrc);
+		$(this).parents('.ind3-1').next('.ind3-2').hide(300);
+		$(this).addClass('btn-primary').removeClass('btn-default');
+		$(this).html('显示教学细节<span class="glyphicon glyphicon-triangle-bottom"></span>');
+	})
+
+})
+
+</script>
+{/block}

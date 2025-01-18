@@ -1,0 +1,64 @@
+{extend name="public/base" /}
+{block name="body"}
+<div class="content">
+    {include file="public/nav" /}
+    <div class="right">
+        <div style="width: 100%; height: 80px; position: relative; border-bottom: 1px solid #efefef; margin-bottom: 20px;margin-top: 30px;">
+            <div style="width: 200px; height: 50px; margin: 10px auto 30px; border: 2px solid #67a7e8; border-radius: 7px; position: relative;">
+                <div style="width: 60%; height: 30px; margin: -15px auto 0; line-height: 30px; background: #FFF; text-align: center; font-size: 16px; ">查看资源</div>
+                <div style="text-align: center; color: #aaa;">View Resource</div>
+            </div>
+        </div>
+        <div class="resource">
+            <table class="table table-bordered">
+                <tr>
+                    <th>资源预览</th>
+                    <th colspan="3">
+                        {if($resource.type == '图片')}
+                        <img src="__PUBLIC__/uploads/{$resource.resource}" style="width: 200px;">
+                        {else /}
+                        <span class="glyphicon glyphicon-list-alt" style="font-size: 100px"></span>
+                        {/if}
+                    </th>
+                </tr>
+                <tr>
+                    <th>资源名称</th>
+                    <th>{$resource.name}</th>
+                    <th>所属课程</th>
+                    <th>{$resource.cname}</th>
+                </tr>
+                <tr>
+                    <th>负责教师</th>
+                    <th>{$resource.tname}</th>
+                    <th>审核人</th>
+                    <th>{$resource.tname}</th>
+                </tr>
+                <tr>
+                    <th>类型</th>
+                    <th colspan="3">{if($resource.auth)}知识点学习{else /}拓展学习{/if}</th>
+                </tr>
+                <tr>
+                    <th>资源描述</th>
+                    <th colspan="3">{$resource.desc}</th>
+                </tr>
+                <tr>
+                    <th colspan="4" style="text-align: center;">
+                        {if($status)}
+                        <a href="{:url('resource/collect',['id' => $resource.id, 'status' => 0])}"><button type="button" class="btn btn-info">取消收藏</button></a>
+                        {else /}
+                        <a href="{:url('resource/collect',['id' => $resource.id, 'status' => 1])}"><button type="button" class="btn btn-info">收藏</button></a>
+                        {/if}
+                        {if($back)}
+                        <a href="{:url('resource/getCollectInfo')}"><button type="button" class="btn btn-info">返回</button></a>
+                        {else /}
+                        <a href="{:url('resource/index')}"><button type="button" class="btn btn-info">返回</button></a>
+                        {/if}
+                        <a href="{:url('resource/download',['id' => $resource.id])}"><button type="button" class="btn btn-info">下载</button></a>
+                    </th>
+                </tr>
+            </table>
+        </div>
+        {include file="public/footer"}
+    </div>
+</div>
+{/block}

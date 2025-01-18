@@ -1,0 +1,48 @@
+{extend name="public/base" /}
+
+{block name="body"}
+<div id="core">
+	{include file="public/nav" /}
+	<div id="right"><div id="rightc">
+		{include file="public/title" /}
+		<style>
+		.helpi { display: block; line-height: 50px; font-size: 18px; font-weight: 600; }
+		.helpj { display: block; line-height: 30px; font-size: 14px; font-weight: 600; text-indent: 100px; color: #b35e21; }
+		</style>
+
+
+		<?php
+			$i = 1;
+			foreach ($list as $key => $value) {
+				
+				echo '<a href="'.url('help/upd',['id'=>$value['id']]).'" class="helpi">'.$i.'.0 、'.$value['title'].'【'.$value['orderid'].'】</a>';
+
+				if (!empty($value['sublist'])) {
+
+					$j = 1;
+
+					foreach ($value['sublist'] as $k => $v) {
+						echo '<a href="'.url('help/upd',['id'=>$v['id']]).'" class="helpj">'.$i.'.'.$j.'、'.$v['title'].'【'.$v['orderid'].'】</a>';
+						$j++;
+					}
+				}
+
+				$i++; 
+			}
+		?>
+	</div>
+	</div>
+</div>
+{/block}
+{block name="script"}
+<link href="__PUBLIC__/summernote/summernote.css" rel="stylesheet">
+<script src="__PUBLIC__/summernote/summernote.js"></script>
+<script src="__PUBLIC__/summernote/lang/summernote-zh-CN.js"></script>
+<script>
+!function($){
+
+
+}(jQuery);
+
+</script>
+{/block}

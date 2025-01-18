@@ -1,0 +1,125 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title">修改课程- <?php echo $item['name']; ?></h4>
+</div>
+<div class="modal-body">
+    <form action="" id="form_updCourse">
+        <input type="hidden" name="id" class="form-control" value="<?php echo $item['id']; ?>">
+        <div class="row">
+            <div class="col-sm-2 iname"><span class="red">*</span> 课程名称 </div>
+            <div class="col-sm-8">
+                <div class="form-group">
+                    <input type="text" name="name" class="form-control" value="<?php echo $item['name']; ?>">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2 iname"><span class="red">*</span> 课程编号</div>
+            <div class="col-sm-8">
+                <div class="form-group">
+                    <input type="text" name="sid" class="form-control" value="<?php echo $item['sid']; ?>">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2 iname"><span class="red">*</span> 学年学期</div>
+            <div class="col-sm-8">
+                <div class="form-group">
+                    <input type="text" name="" class="form-control" value="<?php echo $item['year']; ?>学年 第<?php echo $item['term']; ?>学期" disabled>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-2 iname"><span class="red">*</span> 任课老师</div>
+            <div class="col-sm-8">
+                <div class="form-group">
+                    <select name="teacherid" id="teacherid" class="form-control">
+                        <option value="">--选择老师--</option>
+                        <?php echo $teachers; ?>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-2 iname"><span class="red">*</span> 学分</div>
+            <div class="col-sm-8">
+                <div class="form-group">
+                    <select name="credit" class="form-control">
+                        <option value="0" <?php if($item['credit'] == 0) echo "selected='selected'";?>>--请选择学分--</option>
+                        <option value="1" <?php if($item['credit'] == 1) echo "selected='selected'";?>>--1学分--</option>
+                        <option value="2" <?php if($item['credit'] == 2) echo "selected='selected'";?>>--2学分--</option>
+                        <option value="3" <?php if($item['credit'] == 3) echo "selected='selected'";?>>--3学分--</option>
+                        <option value="4" <?php if($item['credit'] == 4) echo "selected='selected'";?>>--4学分--</option>
+                        <option value="5" <?php if($item['credit'] == 5) echo "selected='selected'";?>>--5学分--</option>
+                        <option value="6" <?php if($item['credit'] == 6) echo "selected='selected'";?>>--6学分--</option>
+                        <option value="7" <?php if($item['credit'] == 7) echo "selected='selected'";?>>--7学分--</option>
+                        <option value="8" <?php if($item['credit'] == 8) echo "selected='selected'";?>>--8学分--</option>
+                        <option value="9" <?php if($item['credit'] == 9) echo "selected='selected'";?>>--9学分--</option>
+                        <option value="10" <?php if($item['credit'] == 10) echo "selected='selected'";?>>--10学分--</option>
+                    </select>
+                    <!--<input type="number" name="credit" class="form-control" value="<?php echo $item['credit']; ?>">-->
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2 iname"><span class="red">*</span> 上课周期</div>
+            <div class="col-sm-8">
+                <div class="form-group col-sm-6">
+                    <input type="text" name="class_cycle" class="form-control" placeholder="比如：‘1-20’ 表示第1到20周" value="<?php echo $item['class_cycle']; ?>">
+                </div>
+                <label class="control-label col-sm-6">请严格遵循格式:如'1-20',表示第1到20周</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2 iname"><span class="red">*</span> 星期</div>
+            <div class="col-sm-8">
+                <div class="form-group">
+                    <select name="week" id="c-week" class="form-control">
+                        <option value="">--请选择星期--</option>
+                        <?php echo $week; ?>        
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-2 iname"><span class="red">*</span> 节次</div>
+            <div class="col-sm-8">
+                <div class="form-group col-sm-6">
+                    <input type="text" name="class_turn" class="form-control" placeholder="比如：‘3,4’ 表示第3,4节课" value="<?php echo $item['class_turn']; ?>">
+                </div>
+                <label class="control-label col-sm-6">请严格遵循格式:如'3,4',表示第3,4节课</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2 iname"><span class="red">*</span> 地点</div>
+            <div class="col-sm-8">
+                <div class="form-group">
+                    <input type="text" name="address" class="form-control" value="<?php echo $item['address']; ?>">
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2 iname"><span class="red">*</span> 开课单位</div>
+            <div class="col-sm-8">
+                <div class="form-group">
+                    <input type="text" name="unit" class="form-control" value="<?php echo $item['unit']; ?>">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2 iname">课程介绍</div>
+            <div class="col-sm-8">
+                <div class="form-group">
+                    <textarea name="content" class="form-control" id="" cols="30" rows="10"><?php echo $item['content']; ?></textarea>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary btn-block" id="sub_updCourse" style="width: 60%; margin: 0 auto;">提交</button>
+</div>

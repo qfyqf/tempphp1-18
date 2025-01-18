@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>帮助</title>
+    <link href="__PUBLIC__/static/css/style.css" rel="stylesheet">
+</head>
+<body>
+<div class="catalog">
+    <div class="catalog-title">
+        <div class="next"><a href="{:url('index/content',['id' => $title[0]['id'], 'type' => $type])}">下一页</a></div>
+        <h1>开放实验室网络版用户手册( {$type ? '教师端':'学生端'})</h1>
+    </div>
+    <div class="catalog-body">
+        <h2>开放实验室网络版用户手册( {$type ? '教师端':'学生端'})</h2>
+        <h3>目录</h3>
+        <ol class="book-toc">
+            {foreach name="title" item="vo" key="k"}
+                <li class="chapter">
+                    {if(isset($subTitle[$vo.id]))}
+                        <h4>{$k+1}、<a href="{:url('index/content',['id' => $subTitle[$vo.id][0]['id'], 'type' => $type])}">{$vo.title}</a> </h4>
+                    {else /}
+                        <h4>{$k+1}、<a href="{:url('index/content',['id' => $vo.id, 'type' => $type])}">{$vo.title}</a> </h4>
+                    {/if}
+                    {if(isset($subTitle[$vo.id]))}
+                        <ol>
+                            {foreach name="subTitle[$vo.id]" item="content" key="key"}
+                                <li>{$k+1}.{$key+1}、<a href="{:url('index/content',['id' => $content.id, 'type' => $type])}">{$content.title}</a> </li>
+                            {/foreach}
+                        </ol>
+                    {/if}
+                </li>
+            {/foreach}
+        </ol>
+        <p style="color: red">注：图片看不清时，可以点击放大图片。</p>
+    </div>
+</div>
+</body>
+</html>

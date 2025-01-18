@@ -1,0 +1,69 @@
+{extend name="public/base" /}
+
+{block name="body"}
+<div id="core">
+	{include file="public/nav" /}
+	<div id="right"><div id="rightc">
+		{include file="public/title" /}
+
+		<div class="btn-group" role="group" style="margin:5px;">
+			<a href="?op=crt" class="btn btn-<?php echo ($op=='next') ? 'default' :'primary'; ?>">当前学期</a>
+			<a href="?op=next"" class="btn btn-<?php echo ($op=='next') ? 'primary' :'default'; ?>">下一学期</a>
+		</div>
+
+
+		<div class="ind2">
+			{$term_name}
+			<button class="btn btn-default btn-sm pull-right" id="print" style="margin:5px;"> <span class="glyphicon glyphicon-print"></span> 打印</button>
+		</div>
+		<div id="course_table">
+
+			{volist name="courses" id="vo"}
+				<div class="courseitem courseitem_{$vo.id}" style="{$vo.css}">{$vo.name}<br>第{$vo.class_cycle}周<br>
+				{$vo.address}
+				</div>
+			{/volist}
+
+			<div class="ct_tr" style="background: #46c5ad; color: #FFF;">
+				<div class="ct_td">节次</div>
+				<div class="ct_td">周一</div>
+				<div class="ct_td">周二</div>
+				<div class="ct_td">周三</div>
+				<div class="ct_td">周四</div>
+				<div class="ct_td">周五</div>
+				<div class="ct_td">周六</div>
+				<div class="ct_td">周日</div>
+			</div>
+
+			{for start="1" end="13"}
+			<div class="ct_tr">
+				<div class="ct_td">
+					<div class="ct_td_jieci">{$i}</div>
+				</div>
+			</div>
+			{/for}
+		</div>
+	</div></div>
+</div>
+{/block}
+
+
+{block name="script"}
+<script src="__PUBLIC__/static/js/printThis.js"></script>
+<script>
+$(function(){
+	$('#print').on('click',function(){
+		$("#course_table").printThis({  
+           debug: false,  
+           importCSS:true,
+           pageTitle: "教师课程表-{$term_name}",  
+        });
+
+	})
+});
+
+</script>
+{/block}
+
+
+

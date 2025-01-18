@@ -1,0 +1,83 @@
+{extend name="public/base" /}
+{block name="body"}
+<div class="content">
+    {include file="public/nav" /}
+    <div class="right" >
+        <div style="width: 100%; height: 70px; position: relative;margin-top: 30px;">
+            <div style="width: 200px; height: 60px; margin: 10px auto 20px; border: 2px solid #67a7e8; border-radius: 7px; position: relative;">
+                <div style="width: 60%; height: 30px; margin: -15px auto 0; line-height: 30px; background: #FFF; text-align: center; font-size: 16px; ">学生课程表</div>
+                <div style="text-align: center; color: #aaa;">Student's Personal Schedule</div>
+            </div>
+        </div>
+        <div class="ind2">
+            <div class="my-btn-group">
+                <a href="{:url('course/schedule',['nowTerm' => 1])}">
+                    {if($type == 1)}
+                    <button class="btn btn-info btn-sm"  style="margin:5px;color: #0f0f0f;">当前学期</button>
+                    {else /}
+                    <button class="btn btn-sm"  style="margin:5px;color: #0f0f0f;background-color: #ffffff;">当前学期</button>
+                    {/if}
+                </a>
+                <a href="{:url('course/schedule',['nowTerm' => 2])}">
+                    {if($type == 2)}
+                    <button class="btn btn-info btn-sm"  style="margin:5px;color: #0f0f0f;">下一学期</button>
+                    {else /}
+                    <button class="btn btn-sm"  style="margin:5px;color: #0f0f0f;background-color: #ffffff;">下一学期</button>
+                    {/if}
+                </a>
+            </div>
+            <div class="pull-right">
+                <a href="{:url('course/printTable',['nowTerm' => 2])}">
+                    <button class="btn btn-sm" id="print" style="margin:5px;color: #0f0f0f;background-color: #FFFFFF;"><span class="glyphicon glyphicon-print"></span>打印</button>
+                </a>
+            </div>
+            <div class="schoolYear">{$term.year}-{$term.year+1}学年 第{$term.term}学期</div>
+
+        </div>
+        <table class="schedule" style="border: none">
+            <tr style="border: none">
+                <th style="border: none;padding-bottom: 10px;"></th>
+                <th style="border: none;padding-bottom: 10px;"><img src="__PUBLIC__/static/img/schedule/monday.png" alt="星期一"> </th>
+                <th style="border: none;padding-bottom: 10px;"><img src="__PUBLIC__/static/img/schedule/tuesday.png" alt="星期二"> </th>
+                <th style="border: none;padding-bottom: 10px;"><img src="__PUBLIC__/static/img/schedule/wednesday.png" alt="星期三"> </th>
+                <th style="border: none;padding-bottom: 10px;"><img src="__PUBLIC__/static/img/schedule/thursday.png" alt="星期四"> </th>
+                <th style="border: none;padding-bottom: 10px;"><img src="__PUBLIC__/static/img/schedule/friday.png" alt="星期五"> </th>
+                <th style="border: none;padding-bottom: 10px;"><img src="__PUBLIC__/static/img/schedule/saturday.png" alt="星期六"> </th>
+                <th style="border: none;padding-bottom: 10px;"><img src="__PUBLIC__/static/img/schedule/sunday.png" alt="星期日"> </th>
+            </tr>
+            {if(empty($schedule))}
+                {for start="0" end="11" name="j"}
+                    <tr>
+                        {for start="0" end="8"}
+                        {if($i==0)}
+                        <th style="text-align: right;padding-right: 20px;border-top:none;color: #0c8ae3;border-bottom:none;border-left:none;">{$j+1}</th>
+                        {else /}
+                        <th></th>
+                        {/if}
+                        {/for}
+                    </tr>
+                {/for}
+            {else /}
+            {foreach name="schedule" item="info" key="key"}
+            <tr>
+                {foreach name="info" item="course" key="k"}
+                {if (isset($course.turn))}
+                <th rowspan="{$course.turn}" class="course-table">{$course.name}<br />{$course.tname}<br />{$course.address}<br />第{$course.class_cycle}周</th>
+                {else /}
+                {if !($course == "hidden")}
+                {if ($k == 0)}
+                <th style="text-align: right;padding-right: 20px;border-top:none;color: #0c8ae3;border-bottom:none;border-left:none;">{$course}</th>
+                {else /}
+                <th>{$course}</th>
+                {/if}
+                {/if}
+                {/if}
+                {/foreach}
+            </tr>
+            {/foreach}
+            {/if}
+        </table>
+        {include file="public/footer" /}
+    </div>
+</div>
+{/block}

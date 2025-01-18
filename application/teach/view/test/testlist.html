@@ -1,0 +1,80 @@
+{extend name="public/base" /}
+
+{block name="body"}
+<div id="core">
+	{include file="public/nav" /}
+	<div id="right"><div id="rightc">
+		{include file="public/title" /}
+		<div class="bar">
+			<div class="barleft">
+				<a class="btn btn-default" href="{:url('test/testlist_excel',['paperid'=>$paperid])}"><span class="glyphicon glyphicon-download-alt"></span> 导出</a>
+			</div>
+			<div class="search">
+				<form class="form-inline">
+					<button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+					<div class="form-group">
+						<input type="text" class="form-control" id="name" placeholder="名称">
+					</div>
+				</form>
+			</div>
+		</div>
+
+
+
+		<table class="table">
+			<tr class="th">
+				<th></th>
+				<th>试卷</th>
+				<th>所属课程</th>
+				<th>学生</th>
+				<th>开始时间</th>
+				<th>结束时间</th>
+				<th>状态</th>
+				<th>成绩</th>
+				<th>操作</th>
+			</tr>
+			<?php $i=1; foreach ($list as $v): ?>
+			<tr class="<?php echo $i%2 ?'':'ts'; ?>">
+				<td><input type="checkbox" name="choose[]" id="choose-{$v.id}" value="{$v.id}"></td>
+				<td>{$v.pname}</td>
+				<td>{$v.cname}</td>
+				<td>{$v.sname}</td>
+				<td>{$v.start_time}</td>
+				<td>{$v.end_time}</td>
+				<td>
+				<?php
+				$t = time();
+				if ($t<strtotime($v['start_time'])) {
+					echo '未开始';
+				}elseif ($t>=strtotime($v['start_time']) && $t<=strtotime($v['end_time'])) {
+					echo '考试中';
+				}else{
+					echo '考试结束';
+				}
+				?>
+				</td>
+				<td>{$v.grade}</td>
+				<td>
+				<?php if($t>strtotime($v['end_time'])): ?>
+					<a href="{:url('test/testitem',['id'=>$v['id']])}" class="btn btn-xs btn-default">批阅试卷</a>
+				<?php endif; ?>
+
+
+				</td>
+			</tr>
+			<?php $i++; endforeach; ?>
+			<tr class="ts">
+				<th colspan="10" style="text-align: right;"><?php echo $list;?> </th>
+			</tr>
+		</table>
+
+
+		
+
+
+
+
+	</div>
+	</div>
+</div>
+{/block}

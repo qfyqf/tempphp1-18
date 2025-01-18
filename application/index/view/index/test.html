@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>测试</title>
+	<link rel="stylesheet" href="__PUBLIC__/static/css/bootstrap.min.css">
+    <script src="__PUBLIC__/static/js/jquery.min.js"></script>
+    <script>
+    	$(function(){
+    		$('#send').on('click',function(){
+    			var phone = $('#phone').val();
+    			var nick = $('#nickname').val();
+			    $.ajax({
+			        url: "<?php echo url('index/reginfo');?>",
+			        type: "POST",
+			        data: $('#aform').serialize(),
+
+			        success: function (data) {
+			        	alert(data);
+			            console.info(data);
+			        }
+			    });
+
+    		})
+
+
+    		var words = $('p.reader-word-layer');
+    		console.info(words.eq(165));
+    	})
+    </script>
+</head>
+<body>
+	<div class="">
+		<form action="" id="aform" style="width:300px;">
+			<div class="form-group">
+				<input type="text" name="phone" id="phone" class="form-control" value="" placeholder="手机号">
+			</div>
+
+			<div class="form-group">
+				<input type="text" name="nickname" nickname="nickname" class="form-control" value="{$nickname}" placeholder="昵称">
+			</div>
+
+			<div class="form-group">
+				<input type="text" name="password" nickname="password" class="form-control" value="{$password}" placeholder="mima">
+			</div>
+
+			<div class="form-group">
+				<button type="button" class="btn btn-danger btn-block" id="send">提交</button>
+			</div>
+		</form>
+	</div>
+	
+	
+
+
+</div>
+</body>
+</html>

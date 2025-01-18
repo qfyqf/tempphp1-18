@@ -1,0 +1,46 @@
+{extend name="public/base" /}
+{block name="body"}
+<div class="content">
+    {include file="public/nav" /}
+    <div class="right">
+		<div class="search">
+            <form class="form-inline" action="{:url('experiment/search')}" method="post">
+                <div class="form-group">
+                    <label for="InputCourse"></label>
+                    <input type="text" class="form-control" id="InputCourse" name="exp">
+                    <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                </div>
+            </form>
+        </div>
+        <div class="experiment">
+			<table class="myTable">
+				<tr class="th">
+					<th></th>
+					<th>学生</th>
+					<th>实验名称</th>
+					<th>答题数量</th>
+					<th>实验时间</th>
+					<th>操作</th>
+				</tr>
+				<?php $i=1; foreach ($list as $v): ?>
+				<tr class="<?php echo $i%2 ?'':'ts'; ?>">
+					<td><input type="checkbox" name="choose[]" id="choose-" value=""></td>
+					<td>{$v.sname}</td>
+					<td>{$v.ename}</td>
+					<td>{$v.cnt}</td>
+					<td>{$v.create_time}</td>
+					<td>
+						<a href="{:url('experiment/dat_item',['eno'=>$v['eno']])}" class="btn btn-xs btn-default">查看详情</a>
+
+					</td>
+				</tr>
+				<?php $i++; endforeach; ?>
+			</table>
+            <div class="page">
+                {$list}
+            </div>
+        </div>
+        {include file="public/footer" /}
+    </div>
+</div>
+{/block}

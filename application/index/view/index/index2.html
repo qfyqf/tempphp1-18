@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <link rel="stylesheet" href="__PUBLIC__/static/css/bootstrap.min.css">
+    <script src="__PUBLIC__/static/js/jquery.min.js"></script>
+    <script>
+    $(function(){
+        var h = $(window).innerHeight();
+        var a = (1000 - h)/2;
+        $('body').css('background-position','center -'+a+'px');
+        var b = 300-a;
+        $('.login').css('margin-top',b+'px');
+
+    })
+    </script>
+    <style>
+    body { background-position: center 0; background-image: url(__PUBLIC__/static/login20190604/bg.jpg); background-repeat: no-repeat; width: 100%; height: 100%; }
+    .login { width: 341px; height: 283px; margin: 300px auto 0; background-image: url(__PUBLIC__/static/login20190604/login.png); padding-top: 35px; }
+    .login #loginform { width: 220px; height: 195px; margin: 0 auto; display: block; }
+
+    .inputbox { width: 100%; height: 30px; background: #fff; margin-top: 24px; border-radius: 3px; line-height: 34px; font-size: 18px; text-indent: 3px; color: #929292; position: relative; }
+    .inputbox input { position: absolute; height: 30px; width: 180px; border:0; left: 36px; font-size: 14px; }
+    .inputbox input:focus{outline:none}
+
+    </style>
+</head>
+<body>
+<div class="login">
+    <form action="{:url('index/login')}"  method="post"  id="loginform">
+        <div style="width:100%; line-height: 34px; text-align: center; color:#ddd; font-size: 16px; ">账号密码登录</div>
+        <div style="width: 100%; height: 1px; clear: both;">
+            <div style="width:66%; height: 1px; float: left; background: #1d70d2;"></div>
+            <div style="width:34%; height: 1px; float: left; background: #eee;"></div>
+        </div>
+
+        <div class="inputbox">
+            <span class="glyphicon glyphicon-user"></span>
+            <input type="text" name="account" id="account" placeholder="输入账号">
+        </div>
+
+        <div class="inputbox">
+            <span class="glyphicon glyphicon-lock"></span>
+            <input type="password" name="password" id="password" placeholder="输入密码">
+        </div>
+
+        <button type="submit" style="width: 100%; height: 30px; background: #60a0ea; margin-top: 24px; border-radius: 3px; border:0; color:#FFF;">
+            登录
+        </button>
+    </form>
+</div>
+</body>
+</html>

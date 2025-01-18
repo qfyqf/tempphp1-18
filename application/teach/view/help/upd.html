@@ -1,0 +1,130 @@
+{extend name="public/base" /}
+
+{block name="body"}
+<div id="core">
+	{include file="public/nav" /}
+	<div id="right"><div id="rightc">
+		{include file="public/title" /}
+		<form action="{:url('help/upd')}" id="formAdd" enctype="multipart/form-data" method="post">
+			<input type="hidden" name="id" value="{$item.id}">
+			<input type="hidden" name="type" value="{$item.type}">
+			<div class="row">
+				<div class="col-sm-2 iname">类型</div>
+				<div class="col-sm-8 form-group">
+					<select name="" id="" class="form-control" disabled="disabled">
+						<option value="0">学生端</option>
+						<option value="1" <?php if($item['type']) echo 'selected'; ?>>教师端</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-2 iname">父标题</div>
+				<div class="col-sm-8 form-group">
+					<select name="pid" id="pid" class="form-control">
+						<option value="0">---顶级---</option>
+						<?php foreach($pids as $v): ?>
+						<option value="<?php echo $v['id']; ?>" <?php if($v['id']==$item['pid']) echo 'selected'; ?>><?php echo $v['title']; ?></option>
+						<?php endforeach; ?>
+					</select>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-sm-2 iname">标题</div>
+				<div class="col-sm-8 form-group"><input type="text" name="title" id="title" class="form-control" value="{$item.title}"></div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-2 iname">内容</div>
+				<div class="col-sm-8 form-group">
+					<textarea name="content" id="content" cols="30" rows="10" class="form-control">{$item.content}</textarea>
+					
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-2 iname">排序</div>
+				<div class="col-sm-8 form-group"><input type="number" name="orderid" id="orderid" class="form-control" value="{$item.orderid}" style="width:100px;"></div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-2 iname"></div>
+				<div class="col-sm-8 form-group">
+					<button type="submit" class="btn btn-block btn-success">提交</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	</div>
+</div>
+{/block}
+{block name="script"}
+<link href="__PUBLIC__/summernote/summernote.css" rel="stylesheet">
+<script src="__PUBLIC__/summernote/summernote.js"></script>
+<script src="__PUBLIC__/summernote/lang/summernote-zh-CN.js"></script>
+<script>
+!function($){
+
+	$('#content').summernote({
+		height: '300px',
+		lang:'zh-CN',
+		callbacks: {
+			onImageUpload: function (file) {
+				var formData = new FormData();
+	            formData.append("file", file[0]);
+	            $.ajax({
+	                url: "{:url('index/upload')}",
+	                data: formData,
+	                cache: false,
+	                contentType: false,
+	                processData: false,
+	                type: 'POST',
+	                success: function (data) {
+	                	data = "__PUBLIC__/" + data;
+	                    $('#content').summernote('insertImage', data);
+	                },
+	                error: function () {
+                        console.info('上传失败');
+                    } 
+	            });
+			}
+		}
+	});
+
+
+    $("#formAdd").validate({
+        rules: {
+            title: "required",
+            content: "required",
+        },
+        messages: {
+            title:  "请输入名称",
+            content: "请填写文档内容"
+        }, 
+    });
+
+
+    $('#type').on('change',function(){
+    	let type = $(this).val();
+    	$.ajax({
+            url: "{:url('help/getpids')}",
+            data: {"type":type},
+            type: 'POST',
+            dataType: 'json',
+            success: function (data) {
+            	data = JSON.parse(data);
+            	let i, html='<option value="0">---顶级---</option>';
+            	for( i in data ){
+            		html += '<option value="'+data[i].id+'">'+data[i].title+'</option>'
+            	}
+            	$('#pid').html(html);
+            }
+        });
+    })
+
+
+}(jQuery);
+
+</script>
+{/block}

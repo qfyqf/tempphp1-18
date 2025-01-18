@@ -1,0 +1,83 @@
+{extend name="public/base" /}
+
+{block name="body"}
+<div id="core">
+	{include file="public/nav" /} 
+	<div id="right">
+		<div id="rightc">
+	
+			<div class="bar">
+				{include file="public/title" /}
+
+				<div class="bar">
+					<div class="barleft">
+						<a class="btn btn-primary" href="{:url('ClassesAndStudents/addStudent')}" ><span class="glyphicon glyphicon-plus"></span>添加学生</a>
+					</div>
+					<div class="search">
+						<form class="form-inline" action="{:url('ClassesAndStudents/myStudents')}" method="get">
+							<button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+
+							<div class="form-group">
+								<label>学生姓名</label>
+								<input type="text" class="form-control" name="student_name" value="{$search['student_name']}" placeholder="在此输入要搜索的学生名称">
+							</div>
+							<div class="form-group">
+								<label>选择班级</label>
+								<select class="form-control" name="class_id">
+									<option value="0">--不限班级--</option>
+									{foreach $classList as $vo }
+									<option value="{$vo.id}" {if condition="($search['class_id'] == $vo.id)"} selected {/if}> {$vo.className} </option>
+									{/foreach}
+
+								</select>
+							</div>
+						</form>
+					</div>
+				</div>
+
+			</div>
+		
+			<table class="table">
+				<tr class="th">
+					<th></th>
+					<th>编号</th>
+					<th>姓名</th>
+					<th>班级</th>
+					<th>性别</th>
+					<th>电话号码</th>
+					<th>操作</th>
+				</tr>
+				<?php if(!empty($students)):?>
+				<?php $i=1; foreach ($students as $v): ?>
+				<tr class="<?php echo $i%2 ?'':'ts'; ?>">
+					<td><input type="checkbox" name="choose[]" class="choose" id="choose-{$v.id}" value="{$v.id}"></td>
+					<td>{$v.sid}</td>
+					<td>{$v.name}</td>
+					<td>{$classes[$v['classID']]['className'] ?? '-'}</td>
+					<td><?php echo $v['sex'] ? '男':'女'; ?></td>
+					<td>{$v.phone}</td>
+					<td>
+						<a href="{:url('ClassesAndStudents/editStudent',['id'=>$v['id'], 'role'=>0])}" class="btn btn-primary btn-sm">修改信息</a>
+						<a href="{:url('ClassesAndStudents/updatePassword',['id'=>$v['id'], 'role'=>0])}" class="btn btn-primary btn-sm">修改密码</a>
+						<a href="{:url('ClassesAndStudents/electiveCourse',['student_id'=>$v['id'], 'role'=>0])}" class="btn btn-primary btn-sm">选课</a>
+					</td>
+				</tr>
+				<?php $i++; endforeach; ?>
+				<tr class="">
+					<th colspan="10" style="text-align: right;"><?php echo $students; ?> </th>
+				</tr>
+				<?php endif;?>
+			</table>
+		
+
+
+		</div>
+	</div>
+	
+</div>
+
+<script>
+$(function(){
+})
+</script>
+{/block}

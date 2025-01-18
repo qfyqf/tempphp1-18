@@ -1,0 +1,166 @@
+{extend name="public/base" /}
+{block name="body"}
+<div class="content">
+    {include file="public/nav" /}
+    <style>
+	h1 { text-align: center; line-height: 80px; font-size: 24px; }
+	table { width: 100%; border-collapse:collapse; }
+	th, td { border: 1px solid #666; padding: 15px 10px; text-align: center; }
+	#ksTable { background-color: #fff; width: 880px; overflow: hidden; margin: 20px auto; padding: 50px; }
+    </style>
+    <div class="right">
+		<div id="ksTable">
+			<h1>实验结果-<?php echo $item['sname']; ?></h1>
+			<table>
+				<tr>
+					<th>实验名称</th>
+					<td colspan="4"><?php echo $item['ename']; ?></td>
+				</tr>
+				<tr>
+					<th>学生姓名</th>
+					<td colspan="4"><?php echo $item['sname']; ?></td>
+				</tr>
+				<tr>
+					<th>实验时间</th>
+					<td colspan="4"><?php echo $item['create_time']; ?></td>
+				</tr>
+
+				<?php if(isset($data['训练模式探索'])): ?>
+				<tr>
+					<th>知识点探索</th>
+					<th>题号</th>
+					<th>题目内容</th>
+					<th>对错</th>
+					<th>分数</th>
+				</tr>
+				<tr>
+					<td rowspan="2">知识点探索</td>
+					<td><?php echo $data['训练模式探索']['info']['questionNum']; ?></td>
+					<td style="text-align: left;"><?php echo $data['训练模式探索']['info']['questionContent']; ?></td>
+					<td><?php echo $data['训练模式探索']['info']['isRight'] ? '错误' : '正确'; ?></td>
+					<td><?php echo $data['训练模式探索']['info']['isRight'] ? 0 : $data['训练模式探索']['grade'] ; ?></td>
+				</tr>
+
+				<tr>
+					<td colspan="3">总分</td>
+					<td><?php echo $data['训练模式探索']['grade']; ?>/100</td>
+				</tr>
+
+				<?php endif; ?>
+				
+
+				<?php if(isset($data['实战模式'])): ?>
+				<tr>
+					<th rowspan="<?php echo count($data['实战模式'])+2; ?>">实战模式</th>
+					<th>题号</th>
+					<th>题目内容</th>
+					<th>对错</th>
+					<th>分数</th>
+				</tr>
+				<?php $total1 = 0; foreach($data['实战模式'] as $v): ?>
+				<tr>
+					<td><?php echo $v['info']['questionNum']; ?></td>
+
+					<td style="text-align: left;">
+					<?php 
+						echo str_replace('|', '<br><span style="color:#a21b0c;">答：', $v['info']['questionContent']); 
+						if (strpos($v['info']['questionContent'], '|') !== FALSE)
+							echo '</span>';
+					?>
+					</td>
+					<td><?php echo $v['info']['isRight'] ? '错误' : '正确'; ?></td>
+					<td><?php echo $v['info']['isRight'] ?  0 : $v['grade']; ?></td>
+					</tr>
+				<?php
+					if (!$v['info']['isRight'])
+						$total1 += $v['grade'];
+					endforeach;
+				?>
+
+				<tr>
+					<td colspan="3">总分</td>
+					<td><?php echo round($total1/4.55); ?>/100</td>
+				</tr>
+				<?php endif; ?>
+	
+				<?php if(isset($data['知识点考核模式'])): ?>
+				<tr>
+					<th rowspan="<?php echo count($data['知识点考核模式'])+2; ?>">知识点考核模式</th>
+					<th>题号</th>
+					<th>题目内容</th>
+					<th>对错</th>
+					<th>分数</th>
+				</tr>
+				<?php  $total = 0; foreach($data['知识点考核模式'] as $v): ?>
+				<tr>
+					<td><?php echo $v['info']['questionNum']; ?></td>
+					<td style="text-align: left;"><?php echo $v['info']['questionContent']; ?></td>
+					<td><?php echo $v['info']['isRight'] ? '错误' : '正确'; ?></td>
+					<td><?php echo $v['info']['isRight'] ? 0 : $v['grade'] ; ?></td>
+				</tr>
+				<?php
+				if (!$v['info']['isRight'])
+					$total += $v['grade'];
+				endforeach;
+	
+				?>
+				<tr>
+					<td colspan="3">总分</td>
+					<td><?php echo $total; ?>/100</td>
+				</tr>
+
+				<?php endif; ?>
+				
+			</table>
+
+			<h1>实验报告</h1>
+
+			<div>
+				<?php if(empty($item_eno['word'])): ?>
+				<form action="{:url('experiment/dat_item')}" id="formAdd" method="post">
+					<input type="hidden" name="eno" value="<?php echo $item_eno['eno']; ?>">
+					<textarea id="summernote" name="word" rows="10" cols="30">
+					{$item_eno.word}
+					</textarea>
+					<script>
+	                        $(document).ready(function() {
+	                            // onImageUpload callback
+	                            $('#summernote').summernote({
+	                                height: '300px',
+	                                callbacks: {
+	                                    onImageUpload: function (files) {
+	                                        //上传图片到服务器
+	                                        var formData = new FormData();
+	                                        formData.append('file', files[0]);
+	                                        $.ajax({
+	                                            url: "{:url('student/experiment/upload')}",//后台文件上传接口
+	                                            type: "POST",
+	                                            data: formData,
+	                                            processData: false,
+	                                            contentType: false,
+	                                            success: function (path) {
+	                                                path = '__PUBLIC__/' + path;
+	                                                $('#summernote').summernote('insertImage', path);
+	                                            },
+	                                            error: function () {
+	                                                alert("上传失败");
+	                                            }
+	                                        });
+	                                    }
+	                                }
+	                            });
+	                        });
+	                </script>
+	                <div class="form-group">
+						<button class="btn btn-block btn-primary" type="submit" onclick="return confirm('提交后不可以修改，确认提交吗？')">提交</button>
+	                </div>
+                </form>
+           	 	<?php else: ?>
+           	 	<div>{$item_eno.word}</div>
+           	 	<?php endif; ?>
+			</div>
+		</div>
+        {include file="public/footer" /}
+    </div>
+</div>
+{/block}

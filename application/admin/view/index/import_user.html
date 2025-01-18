@@ -1,0 +1,91 @@
+{extend name="public/base" /}
+
+{block name="body"}
+<div id="core">
+	{include file="public/nav" /}
+	<div id="right"><div id="rightc">
+		{include file="public/title" /}
+		<form action="{:url('index/import_user')}" id="formAdd" enctype="multipart/form-data" method="post">
+			<div class="row">
+				<div class="col-sm-2 iname"></div>
+				<div class="col-sm-4 form-group"><input type="file" name="resource" id="resource" ></div>
+				<div class="col-sm-2 iname"><button type="submit" class="btn btn-block btn-success">确认导入</button></div>
+			</div>
+		</form>
+		<hr>
+		<div>
+			<p style="text-align: center;">导入表格格式如下所示：<br>（班级必须是已经存在的班级名称，如果不存在，请先在 “<a href="{:url('index/classinfo')}">班级管理</a>” 里添加班级）</p>
+			<!-- <img src="__PUBLIC__/static/image/用户导入表格示例.jpg" style="display: block; margin: 10px auto;"> -->
+
+			<div style="width:600px; overflow: hidden; margin:20px auto;">
+				<table style="width:100%;" border="1">
+					<tr>
+						<th>类型</th>
+						<th>编号</th>
+						<th>姓名</th>
+						<th>账号</th>
+						<th>密码</th>
+						<th>班级</th>
+						<th>性别</th>
+					</tr>
+					<tr>
+						<td>学生</td>
+						<td>2019924001</td>
+						<td>张三</td>
+						<td>zhangsan</td>
+						<td>123456</td>
+						<td>经管1班</td>
+						<td>男</td>
+					</tr>
+					<tr>
+						<td>老师</td>
+						<td>2019001001</td>
+						<td>李四</td>
+						<td>lisi</td>
+						<td>123456</td>
+						<td>经管1班</td>
+						<td>男</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<hr>
+		<p style="text-align: center;"><a href="/excel/学生账号导入模板.xlsx">点击下载“学生账号导入模板”</a></p>
+		<p style="text-align: center;"><a href="/excel/老师账号导入模板.xlsx">点击下载“老师账号导入模板”</a></p>
+	</div></div>
+</div>
+{/block}
+{block name="script"}
+<link href="__PUBLIC__/summernote/summernote.css" rel="stylesheet">
+<script src="__PUBLIC__/summernote/summernote.js"></script>
+<script src="__PUBLIC__/summernote/lang/summernote-zh-CN.js"></script>
+<script>
+!function($){
+	$('#formAdd').bind('submit',function(){
+		var res = $('#resource').val();
+		if (res) {
+			return true;
+		}else{
+			alert('请选择资源文件')
+			return false;
+		}
+	})
+
+    $('#resource').change(function(){
+    	var res = $(this).val();
+    	if (res=='')
+    		alert('请选择资源文件');
+
+
+		if (!/\.(xls|xlsx)$/.test(res)) {    
+            alert("文档类型必须是xls,xlsx中的一种");    
+            $(this).val("");   
+        }
+    	
+    	    
+    })
+
+}(jQuery);
+
+</script>
+{/block}

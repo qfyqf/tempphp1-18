@@ -1,0 +1,90 @@
+{extend name="public/base" /}
+
+{block name="body"}
+<div id="core">
+	{include file="public/nav" /}
+	<div id="right"><div id="rightc">
+		{include file="public/title" /}
+
+		<form action="{:url('user/upd')}" id="formUpdinfo" method="post">
+			<div class="row">
+				<div class="col-sm-2 iname"> <span class="glyphicon glyphicon-tag"></span> 账号</div>
+				<div class="col-sm-8 form-group"><input type="text" name="account" id="account" class="form-control" value="{$info.account}" disabled></div>
+			</div>
+			<div class="row">
+				<div class="col-sm-2 iname"> <span class="glyphicon glyphicon-user"></span> 姓名</div>
+				<div class="col-sm-8 form-group"><input type="text" name="name" id="name" class="form-control" value="{$info.name}"></div>
+			</div>
+
+			
+
+			<div class="row">
+				<div class="col-sm-2 iname"> <span class="glyphicon glyphicon-record"></span> 性别</div>
+				<div class="col-sm-8 form-group">
+					<select name="sex" id="sex" class="form-control">
+
+						<option value="1">男</option>
+						<option value="0" <?php if(!$info['sex']) echo 'selected'; ?>>女</option>
+
+					</select>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-2 iname"> <span class="glyphicon glyphicon-envelope"></span> 邮箱</div>
+				<div class="col-sm-8 form-group"><input type="text" name="email" id="email" class="form-control" value="{$info.email}"></div>
+			</div>
+			<div class="row">
+				<div class="col-sm-2 iname"> <span class="glyphicon glyphicon-earphone"></span> 电话</div>
+				<div class="col-sm-8 form-group"><input type="text" name="phone" id="phone" class="form-control" value="{$info.phone}"></div>
+			</div>
+			<div class="row">
+				<div class="col-sm-2 iname"> <span class="glyphicon glyphicon-cutlery"></span> 生日</div>
+				<div class="col-sm-8 form-group"><input type="date" name="birthday" id="birthday" class="form-control" value="{$info.birthday}"></div>
+			</div>
+			<div class="row">
+				<div class="col-sm-2 iname"> <span class="glyphicon glyphicon-education"></span> 职称</div>
+				<div class="col-sm-8 form-group"><input type="text" name="degree" id="degree" class="form-control" value="{$info.degree}"></div>
+			</div>
+			<div class="row">
+				<div class="col-sm-2 iname"> <span class="glyphicon glyphicon-home"></span> 主页</div>
+				<div class="col-sm-8 form-group"><input type="text" name="homepage" id="homepage" class="form-control" value="{$info.homepage}"></div>
+			</div>
+			<div class="row">
+				<div class="col-sm-2 iname"> <span class="glyphicon glyphicon-globe"></span> 地址</div>
+				<div class="col-sm-8 form-group"><input type="text" name="address" id="address" class="form-control" value="{$info.address}"></div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-2 iname"></div>
+				<div class="col-sm-8 form-group">
+					<button type="submit" class="btn btn-block btn-success">提交</button>
+				</div>
+			</div>
+
+
+		</form>
+	</div>
+	</div>
+</div>
+{/block}
+
+
+{block name="script"}
+<script>
+!function($){
+
+    $("#formUpdinfo").validate({
+        rules: {
+            name: "required",
+            account: "required"
+        },
+        messages: {
+            name:  "请输入名称",
+            account: "账号不能为空"
+        },  
+    });
+
+}(jQuery);
+
+</script>
+{/block}

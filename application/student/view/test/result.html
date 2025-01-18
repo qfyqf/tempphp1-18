@@ -1,0 +1,109 @@
+{extend name="public/base" /}
+{block name="body"}
+<div class="content">
+    <div class="test">
+
+        <div class="test-info">
+            <div class="test-title"><h3>{$paper.name}</h3></div>
+            <div class="info">
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                试卷满分为：{$paper.total_credit}&nbsp;&nbsp;&nbsp;&nbsp;
+                考试时间为：<div id="duration">{$paper.duration}</div>分钟&nbsp;&nbsp;&nbsp;&nbsp;
+                测试日期为：{$paper.start_time} 至 {$paper.end_time}
+                <h4>考生：{$paper.sname}&nbsp;&nbsp;&nbsp;&nbsp;本次试卷成绩为：{$paper.grade}</h4>
+            </div>
+        </div>
+
+        <div class="line"></div>
+
+        <div class="paper">
+            <div class="paper-info">
+                {foreach name="subject" item="info" key="type"}
+                    {if($type == 1)}
+                    <div class="paper-title"><h4>一、单选题（请选择正确答案，共计{$info|count}个小题）</h4></div>
+                    <div class="subject">
+                        {foreach name="$info" item="single" key="key"}
+                        <div class="subject-title">{$key+1}、（{$single.credit}分）{$single.content}</div>
+                        <div class="subject-info">
+                            {foreach name="single.options" item="vo" key="k"}
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="s{$single.id}"  value="{$k}">
+                                    {$k}、{$vo}
+                                </label>
+                            </div>
+                            {/foreach}
+                            <div class="answer">正确答案为：{$single.answer}</div>
+                            {if(empty($paper.answer))}
+                            <p>未填写答案</p>
+                            {else /}
+                            <p>我的答案：{$paper.answer[$single.id]}</p>              
+                            {/if}
+                        </div>
+                        {/foreach}
+                        </div>
+                    {/if}
+                    {if($type == 2)}
+                    <div class="paper-title"><h4>二、多选题（请选择正确答案，少选和多选均不得分，共计{$info|count}个小题）</h4></div>
+                    <div class="subject">
+                        {foreach name="$info" item="single" key="key"}
+                        <div class="subject-title">{$key+1}、（{$single.credit}分）{$single.content}</div>
+                        <div class="subject-info">
+                            {foreach name="single.options" item="vo" key="k"}
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="m{$single.id}[]"  value="{$k}">
+                                    {$k}、{$vo}
+                                </label>
+                            </div>
+                            {/foreach}
+                            <div class="answer">正确答案为：{$single.answer|json_decode|implode=",",###}</div>
+                            {if(empty($paper.answer))}
+                            <p>未填写答案</p>
+                            {else /}
+                            <p>我的答案：{$paper.answer[$single.id]}</p>
+                            {/if}
+                        </div>
+                        {/foreach}
+                    </div>
+                    {/if}
+
+                    {if($type == 3)}
+                    <div class="paper-title"><h4>三、判断题（请选择正确答案，共计{$info|count}个小题）</h4></div>
+                    <div class="subject">
+                        {foreach name="$info" item="single" key="key"}
+                        <div class="subject-title">{$key+1}、（{$single.credit}分）{$single.content}</div>
+                        <div class="subject-info">
+
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="s{$single.id}"  value="1"> 正确
+                                </label>
+                                <label>
+                                    <input type="radio" name="s{$single.id}"  value="0"> 错误
+                                </label>
+                            </div>
+
+                            <div class="answer">正确答案为：<?php echo $single['answer'] ? '√':'x'; ?></div>
+                            {if(empty($paper.answer))}
+                            <p>未填写答案</p>
+                            {else /}
+                            <p>我的答案：<?php echo $paper['answer'][$single['id']] ? '√':'x'; ?></p>              
+                            {/if}
+                        </div>
+                        {/foreach}
+                    </div>
+                    {/if}
+
+                {/foreach}
+            </div>
+        </div>
+        <div class="paper-footer">
+            <a href="{:url('test/index')}"><button type="button" class="btn btn-info">返回</button></a>
+        </div>
+    </div>
+    <div class="test-footer">
+        <div id="copyright">建设单位：XX大学&nbsp;&nbsp;&nbsp;&nbsp;合作公司：武汉全乐科技有限公司&nbsp;&nbsp;&nbsp;&nbsp;Copyright©2018-2019 - AllHappy All Right Reserved</div>
+    </div>
+</div>
+{/block}

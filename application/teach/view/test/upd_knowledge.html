@@ -1,0 +1,97 @@
+{extend name="public/base" /}
+
+{block name="body"}
+<div id="core">
+	{include file="public/nav" /}
+	<div id="right"><div id="rightc">
+		<div class="form-title">
+			修改知识点-{$item.name}
+		</div>
+		<hr>
+		<form action="{:url('test/upd_knowledge')}" id="formAddKnowledge" method="post">
+			<input type="hidden" name="id" value="{$item.id}">
+			<div class="row">
+				<div class="col-sm-2 iname">知识点名称</div>
+				<div class="col-sm-8 form-group"><input type="text" name="name" id="name" class="form-control" value="{$item.name}"></div>
+			</div>
+			
+
+			<div class="row">
+				<div class="col-sm-2 iname">所属课程</div>
+				<div class="col-sm-8 form-group">
+					<select name="course_id" id="course_id" class="form-control">
+						{volist name="course_list" id="vo"}
+						<option value="{$vo.id}" {php} if($item['course_id']==$vo['id']) echo 'selected'; {/php}>{$vo.year}-{$vo.year+1}学年 第{$vo.term}学期 {$vo.name}</option>
+						{/volist}
+					</select>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-2 iname">知识点详情</div>
+				<div class="col-sm-8 form-group">
+					<textarea name="content" id="content" cols="30" rows="10" class="form-control">{$item.content}</textarea>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-2 iname"></div>
+				<div class="col-sm-8 form-group">
+					<button type="submit" class="btn btn-block btn-success">提交</button>
+				</div>
+			</div>
+
+
+		</form>
+
+
+
+		
+
+
+
+
+	</div>
+	</div>
+</div>
+{/block}
+{block name="script"}
+<script>
+!function($){
+	$("#course_search").on('change',function(){
+        var tid = <?php echo $info['id']; ?>;
+        var sk = $(this).val();
+        $.get({
+            url: "<?php echo url('course/getCourseList'); ?>?tid="+tid+"&sk="+sk, 
+            type: 'json',
+            success: function(dat){
+            	if (dat) {
+            		var data = $.parseJSON( dat );
+	                var html = '<option value="">--选择所属课程--</option>';
+	                for (var i in data) {
+	                    html += '<option value="'+data[i].id+'">'+data[i].year+'-'+(data[i].year+1)+'学年 第'+data[i].term+'学期 '+data[i].name+'</option>';
+	                }
+	                $('#course_id').html(html);
+                }
+            }
+        });
+    });
+
+
+    $("#formAddKnowledge").validate({
+        rules: {
+            name: "required",
+            content: "required",
+            course_id: "required"
+        },
+        messages: {
+            name:  "请输入名称",
+            content: "请填写详情",
+            course_id: "请选择课程"
+        },  
+    });
+
+}(jQuery);
+
+</script>
+{/block}

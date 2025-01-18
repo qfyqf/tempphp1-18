@@ -1,0 +1,60 @@
+{extend name="public/base" /}
+
+{block name="body"}
+<div id="core">
+	{include file="public/nav" /}
+	<div id="right"><div id="rightc">
+	
+
+		<div class="bar">
+			<div class="barleft">
+
+			</div>
+			<div class="search">
+				<form class="form-inline">
+					<button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+					<div class="form-group">
+						<input type="text" class="form-control" id="name" placeholder="名称">
+					</div>
+				</form>
+			</div>
+		</div>
+
+
+
+		<table class="table">
+			<tr class="th">
+				<th></th>
+				<th>设备</th>
+				<th>学生</th>
+				<th>借出时间</th>
+				<th>计划归还</th>
+				<th>状态</th>
+				<th>操作</th>
+			</tr>
+			<?php $i=1; foreach ($list as $v): ?>
+			<tr class="<?php echo $i%2 ?'':'ts'; ?>">
+				<td><input type="checkbox" name="choose[]" id="choose-{$v.id}" value="{$v.id}"></td>
+				<td>{$v.name}</td>
+				<td>{$v.sname}</td>
+				<td>{$v.lendingtime}</td>
+				<td>{$v.returntime}</td>
+				<td><?php echo $v['status']==2 ?'已归还':'未归还'; ?></td>
+				<td>
+					<?php if($v['status']==1): ?>
+						<a href="<?php echo url('equipment/reback',['id'=>$v['id']]); ?>" class="btn btn-primary btn-sm" onclick="return confirm('确定归还该设备了吗？')">确认归还</a>
+					<?php else: ?>
+						{$v.return_time} (归还时间)
+					<?php endif; ?>
+				</td>
+			</tr>
+			<?php $i++; endforeach; ?>
+			<tr class="ts">
+				<th colspan="10" style="text-align: right;"><?php echo $list;?> </th>
+			</tr>
+		</table>
+
+	</div>
+	</div>
+</div>
+{/block}

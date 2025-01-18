@@ -1,0 +1,23 @@
+<div class="info">
+    <div class="avatar">
+        <img src="__PUBLIC__/static/img/center.png">
+    </div>
+    <div class="name">{$Think.session.name} <br><span>（学生）</span></div>
+</div>
+<div class="bar">
+    <a href="{:url('index/getinfo')}">【个人信息】 </a>
+    <a href="{:url('index/logout')}"> 【退出】</a>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('.nav').click(function () {
+            if ($(this).siblings('ul').css('display') === 'none') {
+                $(this).siblings('ul').slideDown(100).children('li');
+                $(this).parents('li').siblings('li').children('ul').slideUp(100);
+            } else {
+                $(this).siblings('ul').slideUp(100);
+            }
+        })
+    })
+</script>

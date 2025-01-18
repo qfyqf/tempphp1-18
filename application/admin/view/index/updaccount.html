@@ -1,0 +1,115 @@
+{extend name="public/base" /}
+
+{block name="body"}
+<div id="core">
+	{include file="public/nav" /} 
+	<div id="right"><div id="rightc">
+		{include file="public/title" /}
+
+		<form action="{:url('index/updaccount')}" id="formUpdinfo" method="post">
+			<input type="hidden" name="id" value="{$item.id}">
+			<input type="hidden" name="role" value="{$roleid}">
+			<div class="row">
+				<div class="col-sm-2 iname"> <span class="glyphicon glyphicon-tag"></span> 账号</div>
+				<div class="col-sm-8 form-group"><input type="text" name="" id="" class="form-control" value="{$item.account}" disabled="disabled"></div>
+			</div>
+			<div class="row">
+				<div class="col-sm-2 iname"> <span class="glyphicon glyphicon-tag"></span> 角色</div>
+				<div class="col-sm-8 form-group"><input type="text" name="" id="" class="form-control" value="{$rolename}" disabled="disabled"></div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-2 iname"> <span class="glyphicon glyphicon-user"></span> 学号</div>
+				<div class="col-sm-8 form-group"><input type="text" name="sid" id="" class="form-control" value="{$item.sid}" ></div>
+			</div>
+			<div class="row">
+				<div class="col-sm-2 iname"> <span class="glyphicon glyphicon-user"></span> 姓名</div>
+				<div class="col-sm-8 form-group"><input type="text" name="name" id="" class="form-control" value="{$item.name}" ></div>
+			</div>
+			<hr>
+
+			<?php if($role<2):  ?>
+			<div class="row">
+				<div class="col-sm-2 iname"> 班级</div>
+				<div class="col-sm-8 form-group">
+					<select name="classID" id="" class="form-control">
+						<option value="">--选择班级--</option>
+						<?php foreach($classlist as $v): ?>
+						<option value="<?php echo $v['id']; ?>" <?php if($item['classID']==$v['id']) echo 'selected'; ?>><?php echo $v['className']; ?></option>
+						<?php endforeach; ?>
+		
+					</select>
+
+				</div>
+			</div>
+			<hr>
+			<?php endif; ?>
+			<div class="row">
+				<div class="col-sm-2 iname"> <span class="glyphicon glyphicon-record"></span> 性别</div>
+				<div class="col-sm-8 form-group">
+					<div class="radio" style="margin-top: 0;">
+						<label style="line-height: 30px;">
+							<input type="radio" name="sex" value="0" checked>
+							&nbsp; 女
+						</label>
+						&emsp; 
+						<label style="line-height: 30px;">
+							<input type="radio" name="sex" value="1" <?php if($item['sex']) echo 'checked'; ?>>
+							&nbsp; 男
+						</label>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-2 iname"> <span class="glyphicon glyphicon-envelope"></span> 邮箱</div>
+				<div class="col-sm-8 form-group"><input type="text" name="email" id="email" class="form-control" value="{$item.email}"></div>
+			</div>
+			<div class="row">
+				<div class="col-sm-2 iname"> <span class="glyphicon glyphicon-earphone"></span> 电话</div>
+				<div class="col-sm-8 form-group"><input type="text" name="phone" id="phone" class="form-control" value="{$item.phone}"></div>
+			</div>
+			<hr>
+			<div class="row">
+				<div class="col-sm-2 iname"> <span class="glyphicon glyphicon-cutlery"></span> 生日</div>
+				<div class="col-sm-8 form-group"><input type="text" name="birthday" id="birthday" class="form-control" value="{$item.birthday}"></div>
+			</div>
+			<div class="row">
+				<div class="col-sm-2 iname"> <span class="glyphicon glyphicon-education"></span> 职称</div>
+				<div class="col-sm-8 form-group"><input type="text" name="degree" id="degree" class="form-control" value="{$item.degree}"></div>
+			</div>
+			<div class="row">
+				<div class="col-sm-2 iname"> <span class="glyphicon glyphicon-home"></span> 主页</div>
+				<div class="col-sm-8 form-group"><input type="text" name="homepage" id="homepage" class="form-control" value="{$item.homepage}"></div>
+			</div>
+			<div class="row">
+				<div class="col-sm-2 iname"> <span class="glyphicon glyphicon-globe"></span> 地址</div>
+				<div class="col-sm-8 form-group"><input type="text" name="address" id="address" class="form-control" value="{$item.address}"></div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-2 iname"></div>
+				<div class="col-sm-8 form-group">
+					<button type="submit" class="btn btn-block btn-success">提交</button>
+				</div>
+			</div>
+
+
+		</form>
+
+
+
+
+	</div></div>
+	
+</div>
+<script src="__PUBLIC__/static/laydate/laydate.js"></script>
+<script>
+$(function(){
+	laydate.render({ 
+	  	elem: '#birthday',
+	  	type: 'date'
+	});
+
+})
+</script>
+{/block}

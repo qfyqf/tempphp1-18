@@ -1,0 +1,181 @@
+{extend name="public/base" /}
+{block name="body"}
+<div class="content">
+    <div class="experiment">
+        <div class="experiment-info">
+            <div class="experiment-title"><h3>{$info.name}</h3></div>
+            <div class="info">
+                实验日期为：{$info.start_time} 至 {$info.end_time}
+            </div>
+        </div>
+        <div class="line"></div>
+        <div id="hide" style="display: none">{$info.id}</div>
+        <div class="experiment-content">
+            <div class="experiment-group">
+                <div class="explain">实验类型:</div>
+                <div class="substance1">{$info.type}</div>
+            </div>
+            <div class="experiment-group">
+                <div class="explain">所属课程名称:</div>
+                <div class="substance1">{$info.cname}</div>
+            </div>
+            <div class="experiment-group">
+                <div class="explain">实验要求:</div>
+                <div class="substance">{$info.demand}</div>
+            </div>
+            <div class="hide"></div>
+            <div class="experiment-group">
+                <div class="explain">实验报告内容:</div>
+                <div class="substance">
+                    <textarea id="summernote" name="editordata" rows="10" cols="30">
+                                {if($info.rword)}
+                                {$info.rword}
+                                {else /}
+                                {$info.word}
+                                {/if}
+                    </textarea>
+                    {if($status == 1)}
+                    <script>
+                        $(document).ready(function() {
+                            // onImageUpload callback
+                            $('#summernote').summernote({
+                                height: '300px',
+                                callbacks: {
+                                    onImageUpload: function (files) {
+                                        //上传图片到服务器
+                                        var formData = new FormData();
+                                        formData.append('file', files[0]);
+                                        $.ajax({
+                                            url: "{:url('student/experiment/upload')}",//后台文件上传接口
+                                            type: "POST",
+                                            data: formData,
+                                            processData: false,
+                                            contentType: false,
+                                            success: function (path) {
+                                                path = '__PUBLIC__/' + path;
+                                                $('#summernote').summernote('insertImage', path);
+                                            },
+                                            error: function () {
+                                                alert("上传失败");
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+                            var start = new Date();
+                            $('#submit').click(function () {
+                                f(start, $);
+                                start = new Date();
+                            });
+                            /*避免关闭页面时损失时间 */
+                            $(window).on('unload', function(){
+                                f(start, $);
+                            });
+                        })
+                        function f(start,$) {
+                            var end = new Date();
+                            var times = end.getTime() - start.getTime();
+                            var editor = $('#summernote').summernote('code');
+                            var id = document.getElementById('hide').innerHTML;
+                            $.ajax({
+                                //TODO 保存耗时
+                                url: "__PUBLIC__/student/experiment/save",
+                                type: "POST",
+                                data: {
+                                    editor: editor,
+                                    time: times,
+                                    id: id
+                                },
+                                success: function (message) {
+                                    alert('成功');
+                                    window.location.href="{:url('experiment/index')}";
+                                },
+                                error:function(){
+                                    alert("失败");
+                                }
+                            })
+                        }
+                    </script>
+                    {else /}
+                    <script>
+                        $(document).ready(function() {
+                            // onImageUpload callback
+                            $('#summernote').summernote({
+                                height: '300px',
+                            });
+                        })
+                    </script>
+                    {/if}
+                </div>
+            </div>
+            <div class="experiment-group">
+                <div class="explain">实验操作平台:</div>
+                <div class="substance1">
+                    <button class="btn btn-primary" id="start" data-toggle="modal" data-target="#showlab"><span class="glyphicon glyphicon-play"></span>&nbsp;开始实验</button>
+                    <div style="font-size: 15px;color: red">注：实验前请先熟悉实验要求后开始实验。</div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="showlab" tabindex="-1" role="dialog">
+                <div class="modal-dialog modal-lg" style="width: 1300px;height: 800px;" role="document">
+                    <div class="modal-content">
+                        <iframe src="{$info.experiment}" class="showlab" width="1300px" height="800px" frameborder="0"></iframe>
+                    </div>
+                </div>
+            </div>
+            <div class="experiment-group">
+                <div class="explain">实验用时:</div>
+                <div class="substance1" id="duration1">{$info.duration}</div>
+                <script>
+                    var a = self.setInterval(myTime,1000);
+                    var time = document.getElementById('duration1').innerHTML;
+                    ms = time % 1000;
+                    if (ms < 1000) {
+                        ms = 0;
+                    }
+                    s = Math.floor(time / 1000 % 60);
+                    m = Math.floor(time / 1000 / 60 % 60);
+                    h = Math.floor(time / 1000 / 60 / 60);
+                    str =toDub(h) + "时" + toDub(m) + "分" + toDub(s) + "秒";
+                    duration = document.getElementById('duration1');
+                    duration.innerHTML = str;
+                    function myTime() {
+                        ms = ms + 1000;         //毫秒
+                        if (ms >=1000) {
+                            ms = 0;
+                            s = s + 1;         //秒
+                        }
+                        if (s >= 60) {
+                            s = 0;
+                            m = m + 1;        //分钟
+                        }
+                        if (m >= 60) {
+                            m = 0;
+                            h = h + 1;
+                        }
+                        str =toDub(h) + "时" + toDub(m) + "分" + toDub(s) + "秒";
+                        duration = document.getElementById('duration1');
+                        duration.innerHTML = str;
+                    }
+                    function toDub(n) {
+                        if (n < 10) {
+                            return "0" + n;
+                        } else {
+                            return "" + n;
+                        }
+                    }
+                </script>
+            </div>
+        </div>
+        <div class="experiment-footer">
+            {if($status == 1)}
+            <button class="btn btn-primary" id="submit">提交</button>
+            {/if}
+            <a href="{:url('experiment/index')}"><button type="button" class="btn btn-info">取消</button></a>
+        </div>
+    </div>
+    <div class="test-footer">
+        <div id="copyright">建设单位：XX大学&nbsp;&nbsp;&nbsp;&nbsp;合作公司：武汉全乐科技有限公司&nbsp;&nbsp;&nbsp;&nbsp;Copyright©2018-2019 - AllHappy All Right Reserved</div>
+    </div>
+</div>
+{/block}

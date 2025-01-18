@@ -1,0 +1,99 @@
+{extend name="public/base" /}
+
+{block name="body"}
+<div id="core">
+	{include file="public/nav" /}
+
+	<div id="right"><div id="rightc">
+		<div class="bar">
+			<div class="barleft">
+			</div>
+			<div class="search">
+				<form>
+					<div class="form-group">
+						<button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+						<div class="form-group">
+							<input type="text" class="form-control" name="name" id="name" value="<?php if(input('?get.name')) echo input('get.name'); ?>" placeholder="快照（标题）">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<select name="ty" class="form-control">
+							<option value="">--选择题型--</option>
+							<option value="1" <?php if(input('?get.ty') && input('get.ty')==1) echo 'selected'; ?>>单选</option>
+							<option value="2" <?php if(input('?get.ty') && input('get.ty')==2) echo 'selected'; ?>>多选</option>
+							<option value="3" <?php if(input('?get.ty') && input('get.ty')==3) echo 'selected'; ?>>判断</option>
+						</select>
+					</div>
+
+
+					<div class="form-group">
+						<select name="co" class="form-control">
+							<option value="">--选择课程--</option>
+
+							<?php foreach($course_list as $v): ?>
+							<option value="{$v.id}" <?php if(input('?get.co') && input('get.co')==$v['id']) echo 'selected'; ?>>{$v.name}</option>
+							<?php endforeach; ?>
+						</select>
+					</div>
+				</form>
+			</div>
+		</div>
+		<table class="table">
+			<tr class="th">
+				<th></th>
+				<th>所属课程</th>
+				<!-- <th>所属实验</th> -->
+				<th>习题快照</th>
+				<th>题型</th>
+				<th>难易程度</th>
+				<th>操作</th>
+			</tr>
+			<?php $i=1; foreach ($list as $v): ?>
+			<tr class="<?php echo $i%2 ?'':'ts'; ?>">
+				<td><input type="checkbox" name="choose[]" id="choose-{$v.id}" value="{$v.id}"></td>
+				<td>{$v.cname}</td>
+				<!-- <td>{$v.ename}</td> -->
+				<td>{$v.title}</td>
+				<td>
+				<?php 
+					switch ($v['type']) {
+						case 1: echo '单选';	break;
+						case 2: echo '多选';	break;
+						case 3: echo '判断';	break;
+						default:				break;
+					}
+				?>
+				</td>
+				<td>
+				<?php 
+					switch ($v['difficult']) {
+						case 1: echo '易';		break;
+						case 2: echo '中等';	break;
+						case 3: echo '难';		break;
+						case 4: echo '非常难';	break;
+						default:				break;
+					}
+				?>
+				</td>
+				<td>
+					<a href="{:url('test/upd_praxis',['id'=>$v['id']])}" class="btn btn-xs btn-default">查看/修改</a>
+
+				</td>
+			</tr>
+			<?php $i++; endforeach; ?>
+			<tr class="ts">
+				<th colspan="10" style="text-align: right;"><?php echo $list;?> </th>
+			</tr>
+		</table>
+
+
+		
+
+
+
+
+	</div>
+	</div>
+</div>
+{/block}

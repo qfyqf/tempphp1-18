@@ -1,0 +1,68 @@
+{extend name="public/base" /}
+
+{block name="body"}
+<div id="core">
+	{include file="public/nav" /}
+	<div id="right"><div id="rightc">
+		{include file="public/title" /}
+		
+		<table class="table table-hover">
+			<tr>
+				<td> <span class="glyphicon glyphicon-user"></span> 姓名</td>
+				<td>{$info['name']}</td>
+			</tr>
+			<tr>
+				<td> <span class="glyphicon glyphicon-record"></span> 姓別</td>
+				<td>{:$info['sex'] ? '男':'女'}</td>
+			</tr>
+			<tr>
+				<td> <span class="glyphicon glyphicon-star"></span> 编号</td>
+				<td>{$info['sid']}</td>
+			</tr>
+			<tr>
+				<td> <span class="glyphicon glyphicon-star"></span> 班级</td>
+				<td>{$info['className']}</td>
+			</tr>
+			<tr>
+				<td> <span class="glyphicon glyphicon-tag"></span> 账号</td>
+				<td>{$info['account']}</td>
+			</tr>
+			<tr>
+				<td> <span class="glyphicon glyphicon-envelope"></span> 邮箱</td>
+				<td>{$info['email']}</td>
+			</tr>
+			<tr>
+				<td> <span class="glyphicon glyphicon-earphone"></span> 电话</td>
+				<td>{$info['phone']}</td>
+			</tr>
+			<tr>
+				<td> <span class="glyphicon glyphicon-cutlery"></span> 生日</td>
+				<td>{$info['birthday']}</td>
+			</tr>
+			<tr>
+				<td> <span class="glyphicon glyphicon-education"></span> 职称</td>
+				<td>{$info['degree']}</td>
+			</tr>
+			<tr>
+				<td> <span class="glyphicon glyphicon-home"></span> 主页</td>
+				<td>{$info['homepage']}</td>
+			</tr>
+			<tr>
+				<td> <span class="glyphicon glyphicon-globe"></span> 地址</td>
+				<td>{$info['address']}</td>
+			</tr>
+
+		</table>
+		
+
+
+
+		
+
+
+
+
+	</div>
+	</div>
+</div>
+{/block}

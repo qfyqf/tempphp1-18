@@ -1,0 +1,68 @@
+{extend name="public/base" /}
+{block name="body"}
+<div class="content">
+    {include file="public/nav" /}
+        <div class="right">
+            <div style="width: 100%; height: 80px; position: relative; border-bottom: 1px solid #efefef; margin-bottom: 20px;margin-top: 30px;">
+                <div style="width: 200px; height: 50px; margin: 10px auto 30px; border: 2px solid #67a7e8; border-radius: 7px; position: relative;">
+                    <div style="width: 60%; height: 30px; margin: -15px auto 0; line-height: 30px; background: #FFF; text-align: center; font-size: 16px; ">设备借出</div>
+                    <div style="text-align: center; color: #aaa;">Equipment Lend</div>
+                </div>
+            </div>
+            <div class="equipment">
+                <form action="{:url('equipment/lend')}" id="formLend" method="post">
+                    <div class="row">
+                        <div class="col-sm-2 iname">选择设备</div>
+                        <div class="col-sm-8 form-group">
+                            <input type="text" name="" id="equip_search" class="form-control">
+                            <select name="equipment_id[]" id="equipment_id" class="form-control" multiple="multiple" style="height: 100px;" aria-invalid="true">
+                                {volist name="info" id="vo"}
+                                <option value="{$vo.id}">{$vo.name}</option>
+                                {/volist}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2 iname">归还时间</div>
+                        <div class="col-sm-8 form-group"><input type="text" name="returntime" id="returntime" class="form-control"></div>
+                    </div>
+                    <script>
+                        //时间选择器
+                        laydate.render({
+                            elem: '#returntime'
+                            ,type: 'datetime'
+                        });
+
+                        $("#formLend").validate({
+                            rules: {
+                                equipment_id: "required",
+                                returntime: "required",
+                                reason: "required",
+                            },
+                            messages: {
+                                equipment_id:  "请选择借出设备",
+                                returntime:  "请填写归还时间",
+                                reason: "请填写借出原因",
+                            },
+                        });
+                    </script>
+
+                    <div class="row">
+                        <div class="col-sm-2 iname">借出原因</div>
+                        <div class="col-sm-8 form-group">
+                            <textarea name="reason" id="reason" cols="30" rows="5" class="form-control"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-2 iname"></div>
+                        <div class="col-sm-8 form-group">
+                            <button type="submit" class="btn btn-block btn-primary">提交</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            {include file="public/footer"}
+        </div>
+</div>
+{/block}

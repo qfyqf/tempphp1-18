@@ -1,0 +1,46 @@
+<div id="header">
+    <div class="header">
+        <div class="logo">
+            <img src="__PUBLIC__/static/image/logo_name.png" alt="">
+        </div>
+        <div class="title"></div>
+        <div class="nowTime" id="nowTime"></div>
+        <script>
+
+            var nowTime = new Date();
+            var year = nowTime.getFullYear();
+            var month = nowTime.getMonth() + 1;
+            var date = nowTime.getDate();
+            var day = nowTime.getDay();
+            var h = nowTime.getHours();
+            var m = nowTime.getMinutes();
+            var s = nowTime.getSeconds();
+
+            document.getElementById("nowTime").innerHTML = year + "-" + toDub(month) + "-" + toDub(date) + " "
+                + toDub(h) + ":" + toDub(m) + ":" + toDub(s);
+
+            function myTime() {
+                var nowTime = new Date();
+                var year = nowTime.getFullYear();
+                var month = nowTime.getMonth() + 1;
+                var date = nowTime.getDate();
+                var day = nowTime.getDay();
+                var h = nowTime.getHours();
+                var m = nowTime.getMinutes();
+                var s = nowTime.getSeconds();
+
+                document.getElementById("nowTime").innerHTML = year + "-" + toDub(month) + "-" + toDub(date) + " "
+                    + toDub(h) + ":" + toDub(m) + ":" + toDub(s);
+            }
+
+            var a = self.setInterval(myTime,1000);
+            function toDub(n) {
+                if (n < 10) {
+                    return "0" + n;
+                } else {
+                    return "" + n;
+                }
+            }
+        </script>
+    </div>
+</div>

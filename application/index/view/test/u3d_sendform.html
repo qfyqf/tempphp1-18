@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>提交答案</title>
+	<style>
+		* { margin:0; padding: 0; }
+		form { display: block; width: 100%; overflow: hidden; height: auto; position: relative; }
+		textarea { display: block; border:1px solid #4ec8d7; margin: 5px; border-radius: 5px; resize:none; font-size: 16px; line-height: 26px; }
+		button { width: 98%;  border: 0; background: #3ebbd2; color: #FFF; text-align: center; height: 40px; line-height: 40px; border-right: 5px; cursor: pointer; position: absolute; bottom: 10px; left: 10px; right: 10px; }
+	</style>
+	<script src="__PUBLIC__/static/js/jquery.min.js"></script>
+	<script>
+	$(function(){
+		var wBody = $(window).innerWidth();
+		var hBody = $(window).innerHeight();
+		console.info('body w:'+wBody);
+		console.info('body h:'+hBody);
+		$('textarea').css({
+			width: (wBody-12)+'px',
+			height: (hBody-12)+'px'
+		});
+
+		$('button').css('width',(wBody-22)+'px');
+	})
+	</script>
+</head>
+<body>
+	<form action="" method="post">
+
+			<textarea name="content"></textarea>
+
+			<button type="submit">确定</button>
+
+	</form>
+</body>
+</html>

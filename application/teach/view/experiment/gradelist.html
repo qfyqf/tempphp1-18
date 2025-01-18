@@ -1,0 +1,82 @@
+{extend name="public/base" /}
+
+{block name="body"}
+<script type="text/javascript">
+    function download_excel(){
+        var chk_value =[];//定义一个数组
+        var student_ids='';
+        $('input[name="choose[]"]:checked').each(function(){
+            chk_value.push($(this).val());
+        });
+        if(chk_value.length > 0){
+            student_ids = chk_value.join(",");
+            var url="/teach/experiment/download_excel/student_ids/"+student_ids+'.html';
+        }else{
+            var url="/teach/experiment/download_excel.html";
+        }
+
+        window.open(url);
+    }
+</script>
+<div id="core">
+    {include file="public/nav" /}
+    <div id="right"><div id="rightc">
+        <div class="bar">
+            <div class="barleft">
+                <a class="btn btn-default" href="javascript:void(0)" onclick="download_excel()"><span class="glyphicon glyphicon-download-alt"></span> 导出</a>
+            </div>
+            <div class="search" style="text-align: right;">
+                <!-- <form class="form-inline">
+                    <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="ss" value="<?php if(isset($ss)) echo $ss; ?>" placeholder="名称">
+                    </div>
+                </form> -->
+                <a href="__PUBLIC__/home/2016级危机沟通虚拟仿真成绩.xls" target="_blank">点击下载：2016级危机沟通虚拟仿真成绩.xls</a>
+            </div>
+        </div>
+
+
+
+        <table class="table">
+            <tr class="th">
+                <th>序号</th>
+                <th>学生</th>
+                <th>班级</th>
+                <th>学号</th>
+                <th>知识点探索100分</th>
+                <th>实战模式100分</th>
+                <th>知识点考核100分</th>
+                <th>实验报告100分</th>
+                <th>综合得分</th>
+            </tr>
+            <?php $i=1; foreach ($data as $v): ?>
+            <tr class="<?php echo $i%2 ?'':'ts'; ?>">
+                <td><input type="checkbox" name="choose[]" id="choose-{$v.id}" value="{$v.id}"></td>
+ 
+                <td>{$v.name}</td>
+                <td>{$v.className}</td>
+                <td>{$v.sid}</td>
+                <td>{$v.grade['训练模式探索']}</td>
+                <td>{$v.grade['实战模式']}</td>
+                <td>{$v.grade['知识点考核模式']}</td>
+                <td>{$v.grade['实验报告']}</td>
+                <td>{$v.grade.score}</td>
+            </tr>
+            <?php $i++; endforeach; ?>
+            <tr class="ts">
+                <th colspan="10" style="text-align: right;"><?php echo $list;?> </th>
+            </tr>
+        </table>
+    </div>
+    </div>
+</div>
+
+{/block}
+
+
+
+
+
+
+

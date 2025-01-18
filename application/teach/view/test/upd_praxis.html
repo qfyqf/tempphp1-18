@@ -1,0 +1,230 @@
+{extend name="public/base" /}
+
+{block name="body"}
+<div id="core">
+	{include file="public/nav" /}
+	<div id="right"><div id="rightc">
+		<div class="form-title">
+			修改习题 - {$item.title}
+		</div>
+		<hr>
+		<form action="{:url('test/upd_praxis')}" id="formAddPraxis" method="post">
+			<input type="hidden" name="id" value="{$item.id}">
+			<div class="row">
+				<div class="col-sm-2 iname">所属课程</div>
+				<div class="col-sm-8 form-group">
+					<input type="text" name="" id="" class="form-control" value="{$item.cname}" disabled>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-2 iname">所属实验</div>
+				<div class="col-sm-8 form-group">
+					<input type="text" name="" id="" class="form-control" value="{$item.ename}" disabled>
+
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-2 iname">分数</div>
+				<div class="col-sm-8 form-group">
+					<input type="number" name="credit" id="credit" min="0" max="100" value="{$item.credit}">
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-2 iname">习题类型</div>
+				<div class="col-sm-8 form-group">
+					<select name="type" id="type" class="form-control" disabled>
+						<option value="1">单选</option>
+						<option value="2" {php} if($item['type']==2) echo 'selected'; {/php}>多选</option>
+						<option value="3" {php} if($item['type']==3) echo 'selected'; {/php}>判断</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-2 iname">难度</div>
+				<div class="col-sm-8 form-group">
+					<select name="difficult" id="difficult" class="form-control">
+						<option value="1" {php} if($item['difficult']==1) echo 'selected'; {/php}>易</option>
+						<option value="2" {php} if($item['difficult']==2) echo 'selected'; {/php}>中等</option>
+						<option value="3" {php} if($item['difficult']==3) echo 'selected'; {/php}>难</option>
+						<option value="4" {php} if($item['difficult']==4) echo 'selected'; {/php}>非常难</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-2 iname">快照（标题）</div>
+				<div class="col-sm-8 form-group">
+					<input type="text" name="title" id="title" class="form-control" value="{$item.title}">
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-sm-2 iname">内容（在试卷中显示）</div>
+				<div class="col-sm-8 form-group">
+					<textarea name="content" id="content" cols="30" rows="10">{$item.content}</textarea>
+				</div>
+			</div>
+
+
+			<?php if($item['type']==1): $item['options'] = json_decode($item['options'],TRUE); ?>
+			<div class="row" id="danxuan">
+				<div class="col-sm-2 iname">单选</div>
+				<div class="col-sm-8 form-group">
+					<div class="radio">
+						<label for="danxuan-A"  style="line-height: 30px;">
+							<input type="radio" name="danxuan" id="danxuan-A" value="A" <?php if($item['answer']=='A') echo 'checked'; ?>>
+							&nbsp;   选项A:
+						</label>
+						<input type="text" name="op-danxuan[A]" value="{$item.options.A}" class="form-control">
+					</div>
+					<div class="radio">
+						<label for="danxuan-B"  style="line-height: 30px;">
+							<input type="radio" name="danxuan" id="danxuan-B" value="B" <?php if($item['answer']=='B') echo 'checked'; ?>>
+							&nbsp;   选项B:
+						</label>
+						<input type="text" name="op-danxuan[B]" value="{$item.options.B}" class="form-control">
+					</div>
+					<div class="radio">
+						<label for="danxuan-C"  style="line-height: 30px;">
+							<input type="radio" name="danxuan" id="danxuan-C" value="C" <?php if($item['answer']=='C') echo 'checked'; ?>>
+							&nbsp;   选项C:
+						</label>
+						<input type="text" name="op-danxuan[C]" value="{$item.options.C}" class="form-control">
+					</div>
+					<div class="radio">
+						<label for="danxuan-D"  style="line-height: 30px;">
+							<input type="radio" name="danxuan" id="danxuan-D" value="D" <?php if($item['answer']=='D') echo 'checked'; ?>>
+							&nbsp;   选项D:
+						</label>
+						<input type="text" name="op-danxuan[D]" value="{$item.options.D}" class="form-control">
+					</div>
+				</div>
+			</div>
+			<?php elseif($item['type']==2): $item['options'] = json_decode($item['options'],TRUE); ?>
+			<div class="row">
+				<div class="col-sm-2 iname">多选</div>
+				<div class="col-sm-8 form-group">
+					<div class="form-group">
+						<label for="duoxuan-A">
+							<input type="checkbox" name="duoxuan[]" id="duoxuan-A" value="A" {php} if(in_array('A',json_decode($item['answer']))) echo 'checked'; {/php}>
+							选项A:
+						</label>
+						<input type="text" name="op-duoxuan[A]" value="{$item.options.A}" class="form-control">
+					</div>
+					<div class="form-group">
+						<label for="duoxuan-B">
+							<input type="checkbox" name="duoxuan[]" id="duoxuan-B" value="B" {php} if(in_array('B',json_decode($item['answer']))) echo 'checked'; {/php}>
+							选项B:
+						</label>
+						<input type="text" name="op-duoxuan[B]" value="{$item.options.B}" class="form-control">
+					</div>
+					<div class="form-group">
+						<label for="duoxuan-C">
+							<input type="checkbox" name="duoxuan[]" id="duoxuan-C" value="C" {php} if(in_array('C',json_decode($item['answer']))) echo 'checked'; {/php}>
+							选项C:
+						</label>
+						<input type="text" name="op-duoxuan[C]" value="{$item.options.C}" class="form-control">
+					</div>
+					<div class="form-group">
+						<label for="duoxuan-D">
+							<input type="checkbox" name="duoxuan[]" id="duoxuan-D" value="D" {php} if(in_array('D',json_decode($item['answer']))) echo 'checked'; {/php}>
+							选项D:
+						</label>
+						<input type="text" name="op-duoxuan[D]" value="{$item.options.D}" class="form-control">
+					</div>
+				</div>
+			</div>
+			<?php elseif($item['type']==3): ?>
+			<div class="row" id="panduan">
+				<div class="col-sm-2 iname">判断</div>
+				<div class="col-sm-8 form-group">
+					<div class="radio">
+						<label style="line-height: 30px;">
+							<input type="radio" name="panduan" value="1" <?php if($item['answer']==1) echo 'checked'; ?>>
+							&nbsp;   正确
+							<span class="glyphicon glyphicon-ok text-success"></span>
+						</label>
+						&emsp; 
+						<label style="line-height: 30px;">
+							<input type="radio" name="panduan" value="0" <?php if($item['answer']==0) echo 'checked'; ?>>
+							&nbsp;   错误
+							<span class="glyphicon glyphicon-remove text-danger"></span>
+						</label>
+					</div>	
+				</div>
+			</div>
+			<?php endif; ?>
+
+			<div class="row">
+				<div class="col-sm-2 iname"></div>
+				<div class="col-sm-8 form-group">
+					<button type="submit" class="btn btn-block btn-success">提交</button>
+				</div>
+			</div>
+
+		</form>
+
+	</div>
+	</div>
+</div>
+{/block}
+{block name="script"}
+<link href="__PUBLIC__/summernote/summernote.css" rel="stylesheet">
+<script src="__PUBLIC__/summernote/summernote.js"></script>
+<script src="__PUBLIC__/summernote/lang/summernote-zh-CN.js"></script>
+<script>
+!function($){
+	$('#content').summernote({
+		height: '300px',
+		lang:'zh-CN' 
+	});
+
+
+    $("#formAddPraxis").validate({
+        rules: {
+            content: "required",
+            experiment_id: "required",
+        },
+        messages: {
+            content:  "请输入习题内容",
+            experiment_id: "请选择所属实验",
+        },  
+    });
+
+    answerType();
+    $('#type').on('change',function(){
+    	answerType();
+    })
+
+}(jQuery);
+
+function answerType() {
+	var val = $('#type').val();
+	switch(val){
+		case '1':
+			$('#danxuan').show();
+			$('#duoxuan').hide();
+			$('#panduan').hide();
+			break;
+		case '2':
+			$('#danxuan').hide();
+			$('#duoxuan').show();
+			$('#panduan').hide();
+			break;
+		case '3':
+			$('#danxuan').hide();
+			$('#duoxuan').hide();
+			$('#panduan').show();
+			break;
+		default:
+			console.info('type error:'+val);
+			break;
+	} 
+}
+
+</script>
+{/block}

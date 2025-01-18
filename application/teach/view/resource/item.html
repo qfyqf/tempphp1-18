@@ -1,0 +1,60 @@
+{extend name="public/base" /}
+
+{block name="body"}
+<div id="core">
+	{include file="public/nav" /}
+	<div id="right"><div id="rightc">
+		{include file="public/title" /}
+		<table class="table table-bordered">
+            <tr>
+                <th>资源预览</th>
+                <td colspan="3">
+                <?php if($item['type']=='图片'): ?>
+					<img src="__PUBLIC__/uploads/{$item.resource}" style="max-width: 250px; height: auto;">
+                <?php else: ?>
+                    <span class="glyphicon glyphicon-list-alt" style="font-size: 80px; color: #3e5aaa;"></span>
+                <?php endif; ?>
+                </td>
+            </tr>
+            <tr>
+                <th>资源名称</th>
+                <td>{$item.name}</td>
+                <th>所属课程</th>
+                <td>{$item.cname}</td>
+            </tr>
+            <tr>
+                <th>负责教师</th>
+                <td>{$item.tname}</td>
+                <th>审核人</th>
+                <td>{$item.tname}</td>
+            </tr>
+            <tr>
+            	<th>文件大小</th>
+                <td>{$item['size']}KB</td>
+                <th>类型</th>
+                <td>{:$item['auth'] ? '知识点学习':'拓展学习';}</td>
+            </tr>
+            <tr>
+                <th>资源描述</th>
+                <td colspan="3">{$item.desc}</td>
+            </tr>
+            <tr>
+                <th colspan="4" style="text-align: center;">
+                    <a href="{:url('resource/index')}"><button type="button" class="btn btn-info">返回</button></a>
+                    <a href="{:url('resource/download',['id'=>$item['id']])}"><button type="button" class="btn btn-info">下载</button></a>
+                </th>
+            </tr>
+        </table>
+    </div>
+	</div>
+</div>
+{/block}
+{block name="script"}
+<link href="__PUBLIC__/summernote/summernote.css" rel="stylesheet">
+<script src="__PUBLIC__/summernote/summernote.js"></script>
+<script src="__PUBLIC__/summernote/lang/summernote-zh-CN.js"></script>
+<script>
+
+
+</script>
+{/block}

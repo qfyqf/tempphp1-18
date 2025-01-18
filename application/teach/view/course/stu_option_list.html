@@ -1,0 +1,45 @@
+{extend name="public/base" /}
+
+{block name="body"}
+<div id="core">
+	{include file="public/nav" /}
+	<div id="right"><div id="rightc">
+		{include file="public/title" /}
+
+		<div class="row">
+			<div class="col-sm-2 iname">课程名称</div>
+			<div class="col-sm-2 ivalue">{$course.name}</div>
+
+			<div class="col-sm-2 iname">学期</div>
+			<div class="col-sm-4 ivalue">{$course.year}-{$course.year+1}学年 第{$course.term}学期</div>
+		</div>
+		<hr>
+		
+
+		<table class="table">
+			<tr class="th">
+				<th></th>
+				<th>学号</th>
+				<th>姓名</th>
+				<th>性别</th>
+				<th>Email</th>
+				<th>电话</th>
+			</tr>
+			<?php $i=1; foreach ($list as $v): ?>
+			<tr class="<?php echo $i%2 ?'':'ts'; ?>">
+				<td><input type="checkbox" name="choose[]" id="choose-{$v.id}" value="{$v.id}"></td>
+				<td>{$v.sid}</td>
+				<td>{$v.name}</td>
+				<td>{$v.sex ?'男':'女'}</td>
+				<td>{$v.email}</td>
+				<td>{$v.phone}</td>
+
+			</tr>
+			<?php $i++; endforeach; ?>
+
+		</table>
+
+	</div>
+	</div>
+</div>
+{/block}

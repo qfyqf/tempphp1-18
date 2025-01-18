@@ -1,0 +1,82 @@
+{extend name="public/base" /}
+
+{block name="body"}
+<div id="core">
+	{include file="public/nav" /}
+	<div id="right"><div id="rightc">
+		{include file="public/title" /}
+		<form action="{:url('experiment/setoption',['id'=>$item['id']])}" id="formAddExper" enctype="multipart/form-data" method="post">
+			<div class="row">
+				<div class="col-sm-2 iname">实验名称</div>
+				<div class="col-sm-8 form-group"><input type="text" name="name" id="name" class="form-control" value="{$item.name}"  disabled="disabled"></div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-2 iname">所属课程</div>
+				<div class="col-sm-8 form-group"><input type="text" name="course_id" id="course_id" class="form-control" value="{$item.course_name}" disabled="disabled"></div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-2 iname">内容设置</div>
+				<div class="col-sm-8 form-group">
+					<textarea name="option_strs" id="option_strs" class="form-control" cols="30" rows="10">{$item.option_strs}</textarea>
+					
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-2 iname">图片设置</div>
+				<div class="col-sm-8 form-group">
+					<input type="file" name="resource" id="resource" >
+					<?php if(!empty($item['option_imgs'])): ?>
+						<img src="__PUBLIC__/uploads/{$item.option_imgs}" style="max-width: 80%; height: auto; display: block; margin-top: 10px;">
+
+					<?php endif; ?>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-2 iname"></div>
+				<div class="col-sm-8 form-group">
+					<button type="submit" class="btn btn-block btn-success">提交</button>
+				</div>
+			</div>
+
+
+		</form>
+	</div>
+	</div>
+</div>
+
+
+{/block}
+{block name="script"}
+<link href="__PUBLIC__/summernote/summernote.css" rel="stylesheet">
+<script src="__PUBLIC__/summernote/summernote.js"></script>
+<script src="__PUBLIC__/summernote/lang/summernote-zh-CN.js"></script>
+<script>
+!function($){
+
+	$('#resource').change(function(){
+    	var res = $(this).val();
+    	if (res=='')
+    		alert('请选择资源文件');
+
+
+		if (!/\.(gif|jpg|jpeg|png|GIF|JPG|PNG)$/.test(res)) {    
+            alert("图片类型必须是.gif,jpeg,jpg,png中的一种");    
+            $(this).val("");   
+        }
+
+    	    
+    })
+
+
+
+
+
+
+}(jQuery);
+
+</script>
+{/block}

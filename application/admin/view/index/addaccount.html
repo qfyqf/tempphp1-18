@@ -1,0 +1,141 @@
+{extend name="public/base" /}
+
+{block name="body"}
+<div id="core">
+	{include file="public/nav" /} 
+	<div id="right"><div id="rightc">
+		{include file="public/title" /}
+
+		<form action="{:url('index/addaccount')}" id="formUpdinfo" method="post">
+
+			<div class="row">
+				<div class="col-sm-2 iname"> &nbsp;</div>
+				<div class="col-sm-8 form-group">
+					<div class="radio">
+						<label style="line-height: 30px;">
+							<input type="radio" name="role" value="0" checked>
+							&nbsp; 学生
+						</label>
+						&emsp; 
+						<label style="line-height: 30px;">
+							<input type="radio" name="role" value="1" <?php if($role==1) echo 'checked'; ?>>
+							&nbsp; 教师
+						</label>
+						&emsp; 
+						<label style="line-height: 30px;">
+							<input type="radio" name="role" value="2" <?php if($role==2) echo 'checked'; ?>>
+							&nbsp; 管理员
+						</label>
+					</div>
+
+					
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-2 iname"> <span class="glyphicon glyphicon-user"></span> 学号</div>
+				<div class="col-sm-8 form-group"><input type="text" name="sid" id="sid" class="form-control" value="" ></div>
+			</div>
+			<div class="row">
+				<div class="col-sm-2 iname"> <span class="glyphicon glyphicon-user"></span> 姓名</div>
+				<div class="col-sm-8 form-group"><input type="text" name="name" id="name" class="form-control" value="" ></div>
+			</div>
+			<hr>
+			<div class="row">
+				<div class="col-sm-2 iname"> <span class="glyphicon glyphicon-tag"></span> 账号</div>
+				<div class="col-sm-8 form-group"><input type="text" name="account" id="account" class="form-control" value=""></div>
+			</div>
+
+			
+			<div class="row">
+				<div class="col-sm-2 iname"> <span class="glyphicon glyphicon-tag"></span> 密码</div>
+				<div class="col-sm-8 form-group"><input type="text" name="password" id="password" class="form-control" value=""></div>
+			</div>
+			<hr>
+
+			<?php if($role<2):  ?>
+			<div class="row">
+				<div class="col-sm-2 iname"> 班级</div>
+				<div class="col-sm-8 form-group">
+					<select name="classID" id="" class="form-control">
+						<option value="">--选择班级--</option>
+						<?php foreach($classlist as $v): ?>
+						<option value="<?php echo $v['id']; ?>"><?php echo $v['className']; ?></option>
+						<?php endforeach; ?>
+		
+					</select>
+
+				</div>
+			</div>
+			<hr>
+			<?php endif; ?>
+
+			<div class="row">
+				<div class="col-sm-2 iname"> <span class="glyphicon glyphicon-record"></span> 性别</div>
+				<div class="col-sm-8 form-group">
+					<div class="radio" style="margin-top: 0;">
+						<label style="line-height: 30px;">
+							<input type="radio" name="sex" value="0" checked>
+							&nbsp; 女
+						</label>
+						&emsp; 
+						<label style="line-height: 30px;">
+							<input type="radio" name="sex" value="1">
+							&nbsp; 男
+						</label>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-2 iname"> <span class="glyphicon glyphicon-envelope"></span> 邮箱</div>
+				<div class="col-sm-8 form-group"><input type="text" name="email" id="email" class="form-control" value=""></div>
+			</div>
+			<div class="row">
+				<div class="col-sm-2 iname"> <span class="glyphicon glyphicon-earphone"></span> 电话</div>
+				<div class="col-sm-8 form-group"><input type="text" name="phone" id="phone" class="form-control" value=""></div>
+			</div>
+			<hr>
+			<div class="row">
+				<div class="col-sm-2 iname"> <span class="glyphicon glyphicon-cutlery"></span> 生日</div>
+				<div class="col-sm-8 form-group"><input type="text" name="birthday" id="birthday" class="form-control" value=""></div>
+			</div>
+			<div class="row">
+				<div class="col-sm-2 iname"> <span class="glyphicon glyphicon-education"></span> 职称</div>
+				<div class="col-sm-8 form-group"><input type="text" name="degree" id="degree" class="form-control" value=""></div>
+			</div>
+			<div class="row">
+				<div class="col-sm-2 iname"> <span class="glyphicon glyphicon-home"></span> 主页</div>
+				<div class="col-sm-8 form-group"><input type="text" name="homepage" id="homepage" class="form-control" value=""></div>
+			</div>
+			<div class="row">
+				<div class="col-sm-2 iname"> <span class="glyphicon glyphicon-globe"></span> 地址</div>
+				<div class="col-sm-8 form-group"><input type="text" name="address" id="address" class="form-control" value=""></div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-2 iname"></div>
+				<div class="col-sm-8 form-group">
+					<button type="submit" class="btn btn-block btn-success">提交</button>
+				</div>
+			</div>
+
+
+		</form>
+
+
+
+
+	</div></div>
+	
+</div>
+<script src="__PUBLIC__/static/laydate/laydate.js"></script>
+<script>
+$(function(){
+	laydate.render({ 
+	  	elem: '#birthday',
+	  	type: 'date'
+	});
+
+})
+</script>
+{/block}

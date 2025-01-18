@@ -1,0 +1,78 @@
+{extend name="public/base" /}
+
+{block name="body"}
+<div id="core">
+	{include file="public/nav" /}
+	<div id="right"><div id="rightc">
+		{include file="public/title" /}
+		
+		<div class="bar">
+			<div class="barleft">
+				<a class="btn btn-default" href="{:url('experiment/arrange_item_excel',['id'=>$item['id']])}"><span class="glyphicon glyphicon-download-alt"></span> 导出</a>
+			</div>
+			<div class="search">
+				<form class="form-inline">
+					<button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+					<div class="form-group">
+						<input type="text" class="form-control" id="name" placeholder="名称">
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<table class="table">
+			<tr class="th">
+				<th></th>
+				<th>学生</th>
+				<th>实验名称</th>
+				<th>所属课程</th>
+				<th>开始/结束时间</th>
+				<th>教师</th>
+				<th>完成时间</th>
+				<th>成绩</th>
+				<th>操作</th>
+			</tr>
+			<?php $i=1; foreach ($list as $v): ?>
+			<tr class="<?php echo $i%2 ?'':'ts'; ?>">
+				<td><input type="checkbox" name="choose[]" id="choose-{$v.id}" value="{$v.id}"></td>
+				<td>{$v.sname}</td>
+				<td>{$item.ename}</td>
+				<td>{$item.cname}</td>
+				<td>{$item.start_time} 至 {$item.end_time} </td>
+				<td>{$item.tname}</td>
+				<td><?php
+
+					if (THINK_START_TIME < strtotime($item['start_time'])) {
+						echo '未开始';
+					}elseif (THINK_START_TIME >= strtotime($item['start_time']) && THINK_START_TIME <= strtotime($item['end_time'])) {
+						if ($v['done_time']) {
+							echo $v['done_time'];
+						}else{
+							echo '进行中';
+						}
+					}else{
+						if ($v['done_time']) {
+							echo $v['done_time'];
+						}else{
+							echo '已结束';
+						}
+					}
+				?></td>
+				<td>{$v.grade}</td>
+				<td>
+					<a href="{:url('experiment/arrange_result',['id'=>$v['id']])}" class="btn btn-xs btn-default">查看详情</a>
+
+				</td>
+			</tr>
+			<?php $i++; endforeach; ?>
+			<tr class="ts">
+				<th colspan="10" style="text-align: right;"><?php echo $list;?> </th>
+			</tr>
+		</table>
+
+	</div>
+	</div>
+</div>
+{/block}
+{block name="script"}
+{/block}

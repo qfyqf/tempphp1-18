@@ -1,0 +1,178 @@
+{extend name="public/base" /}
+
+{block name="body"}
+<div id="core">
+	{include file="public/nav" /}
+	<div id="right"><div id="rightc">
+		{include file="public/title" /}
+		{switch name="step"}
+			{case value="stepa"}
+			<div id="steps">
+				<a href="{:url('test/newtest')}" class="btn btn-success">选择课程</a>
+				<span class="glyphicon glyphicon-arrow-right"></span>
+				<a href="" class="btn btn-default">生成规则</a>
+				<span class="glyphicon glyphicon-arrow-right"></span>
+				<a href="" class="btn btn-default">生成完成</a>
+			</div>
+			<hr>
+			<div class="bar">
+				<div class="barleft">&nbsp;</div>
+				<div class="search">
+					<form class="form-inline">
+						<button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+						<div class="form-group">
+							<input type="text" class="form-control" id="name" placeholder="课程名称">
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<table class="table">
+				<tr class="th">
+					<th></th>
+					<th>课程代码</th>
+					<th>开课名称</th>
+					<th>任课教师</th>
+					<th>学分</th>
+					<th>学年学期</th>
+					<th>上课周期</th>
+					<th>上课时间</th>
+					<th>上课地点</th>
+					<th>操作</th>
+				</tr>
+				<?php $i=1; foreach ($list as $v): ?>
+				<tr class="<?php echo $i%2 ?'':'ts'; ?>">
+					<td><input type="checkbox" name="choose[]" id="choose-{$v.id}" value="{$v.id}"></td>
+					<td>{$v.sid}</td>
+					<td>{$v.name}</td>
+					<td>{$v.tname}</td>
+					<td>{$v.credit}</td>
+					<td>{$v.year}-{$v.year+1}学年 第{$v.term}学期</td>
+					<td>第{$v.class_cycle}周</td>
+					<td>星期{:str_replace(['1','2','3','4','5','6','7'],['一','二','三','四','五','六','日'],$v.week)} {$v.class_turn}节</td>
+					<td>{$v.address}</td>
+					<td><a href="{:url('test/newtest',['course_id'=>$v['id'], 'step'=>'stepb'])}" class="btn btn-xs btn-default">选择</a></td>
+				</tr>
+				<?php $i++; endforeach; ?>
+				<tr class="ts">
+					<th colspan="10" style="text-align: right;"><?php echo $list;?> </th>
+				</tr>
+			</table>
+			{/case}
+		    {case value="stepb"}
+			<div id="steps">
+				<a href="{:url('test/newtest')}" class="btn btn-primary">选择课程</a>
+				<span class="glyphicon glyphicon-arrow-right"></span>
+				<a href="" class="btn btn-success">生成规则</a>
+				<span class="glyphicon glyphicon-arrow-right"></span>
+				<a href="" class="btn btn-default">生成完成</a>
+			</div>
+			<hr>
+
+			<form action="{:url('test/newtest',['cid'=>$course['id'], 'step'=>'stepc'])}" id="formNewtest" method="post">
+				<div class="row">
+					<div class="col-sm-2 iname">所属课程</div>
+					<div class="col-sm-8 form-group"><input type="text" name="" id="name" class="form-control" value="{$course.name}({$course.year}-{$course.year+1}学年 第{$course.term}学期)" disabled="disabled"></div>
+				</div>
+				
+				<div class="row">
+					<div class="col-sm-2 iname">试卷名称</div>
+					<div class="col-sm-8 form-group"><input type="text" name="name" id="name" class="form-control" value=""></div>
+				</div>
+				<div class="row">
+					<div class="col-sm-2 iname">开始时间</div>
+					<div class="col-sm-8 form-group"><input type="text" name="start_time" id="start_time" class="form-control" value=""></div>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-2 iname">考试时长（分钟）</div>
+					<div class="col-sm-8 form-group"><input type="number" name="duration" id="duration" class="form-control" value=""></div>
+				</div>
+
+				
+				<div class="row">
+					<div class="col-sm-2 iname">生成规则</div>
+					<div class="col-sm-8 form-group">
+						<table class="table">
+							<tr class="ts">
+								<th>所属课程</th>
+								<th>知识点</th>
+								<th>试题数量</th>
+								<th>出题数量</th>
+							</tr>
+							<?php $i=1; foreach ($list as $v): ?>
+							{if condition="$v.cnt > 0"}
+							<tr class="<?php echo $i%2 ?'':'ts'; ?>">
+								<td>{$v.cname}</td>
+								<td>{$v.name}</td>
+								<td>{$v.cnt}</td>
+								<td>
+									<input type="number" name="cnt[{$v.id}]" id="cnt_{$v.id}" value="1" min="0" max="{$v.cnt}">
+								</td>
+							</tr>
+							{/if}
+							<?php $i++; endforeach; ?>
+						</table>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-2 iname"></div>
+					<div class="col-sm-8 form-group">
+						<button type="submit" class="btn btn-block btn-success">提交</button>
+					</div>
+				</div>
+
+
+			</form>
+			<script src="__PUBLIC__/static/laydate/laydate.js"></script>
+			<script>
+			!(function($){
+				laydate.render({ 
+				  	elem: '#start_time',
+				  	type: 'datetime'
+				});
+
+				$("#formNewtest").validate({
+			        rules: {
+			            name: "required",
+			            start_time: "required",
+			            duration: {
+			            	required : true,
+			            	min : 30
+			            },
+			            <?php foreach($list as $v): ?>
+				            cnt_<?php echo $v['id']; ?> : {
+				            	required : true,
+				            	min : 0,
+				            	max : <?php echo $v['cnt']; ?>
+				            },
+			            <?php endforeach; ?>
+			        },
+			        messages: {
+			            name: "请填写试卷名称",
+			            start_time: "请填写考试开始时间",
+			            duration: {
+			            	required : "请填写考试时长",
+			            	min : "考试时长不低于30分钟"
+			            },
+
+			            <?php foreach($list as $v): ?>
+				            cnt_<?php echo $v['id']; ?> : {
+				            	required : "请填写出题数量",
+				            	min : "出题数量不能小于0",
+				            	max : "出题数量不能大于题库数量"
+				            },
+			            <?php endforeach; ?>
+			        },  
+			    });
+			})(jQuery);
+			</script>
+
+		    {/case}
+		{/switch}
+	</div>
+	</div>
+</div>
+{/block}
+

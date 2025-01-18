@@ -1,0 +1,210 @@
+{extend name="public/base" /}
+
+{block name="body"}
+<div id="core">
+    {include file="public/nav" /}
+    <div id="right">
+        {include file="public/title" /}
+        <div id="rightc">
+            <div class="layui-col-xs7 report">
+                <div id="report" style="padding:50px">
+                    <table style="margin: 0 auto;" class="layui-table text-center" lay-size="lg">
+                        <th colspan="6"><h1 style="text-align: center">实验报告</h1>
+                            <a class="layui-btn layui-btn-lg layui-btn-normal output">导出报告</a>
+                        </th>
+                        <tbody>
+                        <tr>
+                            <td><b>课程名称</b></td>
+                            <td>微电子工艺实验</td>
+                            <td><b>实验序号</b></td>
+                            <td></td>
+                            <td><b>课程性质</b></td>
+                            <td style="padding: 0px!important;">
+                                <i class="iconfont icon-icon-gou">必修</i>
+                                <br>
+                                <i class="iconfont icon-kuang">选修</i>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>实验项目名称</b></td>
+                            <td colspan="2">基于PECVD的聚光光伏电池芯片薄膜沉积工艺虚拟仿真教学平台</td>
+                            <td><b>实验类型</b></td>
+                            <td colspan="2">
+                                <i class="iconfont icon-kuang">演示性</i>
+                                <i class="iconfont icon-kuang">实验性</i>
+                                <br/>
+                                <i class="iconfont icon-icon-gou">综合性</i>
+                                <i class="iconfont icon-icon-gou">设计性</i>
+                            </td>
+                        <tr>
+                            <td><b>专业</b></td>
+                            <td><?=$user['specialtyName'];?></td>
+                            <td><b>专业代码</b></td>
+                            <td>080203</td>
+                            <td><b>层次</b></td>
+                            <td style="padding: 0px!important;">
+                                <i class="iconfont icon-kuang">专科</i>
+                                <br>
+                                <i class="iconfont icon-icon-gou">本科</i>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>学号</b></td>
+                            <td><?=$user['sid'];?></td>
+                            <td><b>姓名</b></td>
+                            <td><?=$user['name'];?></td>
+                            <td><b>班级</b></td>
+                            <td><?=$user['className'];?></td>
+                        </tr>
+                        <tr>
+                            <td><b>实验日期</b></td>
+                            <td><?=date("y-m-d",strtotime($model['created']));?></td>
+                            <td><b>目负责人姓名</b></td>
+                            <td><?=$user['teacher'];?></td>
+                            <td><b>成绩</b></td>
+                            <td><?=$model['source'] + $model['t_score'] ;?></td>
+                        </tr>
+                        <tr>
+                            <td colspan="6">
+                                <ul>
+                                    <li>
+                                        <b>一、实验目的</b>
+                                    </li>
+                                    <li>
+                                        <p>（1）了解芯片制造基本工艺、环境要求及半导体生产所需主要设备。</p>
+                                        <p>（2）了解聚光太阳电池芯片制造工艺流程。</p>
+                                        <p>（3）理解并掌握PECVD沉积薄膜工艺原理及过程。</p>
+                                        <p>
+                                            （4）掌握使用PECVD机台沉积氧化硅/氮化硅薄膜的工艺操作方法及步骤。
+                                        </p>
+                                        <p>
+                                            （5）掌握PECVD沉积薄膜工艺参数设置原理和分析。
+                                        </p>
+                                        <p>
+                                            （6）了解薄膜检测常用方法。
+                                        </p>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="6">
+                                <ul>
+                                    <li>
+                                        <b>二、实验原理和基本步骤</b>
+                                    </li>
+                                    <li>
+                                        <p>
+                                            基于PECVD的聚光光伏电池芯片薄膜沉积工艺虚拟仿真教学实验内容。基本步骤如下：
+                                        </p>
+                                        <p>
+                                            步骤1： 学习了解芯片制造基本原理：工艺及设备。
+                                        </p>
+                                        <p>
+                                            步骤2: 观看学习聚光三结太阳电池芯片制造工艺视频，并完成工艺设计仿真。
+                                        </p>
+                                        <p>
+                                            步骤3: 学习掌握PECVD技术原理。
+                                        </p>
+                                        <p>
+                                            步骤4: 学习理解AR膜设计原理。
+                                        </p>
+                                        <p>
+                                            步骤5: 进入“工艺车间VR仿真”模块，选取“教学 or 练习 or考核”模式进入学习或考核，该部分为PECVD工艺虚拟仿真实验部分，为此次实验教学的重点部分。
+                                        </p>
+                                        <p>
+                                            步骤6: 学习了解薄膜检测常用方法。
+                                        </p>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="6">
+                                <ul>
+                                    <li>
+                                        <b>
+                                            三、实验结果
+                                        </b>
+                                    </li>
+                                    <li>
+                                        <table style="margin: 0 auto;" class="layui-table text-center" lay-size="lg">
+                                            <tr>
+                                                <th>序号</th>
+                                                <th>实验内容</th>
+                                                <th>分数</th>
+                                            </tr>
+                                            <?php foreach ($model['data'] as $k => $v):?>
+                                            <tr>
+                                                <td><?=$k++;?></td>
+                                                <td><?=$v['key'];?></td>
+                                                <td><?=$v['value'];?></td>
+                                            </tr>
+                                            <?php endforeach;?>
+                                            <tr>
+                                                <td colspan="2">实验部分得分</td>
+                                                <td>{$model.source}</td>
+                                            </tr>
+                                        </table>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <table class="si layui-table text-center" lay-size="lg">
+                        <tr>
+                            <td colspan="6">
+                                <ul>
+                                    <li>
+                                        <b>
+                                            四、实验分析及总结
+                                        </b>
+                                    </li>
+                                    <li>
+                                        1.实验心得
+                                    </li>
+                                    <li>
+                                        <p>{$model.content}</p>
+                                    </li>
+                                    <li style="text-align: right">
+                                        评阅得分：{$model.t_score}
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <form action="edit?id={$model['id']}" method="post">
+                            <tr class="fm">
+                                <td>心得评分(满分20分)</td>
+                                <td colspan="5">
+                                    <input lay-verify="pass" class="layui-input" type="number" min="1" max="20" name="t_score" value="{$model['t_score']}">
+                                </td>
+                            </tr>
+                            <tr class="fm">
+                                <td colspan="6">
+                                    <button type="submit"  class="layui-btn layui-btn-lg layui-btn-normal">提交保存</button>
+                                </td>
+                            </tr>
+                        </form>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+        layui.use(['form'],function () {
+            var form = layui.form;
+        })
+        $(document).on('click','.output',function(){
+            $(this).hide();
+            $('.fm').hide();
+            $('.si').attr('style','margin-top:150px!important');
+            printOut("<?=$user['sid'].$user['name'];?>");
+            $(this).show();
+            $('.fm').show();
+        })
+    });
+</script>
+{/block}

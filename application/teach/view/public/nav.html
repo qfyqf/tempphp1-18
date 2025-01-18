@@ -1,0 +1,109 @@
+	
+	<div id="left">
+		<div class="info">
+			<div class="avatar">
+				<img src="__PUBLIC__/static/img/center.png">
+			</div>
+			<div class="name">{$info.name} <br><span>（教师）</span></div>
+		</div>
+		<div class="bar">
+			<a href="{:url('user/index')}">【个人信息】 </a>
+			<a href="{:url('index/logout')}"> 【退出】</a>
+		</div>
+		<div class="clear10"></div>
+		
+		<div class="nav">
+			<a href="{:url('index/index')}" class="nava {php} echo $sign_nav=='Index'?'crt':''; {/php}"><span class="icon iconfont icon-daohang"></span> 导航</a>
+			<div class="subnav">
+			</div>
+	
+			<?php if(!empty($sidelist['Course'])): ?>
+			<a href="{:url('course/mycourse')}" class="nava {php} echo $sign_nav=='Course'?'crt':''; {/php}"><span class="icon iconfont icon-elective-sel"></span> 课程管理</a>
+			<div class="subnav {php} echo $sign_nav=='Course'?'crt':'hide'; {/php}">
+				{volist name="sidelist.Course" id="vo"}
+					<a href="{:url($vo.url)}"> - {$vo.name}</a>
+				{/volist}
+			</div>
+			<?php endif;?>
+
+			<?php if(!empty($sidelist['ClassesAndStudents'])): ?>
+			<a href="{:url('ClassesAndStudents/myClasses')}" class="nava {php} echo $sign_nav=='ClassesAndStudents'?'crt':''; {/php}"><span class="icon iconfont icon-shiyan"></span> 班级学生管理</a>
+			<div class="subnav {php} echo $sign_nav=='ClassesAndStudents' ? 'crt':'hide'; {/php}">
+				{volist name="sidelist.ClassesAndStudents" id="vo"}
+				<a href="{:url($vo.url)}"> - {$vo.name}</a>
+				{/volist}
+			</div>
+			<?php endif;?>
+			
+			<?php if(!empty($sidelist['Experiment'])): ?>
+			<a href="{:url('experiment/index')}" class="nava {php} echo $sign_nav=='Experiment'?'crt':''; {/php}"><span class="icon iconfont icon-shiyan"></span> 虚拟实验</a>
+			<div class="subnav {php} echo $sign_nav=='Experiment'?'crt':'hide'; {/php}">
+				{volist name="sidelist.Experiment" id="vo"}
+					<a href="{:url($vo.url)}"> - {$vo.name}</a>
+				{/volist}
+			</div>
+			<?php endif;?>
+			
+			<?php if(!empty($sidelist['Test'])): ?>
+			<a href="{:url('test/knowledge')}" class="nava {php} echo $sign_nav=='Test'?'crt':''; {/php}"><span class="icon iconfont icon-tubiaoku-"></span> 知识点考核</a>
+			<div class="subnav {php} echo $sign_nav=='Test'?'crt':'hide'; {/php}">
+				{volist name="sidelist.Test" id="vo"}
+					<a href="{:url($vo.url)}"> - {$vo.name}</a>
+				{/volist}
+			</div>
+			<?php endif;?>
+			
+			<?php if(!empty($sidelist['Resource'])): ?>
+			<a href="{:url('resource/index')}" class="nava {php} echo $sign_nav=='Resource'?'crt':''; {/php}"><span class="icon iconfont icon-shiyan"></span> 知识点学习</a>
+			<div class="subnav {php} echo $sign_nav=='Resource'?'crt':'hide'; {/php}">
+				{volist name="sidelist.Resource" id="vo"}
+					<a href="{:url($vo.url)}"> - {$vo.name}</a>
+				{/volist}
+			</div>
+			<?php endif;?>
+
+			<?php if(!empty($sidelist['Resource'])): ?>
+			<a href="{:url('resource/index2')}" class="nava {php} echo $sign_nav=='Resource'?'crt':''; {/php}"><span class="icon iconfont icon-shiyan"></span> 拓展学习</a>
+			<?php endif;?>
+			
+			<?php if(!empty($sidelist['Equipment'])): ?>
+			<a href="{:url('equipment/index')}" class="nava {php} echo $sign_nav=='Equipment'?'crt':''; {/php}"><span class="icon iconfont icon-shebei"></span> 设备管理</a>
+			<div class="subnav {php} echo $sign_nav=='Equipment'?'crt':'hide'; {/php}">
+				{volist name="sidelist.Equipment" id="vo"}
+					<a href="{:url($vo.url)}"> - {$vo.name}</a>
+				{/volist}
+			</div>
+			<?php endif;?>
+			
+			<?php if(!empty($sidelist['User'])): ?>
+			<a href="{:url('user/index')}" class="nava {php} echo $sign_nav=='User'?'crt':''; {/php}"><span class="icon iconfont icon-zhanghu"></span> 个人信息</a>
+			<div class="subnav {php} echo $sign_nav=='User'?'crt':'hide'; {/php}">
+				{volist name="sidelist.User" id="vo"}
+					<a href="{:url($vo.url)}"> - {$vo.name}</a>
+				{/volist}
+			</div>
+			<?php endif;?>
+			
+			
+			<?php if(!empty($sidelist['Help'])): ?>
+			<a href="{:url('help/add')}" class="nava {php} echo $sign_nav=='Help'?'crt':''; {/php}"><span class="icon iconfont icon-zhanghu"></span> 帮助文档管理</a>
+			<div class="subnav {php} echo $sign_nav=='Help'?'crt':'hide'; {/php}">
+				{volist name="sidelist.Help" id="vo"}
+					<a href="{:url($vo.url)}" target="_blank"> - {$vo.name}</a>
+				{/volist}
+			</div>
+			<?php endif;?>
+			<?php if(!empty($sidelist['Report'])): ?>
+			<a href="{:url('report/index')}" class="nava {php} echo $sign_nav=='Report'?'crt':''; {/php}"><span class="icon iconfont icon-zhanghu"></span> 报告管理</a>
+			<div class="subnav {php} echo $sign_nav=='Report'?'crt':'hide'; {/php}">
+				{volist name="sidelist.Report" id="vo"}
+				<a href="{:url($vo.url)}" target="_blank"> - {$vo.name}</a>
+				{/volist}
+			</div>
+			<?php endif;?>
+		</div>
+	</div>
+
+
+
+	<div id="copyright">建设单位：XX大学 合作公司：武汉全乐科技有限公司 Copyright©2018-2019 - AllHappy All Right Reserved</div>

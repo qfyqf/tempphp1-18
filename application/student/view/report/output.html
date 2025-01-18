@@ -1,0 +1,395 @@
+{extend name="public/base" /}
+{block name="body"}
+<div class="content">
+    <div id="right">
+        <div class="report" style="margin: 10px;">
+            <div id="report" style="padding:50px">
+                <table style="margin: 0 auto;table-layout:fixed;"  class="layui-table text-center" lay-size="lg">
+                    <tbody>
+                    <tr>
+                        <th colspan="6">
+                            <h1 style="text-align: center;margin:5px">武汉工商学院<?=$user['collegeName'];?>实验报告
+                                <a class="layui-btn layui-btn-lg layui-btn-normal output">导出报告</a></h1>
+                        </th>
+                    </tr>
+                    <tr>
+                        <td><b>课程名称</b></td>
+                        <td>项目管理</td>
+                        <td><b>实验序号</b></td>
+                        <td><?=$model['eno'];?></td>
+                        <td><b>课程性质</b></td>
+                        <td style="padding: 0px!important;">
+                            <i class="iconfont icon-icon-gou">必修</i>
+                            <i class="iconfont icon-kuang">选修</i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>实验项目名称</b></td>
+                        <td colspan="2">基于挣值法的项目动态成本与进度管理</td>
+                        <td><b>实验类型</b></td>
+                        <td colspan="2">
+                            <i class="iconfont icon-kuang">演示性</i>
+                            <i class="iconfont icon-kuang">实验性</i>
+                            <br/>
+                            <i class="iconfont icon-icon-gou">综合性</i>
+                            <i class="iconfont icon-icon-gou">设计性</i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>专业</b></td>
+                        <td><?=$user['specialtyName'];?></td>
+                        <td><b>年级</b></td>
+                        <td><?=$user['level'];?></td>
+                        <td><b>层次</b></td>
+                        <td style="padding: 0px!important;">
+                            <i class="iconfont icon-kuang">专科</i>
+                            <i class="iconfont icon-icon-gou">本科</i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>学号</b></td>
+                        <td><?=$user['sid'];?></td>
+                        <td><b>姓名</b></td>
+                        <td><?=$user['name'];?></td>
+                        <td><b>班级</b></td>
+                        <td><?=$user['className'];?></td>
+                    </tr>
+                    <tr>
+                        <td><b>实验日期</b></td>
+                        <td><?=date("y-m-d",strtotime($model['created']));?></td>
+                        <td><b>指导老师</b></td>
+                        <td><?=$user['teacher'];?></td>
+                        <td><b>成绩</b></td>
+                        <td><?= intval($model['source']) + intval($model['cost_res']) + intval($model['simup_res']);?></td>
+                    </tr>
+                    <tr>
+                        <td colspan="6" class="report-col">
+                            <b class="report-title">一、实验目的</b>
+                            <ul style="">
+                                <li> 1.熟悉项目实施阶段的项目成本与进度管理全过程，充分认识项目管理知识在项目中的应用过程和方法。</li>
+                                <li> 2.掌握项目成本计划、项目进度计划的制定的理论和方法，理解成本计划与成本控制、进度计划与进度控制之间的关系；在协调项目实施阶段资源投入和进度控制过程中，树立统筹意识、全局意识。
+                                </li>
+                                <li>3.掌握挣值分析法及其在成本管理与进度管理中的应用，能够用该方法分析项目实施过程中的进度偏差、费用偏差、预测完工成本，并根据项目管理情况制定有效纠偏措施，充分锻炼学生的知识应用能力、分析解决问题的能力和创新性思维，达到学以致用的良好效果。
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6" class="report-col">
+                            <b style="font-size: 18px">一、实验原理及步骤</b>
+                            <p>实验是基于项目成本管理中与项目进度管理相关理论，以孟加拉诺瓦布甘杰重油电厂主厂房建设为蓝本，利用计算机仿真工具真实还原主厂房施工场地、机械设备、施工材料，通过学生自主设计进度计划、自主投入人材机等资源，模拟项目实施阶段项目动态成本与进度管理全过程。实验分为项目准备阶段、项目计划阶段、项目实施阶段、项目综合评价阶段四个实验模块，各模块相互关联且层层递进，对学生能力的锻炼也逐层提升。</p>
+                            <ul>
+                                <li style="margin-bottom:10px;">
+                                    实验步骤如下：
+                                </li>
+                                {foreach name="model.step_datas" item="v" key="k" }
+                                <li><b>{$v.stepName}</b></li>
+                                <li style="padding-left: 20px">
+                                    <ul>
+                                        <?php if(!empty($v['subStepDatas'])):?>
+                                        <?php foreach($v['subStepDatas'] as $key2  => $v2 ):?>
+                                        <?php if(!empty($v2['subStepName'])):?>
+                                        <li>
+                                            <?=$v2['subStepName'];?>
+                                        </li>
+                                        <?php endif ;?>
+                                        <?php if(!empty($v2['imageUrl'])):?>
+                                        <li>
+                                            <img src="<?=$v2['imageUrl'];?>" alt="">
+                                        </li>
+                                        <?php endif ;?>
+                                        <?php endforeach;?>
+                                        <?php else :?>
+                                        <img src="" alt="">
+                                        <?php endif;?>
+                                    </ul>
+                                </li>
+                                {/foreach}
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6" class="report-col">
+                            <b class="report-title">三、实验结果</b>
+                            <ul>
+                                <li>1、挣值分析结果
+                                    <ul>
+                                        <li>
+                                            <table  style="margin-left: 30px;width: 95%" class="layui-table text-center" lay-size="lg">
+                                                <colgroup>
+                                                    <col width="90px">
+                                                    <col width="90px">
+                                                    <col width="100px">
+                                                    <col width="100px">
+                                                    <col width="100px">
+                                                </colgroup>
+                                                {foreach name="model.eva_data.data1.header" item="v" key="k" }
+                                                <th>
+                                                    <b>{$v}</b>
+                                                </th>
+                                                {/foreach}
+                                                <tbody>
+                                                {foreach name="model.eva_data.data1.data" item="v" key="k" }
+                                                <tr>
+                                                    {foreach name="$v" item="v2" key="k2" }
+                                                    <td>
+                                                        {$v2}
+                                                    </td>
+                                                    {/foreach}
+                                                </tr>
+                                                {/foreach}
+                                                </tbody>
+                                            </table>
+                                        </li>
+                                        <li>
+                                            <table  style="margin-left: 30px;width: 95%" class="layui-table text-center" lay-size="lg">
+                                                <colgroup>
+                                                    <col width="90px">
+                                                    <col width="90px">
+                                                    <col width="100px">
+                                                    <col width="100px">
+                                                    <col width="100px">
+                                                </colgroup>
+                                                {foreach name="model.eva_data.data2.header" item="v" key="k" }
+                                                <th>
+                                                    <b>{$v}</b>
+                                                </th>
+                                                {/foreach}
+                                                <tbody>
+                                                {foreach name="model.eva_data.data2.data" item="v" key="k" }
+                                                <tr>
+                                                    {foreach name="$v" item="v2" key="k2" }
+                                                    <td>
+                                                        {$v2}
+                                                    </td>
+                                                    {/foreach}
+                                                </tr>
+                                                {/foreach}
+                                                </tbody>
+                                            </table>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    2、偏差分析结果及纠偏措施
+                                    <ul>
+                                        <li style="text-align: center">
+                                            <table  style="margin-left: 30px;width: 95%;padding: 5px!important; " class="layui-table text-center" lay-size="lg">
+                                                <colgroup>
+                                                    <col width="50px">
+                                                    <col width="55px">
+                                                    <col width="50px">
+                                                    <col width="50px">
+                                                    <col width="100px">
+                                                </colgroup>
+                                                <?php $header = $model['correct_measures']['header']['correctMeasures'];  ;unset($model['correct_measures']['header']['correctMeasures']);?>
+                                                {foreach name="model.correct_measures.header" item="v" key="k" }
+                                                <th>
+                                                    <b>{$v}</b>
+                                                </th>
+                                                {/foreach}
+                                                <tbody>
+                                                {foreach name="model.correct_measures.data" item="v" key="k" }
+                                                <tr>
+                                                    <?php unset($v['correctMeasures']);?>
+                                                    {foreach name="$v" item="v2" key="k2" }
+                                                    <th>
+                                                        {$v2}
+                                                    </th>
+                                                    {/foreach}
+                                                </tr>
+                                                {/foreach}
+                                                </tbody>
+                                            </table>
+                                        </li>
+                                        <li>
+                                            <table  style="margin-left: 30px;width: 95%" class="layui-table text-center" lay-size="lg">
+                                                <colgroup>
+                                                    <col width="95px">
+                                                    <col width="108px">
+                                                </colgroup>
+                                                <th>
+                                                    <b><?=$model['correct_measures']['header']['index'];?></b>
+                                                </th>
+                                                <th>
+                                                    <b><?=$model['correct_measures']['header']['phasesName'];?></b>
+                                                </th>
+                                                <th>
+                                                    <b>   <?=$header;?></b>
+                                                </th>
+                                                <tbody>
+
+                                                {foreach name="model.correct_measures.data" item="v" key="k" }
+                                                <tr>
+                                                    <td>
+                                                        {$v.index}
+                                                    </td>
+                                                    <td>
+                                                        {$v.phasesName}
+                                                    </td>
+                                                    <td>
+                                                        {$v.correctMeasures}
+                                                    </td>
+                                                </tr>
+                                                {/foreach}
+                                                </tbody>
+                                            </table>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    3、成本管理结果（计划成本与实际成本对比结果）
+                                <li>
+                                    <ul>
+                                        <?php if($model['cost_image_url']['text'] !=''):?>
+                                        <li>
+                                            <p><?=$model['cost_image_url']['text'];?></p>
+                                        </li>
+                                        <?php endif;?>
+                                        <?php if($model['cost_image_url']['img'] !=''):?>
+                                        <li>
+                                            <img src="<?=$model['cost_image_url']['img'];?>" alt="">
+                                        </li>
+                                        <?php else :?>
+                                        <li>
+                                            <img src="" alt="">
+                                        </li>
+                                        <?php endif;?>
+                                    </ul>
+                                </li>
+                                </li>
+                                <li>
+                                    4、进度管理结果（进度计划与实际进度对比结果）
+                                    <?php if($model['day_image_url']['text'] !=''):?>
+                                <li>
+                                    <p><?=$model['day_image_url']['text'];?></p>
+
+                                </li>
+                                <?php endif;?>
+                                <?php if($model['day_image_url']['img'] !=''):?>
+                                <li>
+                                    <img src="<?=$model['day_image_url']['img'];?>" alt="">
+                                </li>
+                                <?php else :?>
+                                <li>
+                                    <img src="" alt="">
+                                </li>
+                                <?php endif;?>
+                                </li>
+                                <li>
+                                    5、项目报酬
+                                </li>
+                                <li style="padding-left: 20px">
+                                    <?=$model['profit'];?>
+                                </li>
+                                <li>
+                                    6、我的排名
+                                </li>
+                                <li style="padding-left: 20px">
+                                    6-1 成本管理排名
+                                <li style="padding-left: 20px">
+                                    <?=$model['cost_rank'];?>
+                                </li>
+                                </li>
+                                <li style="padding-left: 20px">
+                                    6-2 成本管理排名
+                                <li style="padding-left: 20px">
+                                    <?=$model['day_rank'];?>
+                                </li>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6" class="report-col">
+                            <b class="report-title">四、实验分析及总结</b>
+                            <ul>
+                                <li>
+                                    1、纠偏措施有效性分析
+                                <li style="padding-left: 20px;margin: 10px">
+                                    <p>
+                                        <?=$model['validity_analysis'];?>
+                                    </p>
+                                </li>
+                                </li>
+                                <li>
+                                    2、成本管理存在的问题及原因分析
+                                <li style="padding-left: 20px;margin: 10px">
+                                    <p>
+                                        <?=$model['cost_analysis'];?>
+                                    </p>
+                                </li>
+                                </li>
+                                <li>
+                                    3、进度管理存在的问题及原因分析
+                                <li style="padding-left: 20px;margin: 10px">
+                                    <p>
+                                        <?=$model['day_analysis'];?>
+                                    </p>
+                                </li>
+                                </li>
+                                <li>
+                                    4、实验心得
+                                <li style="padding-left: 20px;margin: 10px">
+                                    <p>
+                                        <?=$model['summary'];?>
+                                    </p>
+                                </li>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6" class="report-col" style="padding-top: 70px!important;">
+                            <b class="report-title">五、实验报告成绩评定标准</b>
+                            <ul>
+
+                                <li>
+                                    <b>优秀（90-100分）</b>报告中对实验结果描述详细、完整、准确；实验操作步骤正确、十分规范，能独立解决实验操作过程中出现的困难；对实验过程中存在问题分析详细透彻、规范全面；实验心得体会深刻、有创意，论述合理详细，有个人见解。
+                                </li>
+                                <li>
+                                    <b>良好（80-89分）</b>报告中对实验结果描述比较详细准确；实验操作步骤比较正确规范，能解决实验操作过程中出现的困难；对实验过程中存在问题分析详细透彻；实验心得体会深刻，论述合理详细，有个人见解。
+                                </li>
+                                <li>
+                                    <b>中等（70-79分）</b>报告中对实验结果描述比较详细准确；实验操作步骤比较正确规范，独立完成；对实验过程中存在问题分析详细，但不全面；实验心得体会不够深刻。
+                                </li>
+                                <li>
+                                    <b>及格（60-69分）</b>报告中对实验结果描述简单；实验操作步骤基本完成；对实验过程中存在问题有简单分析；实验心得体会不够深刻。
+                                </li>
+                                <li>
+                                    <b>不及格（60分以下）</b>实验结果太简单，不准确；实验过程和结果基本上是抄袭；或其他。
+                                </li>
+
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="report-col">指导老师评阅意见</td>
+                        <td colspan="5" class="report-col">
+                            <p>{$model['teacher_res']}</p>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function(){
+        $(document).on('click','.output',function(){
+            $(this).hide();
+            $("#report").find('img').eq(0).css('margin-bottom','100px');
+            $("#report").find('img').eq(3).css('margin-bottom','70px');
+            $("#report").find('img').eq(9).css('margin-bottom','100px');
+            $("#report").find('img').eq(12).css('margin-bottom','90px');
+            $("#report").find('img').eq(15).css('margin-bottom','90px');
+            $("#report").find('img').eq(17).css('margin-bottom','450px');
+            $("#report").find('img').eq(18).css('margin-bottom','300px');
+            printOut("<?=$user['sid'].$user['name'];?>");
+            $(this).show();
+        })
+    });
+</script>
+{/block}

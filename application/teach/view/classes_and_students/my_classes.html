@@ -1,0 +1,48 @@
+{extend name="public/base" /}
+
+{block name="body"}
+<div id="core">
+	{include file="public/nav" /}
+	<div id="right"><div id="rightc">
+		<div class="bar">
+			{include file="public/title" /}
+		</div>
+
+		<table class="table">
+			<tr class="th">
+				<th>班级编号</th>
+				<th>班级名称</th>
+				<th>学校</th>
+				<th>院系</th>
+				<th>专业</th>
+				<th>操作</th>
+			</tr>
+			<?php if(!empty($classes)):?>
+			<?php $i=1; foreach ($classes as $v): ?>
+			<tr class="<?php echo $i%2 ?'':'ts'; ?>">
+				<td>{$v.classID}</td>
+				<td>{$v.className}</td>
+				<td>{$v.schoolName}</td>
+				<td>{$v.collegeName}</td>
+				<td>{$v.specialtyName}</td>
+				<td>-</td>
+			</tr>
+			<?php $i++; endforeach; ?>
+			<tr class="">
+				<th colspan="10" style="text-align: right;"><?php echo $classes;?> </th>
+			</tr>
+			<?php endif;?>
+		</table>
+
+
+
+	</div>
+	</div>
+</div>
+
+
+<script>
+
+</script>
+{/block}
+

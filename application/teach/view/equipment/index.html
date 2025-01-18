@@ -1,0 +1,90 @@
+{extend name="public/base" /}
+
+{block name="body"}
+<div id="core">
+	{include file="public/nav" /}
+	<div id="right"><div id="rightc">
+		{include file="public/title" /}
+		<form action="{:url('equipment/lend')}" id="formLend" method="post">
+			<div class="row">
+				<div class="col-sm-2 iname">选择设备</div>
+				<div class="col-sm-8 form-group">
+					<input type="text" name="" id="equip_search" class="form-control">
+					<select name="equipment_id" id="equipment_id" class="form-control" multiple="multiple" style="height: 100px;" aria-invalid="true">
+						{volist name="list" id="vo"}
+						<option value="{$vo.id}">{$vo.name}</option>
+						{/volist}
+					</select>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-sm-2 iname">归还时间</div>
+				<div class="col-sm-8 form-group"><input type="text" name="returntime" id="returntime" class="form-control"></div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-2 iname">借出原因</div>
+				<div class="col-sm-8 form-group">
+					<textarea name="reason" id="reason" cols="30" rows="5" class="form-control"></textarea>
+				</div>
+			</div>
+
+		
+
+			<div class="row">
+				<div class="col-sm-2 iname"></div>
+				<div class="col-sm-8 form-group">
+					<button type="submit" class="btn btn-block btn-success">提交</button>
+				</div>
+			</div>
+		</form>
+
+	</div>
+	</div>
+</div>
+{/block}
+
+{block name="script"}
+<script src="__PUBLIC__/static/laydate/laydate.js"></script>
+<script>
+(function($){
+	laydate.render({ 
+	  	elem: '#returntime',
+	  	type: 'datetime'
+	});
+
+	$("#equip_search").on('change',function(){
+        var sk = $(this).val();
+        $.get({
+            url: "<?php echo url('equipment/getList'); ?>?sk="+sk, 
+            type: 'json',
+            success: function(dat){
+            	if (dat) {
+            		var data = $.parseJSON( dat );
+	                var html = '<option value="">--选择设备--</option>';
+	                for (var i in data) {
+	                    html += '<option value="'+data[i].id+'">'+data[i].name+'</option>';
+	                }
+	                $('#equipment_id').html(html);
+                }
+            }
+        });
+    });
+
+    $("#formLend").validate({
+        rules: {
+            equipment_id: "required",
+            returntime: "required",
+            reason: "required",
+        },
+        messages: {
+            equipment_id:  "请选择借出设备",
+            returntime:  "请填写归还时间",
+            reason: "请填写借出原因",
+        },  
+    });
+})(jQuery);
+
+</script>
+{/block}

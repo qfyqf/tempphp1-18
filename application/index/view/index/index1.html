@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <link rel="stylesheet" href="__PUBLIC__/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="__PUBLIC__/static/css/index/style.css">
+    <script src="__PUBLIC__/static/js/jquery.min.js"></script>
+</head>
+<body>
+<div class="login">
+    <div class="left" onclick="update('t')" id="teacher" ></div>
+    <div class="right" onclick="update('s')" id="student"></div>
+    <script>
+        $(document).ready(function () {
+            var type = $('#role');
+            var teacher = $('#teacher');
+            var student = $('#student');
+            if (type.attr("value") == 1) {
+                teacher.css("backgroundImage","url('__PUBLIC__/static/img/btn_tch.png')");
+                student.css("backgroundImage","url('__PUBLIC__/static/img/btn_stu.png')");
+            } else {
+                teacher.css("backgroundImage","url('__PUBLIC__/static/img/btn_tch0.png')");
+                student.css("backgroundImage","url('__PUBLIC__/static/img/btn_stu0.png')");
+            }
+        });
+
+        function update(role) {
+            var type = $('#role');
+            var teacher = $('#teacher');
+            var student = $('#student');
+
+            if( role === 't') {
+                teacher.css("backgroundImage","url('__PUBLIC__/static/img/btn_tch.png')");
+                student.css("backgroundImage","url('__PUBLIC__/static/img/btn_stu.png')");
+                type.attr("value","1");
+            } else {
+                teacher.css("backgroundImage","url('__PUBLIC__/static/img/btn_tch0.png')");
+                student.css("backgroundImage","url('__PUBLIC__/static/img/btn_stu0.png')");
+                type.attr("value","0");
+            }
+        }
+    </script>
+    <div class="myLogin">
+        <form class="myForm" action="{:url('index/login')}" method="post" id="login">
+            <div class="myGroup">
+                <div class="icon-user"><span class="glyphicon glyphicon-user"></span></div>
+                <label for="account"></label>
+                <input type="text" name="account" id="account">
+            </div>
+
+            <div class="myGroup">
+                <div class="icon-user"><span class="glyphicon glyphicon-lock"></span></div>
+                <label for="password"></label>
+                <input type="password" name="password" id="password">
+            </div>
+
+            <input type="hidden" name="role" value="{$Think.session.role}" id="role">
+            <div class="myGroup">
+                <button type="submit" class="myBtn">提交</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="footer">
+        <p>建设单位：xx大学    合作单位：全乐科技有限公司</p>
+        <p>Copyright©2018-2019 All Right Reserved</p>
+    </div>
+</div>
+</body>
+</html>

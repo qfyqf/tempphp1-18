@@ -1,0 +1,60 @@
+{extend name="public/base" /}
+
+{block name="body"}
+<div id="core">
+	{include file="public/nav" /} 
+	<div id="right"><div id="rightc">
+		<div class="bar">
+			<div class="barleft">
+				<a class="btn btn-primary" href="{:url('index/addclass')}" ><span class="glyphicon glyphicon-plus"></span> 添加</a>
+			</div>
+			<div class="search">
+				<form class="form-inline" action="">
+					<button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+					<div class="form-group">
+						<input type="text" class="form-control" name="ss" value="<?php if(isset($ss)) echo $ss; ?>" placeholder="名称">
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<table class="table">
+			<tr class="th">
+				<th></th>
+				<th>班级编号</th>
+				<th>班级名称</th>
+				<th>学校</th>
+				<th>院系</th>
+				<th>专业</th>
+				<th>操作</th>
+			</tr> 
+			<?php $i=1; foreach ($list as $v): ?>
+			<tr class="<?php echo $i%2 ?'':'ts'; ?>">
+				<td><input type="checkbox" name="choose[]" id="choose-{$v.classID}" value="{$v.classID}"></td>
+				<td>{$v.classID}</td>
+				<td>{$v.className}</td>
+				<td>{$v.schoolName}</td>
+				<td>{$v.collegeName}</td>
+				<td>{$v.specialtyName}</td>
+
+				<td><a href="{:url('index/updclass',['id'=>$v['classID']])}">修改</a></td>
+			</tr>
+			<?php $i++; endforeach; ?>
+			<tr class="">
+				<th colspan="10" style="text-align: right;"><?php echo $list;?> </th>
+			</tr>
+		</table>
+
+
+
+
+	</div></div>
+	
+</div>
+
+<script>
+$(function(){
+
+})
+</script>
+{/block}

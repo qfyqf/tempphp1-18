@@ -1,0 +1,56 @@
+{extend name="public/base" /}
+
+{block name="body"}
+<div id="core">
+	{include file="public/nav" /} 
+	<div id="right"><div id="rightc">
+		{include file="public/title" /}
+
+		<form action="{:url('ClassesAndStudents/electiveCourse')}" id="formUpdinfo" method="post">
+			<input type="hidden" name="role" value="0">
+			<input type="hidden" name="student_id" value="{$student['id']}">
+			<div class="row">
+				<div class="col-sm-2 iname"> <span class="glyphicon glyphicon-user"></span> 姓名</div>
+				<div class="col-sm-8 form-group"><input type="text" name="name" id="name" class="form-control" value="{$student['name']}"  disabled></div>
+			</div>
+			<div class="row">
+				<div class="col-sm-2 iname"> <span class="glyphicon glyphicon-tag"></span> 班级</div>
+				<div class="col-sm-8 form-group"><input type="text" name="account" id="account" class="form-control" value="{$classInfo['className']}" disabled></div>
+			</div>
+			<hr>
+
+			
+			<div class="row">
+				<div class="col-sm-2 iname"> <span class="glyphicon glyphicon-tag"></span> 选课</div>
+				<div class="col-sm-8 form-group">
+					<select class="form-control" name="course_id">
+						<option value="0"> --选择课程-- </option>
+						{volist name="courses" id="vo" empty="没有课程数据" }
+						<option value="{$vo.id}"> {$vo.name} </option>
+						{/volist}
+					</select>
+
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-2 iname"></div>
+				<div class="col-sm-8 form-group">
+					<button type="submit" class="btn btn-block btn-success">提交</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	</div>
+	
+</div>
+<script src="__PUBLIC__/static/laydate/laydate.js"></script>
+<script>
+$(function(){
+	laydate.render({ 
+	  	elem: '#birthday',
+	  	type: 'date'
+	});
+
+})
+</script>
+{/block}

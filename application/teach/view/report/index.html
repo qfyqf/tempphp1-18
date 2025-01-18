@@ -1,0 +1,80 @@
+{extend name="public/base" /}
+
+{block name="body"}
+<div id="core">
+    {include file="public/nav" /}
+    <div id="right"><div id="rightc">
+        <div class="table-responsive">
+            <table class="layui-table" style="text-align: center">
+                <thead>
+                <tr>
+                    <th colspan="2">基本面信息</th>
+                    <?php if(!empty($header)):?>
+                    <th>原理预习得分（20%）</th>
+                    <th colspan="5">实验操作得分（60%）</th>
+                    <?php endif;?>
+                    <th>心得体会得分（20%）</th>
+                    <th>综合得分</th>
+                    <th>操作</th>
+                </tr>
+                <tr>
+                    <th>id</th>
+                    <th>姓名</th>
+                    <?php foreach ($header as $key => $v):?>
+                        <th><?=$v['key'];?></th>
+                    <?php endforeach;?>
+                    <th>老师评分(满分20)</th>
+                    <th>综合得分</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {volist name="list" id="v"}
+                <?php $hval =  json_decode($v['data'],true) ;?>
+                <tr>
+                    <td scope="row">{$v.id}</td>
+                    <td>{$v.name}</td>
+                    <?php foreach ($hval as $key => $v2):?>
+                    <td><?=$v2['value'];?></td>
+                    <?php endforeach;?>
+                    <td>{$v.t_score}</td>
+                    <td>{$v.t_score + $v.source }</td>
+                    <td>
+                        <div>
+                            <a class="layui-btn layui-btn-xs layui-btn-normal tscore " href="detail.html?id={$v.id}">实验报告</a>
+                            <a data-content="{$v.content}" class="layui-btn layui-btn-xs layui-btn-normal xinde">查看新的体会</a>
+                            <a class="layui-btn layui-btn-xs layui-btn-danger" href="del.html?id={$v.id}">删除</a>
+                        </div>
+                    </td>
+                </tr>
+                {/volist}
+                </tbody>
+                <tr class="">
+                    <th colspan="12" style="text-align: right;"><?php echo $list; ?> </th>
+                </tr>
+            </table>
+        </div>
+    </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $(document).on('click','.xinde',function () {
+            var content = $(this).data('content');
+            layui.use('layer', function(){ //独立版的layer无需执行这一句
+                var layer = layui.layer; //独立版的layer无需执行这一句
+                layer.open({
+                    type: 1,
+                    title:'心得体会',
+                    scrollbar: false,
+                    skin: 'layui-layer-rim', //加上边框
+                    maxWidth:800,
+                    maxHeight :800,
+                    content: "<p style='margin: 20px;line-height: 20px;word-wrap:break-word;z-index: 0;'>"+content+"</p>"
+                });
+            });
+        //捕获页
+        });
+    })
+</script>
+{/block}

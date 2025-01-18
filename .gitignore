@@ -1,0 +1,5 @@
+runtime/
+action
+404.html
+user.ini
+!.gitignore

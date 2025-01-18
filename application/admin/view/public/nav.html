@@ -1,0 +1,39 @@
+	
+	<div id="left">
+		<div class="info">
+			<div class="avatar">
+				<img src="__PUBLIC__/static/img/center.png">
+			</div>
+			<div class="name">{$info.name} <br><span>（管理员）</span></div>
+		</div>
+		<div class="bar">
+			<a href="{:url('user/index')}">【个人信息】 </a>
+			<a href="{:url('index/logout')}"> 【退出】</a>
+		</div>
+		<div class="clear10"></div>
+		
+		<div class="nav">
+			<a href="{:url('index/index')}" class="nava {php} echo $sign_nav=='Index'?'crt':''; {/php}"><span class="icon iconfont icon-shiyan"></span> 账号管理</a>
+			<div class="subnav {php} echo $sign_nav=='Index'?'crt':'hide'; {/php}">
+				{volist name="sidelist.Index" id="vo"}
+					<a href="{:url($vo.url)}"> - {$vo.name}</a>
+				{/volist}
+			</div>
+			<a href="{:url('page/index')}" class="nava {php} echo $sign_nav=='Page'?'crt':''; {/php}"><span class="icon iconfont icon-elective-sel"></span> 页面管理</a>
+
+
+			<a href="{:url('user/index')}" class="nava {php} echo $sign_nav=='User'?'crt':''; {/php}"><span class="icon iconfont icon-zhanghu"></span> 个人信息</a>
+			<div class="subnav {php} echo $sign_nav=='User'?'crt':'hide'; {/php}">
+				{volist name="sidelist.User" id="vo"}
+					<a href="{:url($vo.url)}"> - {$vo.name}</a>
+				{/volist}
+			</div>
+
+			
+
+		</div>
+	</div>
+
+
+
+	<div id="copyright">建设单位：XX大学 合作公司：武汉全乐科技有限公司 Copyright©2018-2019 - AllHappy All Right Reserved</div>

@@ -1,0 +1,59 @@
+{extend name="public/base" /}
+
+{block name="body"}
+<div id="core">
+	{include file="public/nav" /} 
+	<div id="right"><div id="rightc">
+		{include file="public/title" /}
+
+		<form action="{:url('index/updclass')}" id="formUpdinfo" method="post">
+			<input type="hidden" name="id" value="{$item.classID}">
+		
+			<div class="row">
+				<div class="col-sm-2 iname">班级编号</div>
+				<div class="col-sm-8 form-group"><input type="text" name="" id="" class="form-control" value="{$item.classID}" disabled="disabled" ></div>
+			</div>
+					<div class="row">
+				<div class="col-sm-2 iname">年级名称</div>
+				<div class="col-sm-8 form-group"><input type="text" name="level" id="specialtyName" class="form-control" value="{$item.level}">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-2 iname">班级名称</div>
+				<div class="col-sm-8 form-group"><input type="text" name="className" id="className" class="form-control" value="{$item.className}"></div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-2 iname">学校名称</div>
+				<div class="col-sm-8 form-group"><input type="text" name="schoolName" id="schoolName" class="form-control" value="{$item.schoolName}"></div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-2 iname">院系名称</div>
+				<div class="col-sm-8 form-group"><input type="text" name="collegeName" id="collegeName" class="form-control" value="{$item.collegeName}"></div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-2 iname">专业名称</div>
+				<div class="col-sm-8 form-group"><input type="text" name="specialtyName" id="specialtyName" class="form-control" value="{$item.specialtyName}"></div>
+			</div>
+
+			
+			
+			<div class="row">
+				<div class="col-sm-2 iname"></div>
+				<div class="col-sm-8 form-group">
+					<button type="submit" class="btn btn-block btn-success">提交</button>
+				</div>
+			</div>
+
+
+		</form>
+
+
+
+
+	</div></div>
+	
+</div>
+{/block}
